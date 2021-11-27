@@ -17,8 +17,10 @@ app.use(session({
     saveUninitialized : false
 })) 
 
-app.get('/', (req, res) => {
-    res.render('index')
+app.get('/', (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
+    res.render('index',{
+        Usuario: "Default"
+    })
 })
 
 

@@ -9,10 +9,21 @@
 </head>
 <body class="d-flex flex-column h-100">
     <!--Inicio del encabezado-->
-    <%- include('header_admin') %>
+    <% switch (Usuario) { case "Admin" :%>
+      <%- include('header_admin') %>
+    <% break; case "Usuario" :%>
+      <%- include('header_usuario') %>
+    <% break; case "Default" :%>
+      <%- include('header_login') %>
+    <% break; }%>Banners
     <!--Fin del encabezado-->
     <!--Inicio de la seccion de banners-->
-    <%- include('Banners_admin') %>
+    <% if (Usuario == "Admin") {%>
+      <%- include('Banners_admin') %>
+    <% } else{ %>
+      <%- include('Banners_default') %>
+    <% } %>
+    
     <!--Fin de la seccion de banners-->
     <!--Inicio del pie-->
     <%- include('Footer') %>
