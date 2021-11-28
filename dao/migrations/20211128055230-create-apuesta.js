@@ -8,6 +8,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      partidaId: {
+        type: Sequelize.INTEGER
+      },
+      clienteId: {
+        type: Sequelize.INTEGER
+      },
       monto: {
         type: Sequelize.FLOAT
       },

@@ -32,6 +32,9 @@ module.exports = {
       direccion: {
         type: Sequelize.STRING
       },
+      distritoId: {
+        type: Sequelize.INTEGER
+      },
       pep: {
         type: Sequelize.BOOLEAN
       },

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>TIM-BEAR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <!--<link href="\css\estilo.css" rel="stylesheet"/>-->
+</head>
+<body>
+    <div class="root">
+        <form action="" class="form-register">
+            <div class="form-register__header">
+                <ul class="progressbar">
+                    <li class="progressbar__option active">paso 1</li>
+                    <li class="progressbar__option">paso 2</li>
+                    <li class="progressbar__option">paso 3</li>
+                    <li class="progressbar__option">paso 4</li>
+                    <li class="progressbar__option">paso 5</li>
+                </ul>
+                <h1 class="form-register__title">Registro</h1>
+            </div>
+            <div class="form-register__body">
+                <div class="step active" id="step-1">
+                    <div class="step__body">
+                        <input type="text" placeholder="Nombre" class="step__input">
+                        <input type="text" placeholder="Apellidos" class="step__input">
+                    </div>
+                    <div class="step__footer">
+                        <button type="button" class="step__button step__button--next" data-to_step="2" data-step="1">Siguiente</button>
+                    </div>
+                </div>
+                <div class="step" id="step-2">
+                    <div class="step__body">
+                        <input type="text" placeholder="DNI" class="step__input">
+                        <input type="file" placeholder="Subir imagen" class="step__input">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>

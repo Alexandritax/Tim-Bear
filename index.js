@@ -49,6 +49,10 @@ app.get('/client',(req, res) => {
     }
 })
 
+app.get('/client/new', (req, res) => {
+    res.render('Client_new')
+})
+
 app.get('/admin', (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
