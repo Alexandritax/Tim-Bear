@@ -1,6 +1,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
+const bcrypt = require ('bcrypt');
+const saltRounds = 10
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -18,12 +20,63 @@ app.use(session({
 })) 
 
 app.get('/', (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
-    res.render('index',{
-        Usuario: "Default"
-    })
+    if (req.session.username != undefined) {
+        req.session.lastLogin = new Date().getTime()
+        if(req.session.rol == "Admin"){
+            res.redirect('/admin')
+        }
+        else{
+            res.redirect('/client')
+        }
+    }else {
+        res.render('Default')
+    }
+    
 })
 
+app.get('/client',(req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
 
+    if (dif >= 3 * 60 * 60 * 1000) {
+        req.session.destroy() // Destruyes la sesion
+        res.render('Default')
+    }else{
+        res.render('Client_page')
+    }
+})
+
+app.get('/admin', (req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    if (dif >= 3 * 60 * 60 * 1000) {
+        req.session.destroy() // Destruyes la sesion
+        res.render('/login')
+    }else{
+        res.render('Admin_page')
+    }
+})
+
+app.post("/", async (req,res) => {
+    const username = req.body.username
+    const password = req.body.password
+    const FoundUser = 'pw'
+    const correctPW = "123"
+    let passwordhash = await bcrypt.hash(correctPW, saltRounds) //pasar a registro de BD
+    let compare = await bcrypt.compare(password, passwordhash)
+
+
+    if (username == FoundUser && compare) {
+        // Login correcto
+        req.session.username = username // guardando variable en sesion
+        req.session.rol = "Admin"
+        res.redirect('/admin')
+    }else{
+        console.log("contraseña incorrecta")
+        res.render('Default')
+    }
+})
 
 app.listen(PORT, ()=> {
     console.log(`El servidor inicio correctamente en el puerto ${PORT}`);
