@@ -58,6 +58,7 @@ module.exports = {
     })
   },
   down: async (queryInterface, Sequelize) => {
+    await queryInterface.removeConstraint('Cliente', 'FK_CLIENTE_DISTRITO')
     await queryInterface.dropTable('Cliente');
   }
 };
