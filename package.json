@@ -1,12 +1,17 @@
 {
   "name": "tim-bear",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "start:dev": "npx nodemon index.js"
+    "start:dev": "npx nodemon index.js",
+    "db:drop": "npx sequelize db:drop --config ./dao/config/config.json",
+    "db:create": "npx sequelize db:create --config ./dao/config/config.json",
+    "db:migrate": "npx sequelize db:migrate --config ./dao/config/config.json --migrations-path ./dao/migrations",
+    "db:migrate:undo:all": "npx sequelize db:migrate:undo:all --config ./dao/config/config.json --migrations-path ./dao/migrations",
+    "db:seed": "npx sequelize db:seed:all --config ./dao/config/config.json --seeders-path ./dao/seeders",
+    "db:seed:undo:all":"npx sequelize db:seed:undo:all --config ./dao/config/config.json --seeders-path ./dao/seeders"
   },
   "keywords": [],
   "author": "",
@@ -23,5 +28,14 @@
   "devDependencies": {
     "nodemon": "^2.0.15",
     "sequelize-cli": "^6.3.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexandritax/Tim-Bear.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Alexandritax/Tim-Bear/issues"
+  },
+  "homepage": "https://github.com/Alexandritax/Tim-Bear#readme",
+  "description": ""
 }
