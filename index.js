@@ -96,6 +96,10 @@ app.post("/", async (req,res) => {
     }
 })
 
+app.get("/partida/admin", (req, res) => {
+    res.render('Admin_partida')
+})
+
 app.listen(PORT, ()=> {
     console.log(`El servidor inicio correctamente en el puerto ${PORT}`);
 })
