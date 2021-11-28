@@ -38,11 +38,14 @@ app.get('/client',(req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
 
+    if(req.session.rol != undefined){
     if (dif >= 3 * 60 * 60 * 1000) {
         req.session.destroy() // Destruyes la sesion
-        res.render('Default')
+        res.redirect('/')
     }else{
         res.render('Client_page')
+    }}else{
+        res.redirect('/')
     }
 })
 
@@ -50,11 +53,14 @@ app.get('/admin', (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
 
-    if (dif >= 3 * 60 * 60 * 1000) {
+    if(req.session.rol != undefined){
+        if (dif >= 3 * 60 * 60 * 1000) {
         req.session.destroy() // Destruyes la sesion
-        res.render('/login')
+        res.redirect('/')
     }else{
         res.render('Admin_page')
+    }}else{
+        res.redirect('/')
     }
 })
 
