@@ -8,6 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      juegoId: {
+        type: Sequelize.INTEGER
+      },
       fecha: {
         type: Sequelize.DATE
       },

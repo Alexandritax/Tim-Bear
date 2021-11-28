@@ -11,6 +11,9 @@ module.exports = {
       nombre: {
         type: Sequelize.STRING
       },
+      provinciaId: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
