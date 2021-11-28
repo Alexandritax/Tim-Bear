@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>TIM-BEAR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <link href="\css\estilo.css" rel="stylesheet"/>
+</head>
+<body class="d-flex flex-column h-100">
+    <header>
+        <div>
+        <!--Inicio del encabezado-->
+        <%- include('header_usuario') %>
+        </div>
+    </header>
+
+    <!--Fin del encabezado-->
+    <!--Inicio de la seccion de banners-->
+    <main class="flex-shrink-0 mt-5">
+        <div class="album py-5 bg-light mt-5">
+            <div class="container">
+                <h2>NOSOTROS</h2>
+                <input style="float: right;" type="button" onclick="history.back()" name="volver atrás" value="Atrás">
+                <h2><div><br ></div></h2>
+                <img src="https://www.sneakerlost.es/hubfs/Pasos-para-crear-paginas-web-B2B-para-que-te-ayuden-a-vender-mas.png" width="640" height="440">
+                
+                
+                
+                <h2><div><br ></div></h2>
+                
+                
+                <%- include('nosotrostexto') %>
+
+                <h2><div><br ></div></h2>
+                <p>Los gerentes de esta empresa somos:</p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                <p></p>
+                
+
+                
+                
+                <h2><div><br></div></h2>
+                
+                <input style="float: right;" type="button" onclick="history.back()" name="volver atrás" value="Atrás">
+                <h2><div><br></div></h2>
+    
+    <!--Fin de la seccion de banners-->
+    <!--Inicio del pie-->
+    <%- include('Footer') %>
+    <!--Fin del pie-->
+</body>
+</html>

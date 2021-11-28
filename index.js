@@ -23,6 +23,18 @@ app.get('/', (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
     })
 })
 
+app.get('/reglas', (req,res)=>{
+    res.render('reglas')
+})
+
+app.get('/terminos', (req,res)=>{
+    res.render('terminos')
+})
+
+app.get('/nosotros', (req,res)=>{
+    res.render('nosotros')
+})
+
 
 
 app.listen(PORT, ()=> {
