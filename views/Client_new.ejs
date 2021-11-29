@@ -18,22 +18,94 @@
                     <li class="progressbar__option">paso 4</li>
                     <li class="progressbar__option">paso 5</li>
                 </ul>
-                <h1 class="form-register__title">Registro</h1>
+                <h1 class="text-center form-register__title">Registro</h1>
             </div>
-            <div class="form-register__body">
-                <div class="step active" id="step-1">
-                    <div class="step__body">
-                        <input type="text" placeholder="Nombre" class="step__input">
-                        <input type="text" placeholder="Apellidos" class="step__input">
+            <div class="modal-dialog form-register__body">
+                <div class="modal-content step active" id="step-1">
+                    <div class="modal-body step__body">
+                        <label class="form-label">Nombre:</label>
+                        <input type="text" class="form-control step__input">
+                        <br>
+                        <label class="form-label">Apellidos:</label>
+                        <input type="text" class="form-control step__input">
                     </div>
-                    <div class="step__footer">
-                        <button type="button" class="step__button step__button--next" data-to_step="2" data-step="1">Siguiente</button>
+                    <div class="modal-footer step__footer">
+                        <button type="button" class="btn btn-success step__button--next"
+                        data-to_step="2" data-step="1">Siguiente</button>
                     </div>
                 </div>
-                <div class="step" id="step-2">
-                    <div class="step__body">
-                        <input type="text" placeholder="DNI" class="step__input">
-                        <input type="file" placeholder="Subir imagen" class="step__input">
+                <div class="modal-content step" id="step-2">
+                    <div class="modal-body step__body">
+                        <label class="form-label">DNI:</label>
+                        <input type="text" class="form-control step__input">
+                        <br>
+                        <label class="form-label">Foto:</label>
+                        <input type="file" class="step__input">
+                    </div>
+                    <div class="modal-footer step__footer">
+                        <button type="button" class="btn btn-success step__button--back"
+                        data-to_step="1" data-step="2">Regresar</button>
+                        <button type="button" class="btn btn-success step__button--next"
+                        data-to_step="3" data-step="2">Siguiente</button>
+                    </div>
+                </div>
+                <div class="modal-content step" id="step-3">
+                    <div class="modal-body step__body">
+                        <label class="form-label">Correo electrónico:</label>
+                        <input type="text" class="form-control step__input">
+                        <br>
+                        <label class="form-label">Contraseña:</label>
+                        <input type="password" class="form-control step__input">
+                        <br>
+                        <label class="form-label">Repetir contraseña:</label>
+                        <input type="password" class="form-control step__input">
+                        <br>
+                        <label class="form-label">Teléfono:</label>
+                        <input type="text" class="form-control step__input">
+                    </div>
+                    <div class="modal-footer step__body">
+                        <button type="button" class="btn btn-success step__button--back"
+                        data-to_step="2" data-step="3">Regresar</button>
+                        <button type="button" class="btn btn-success step__button--next"
+                        data-to_step="4" data-step="3">Siguiente</button>
+                    </div>
+                </div>
+                <div class="modal-content step" id="step-4">
+                    <div class="modal-body step__body">
+                        <label class="form-label">Dirección:</label>
+                        <input type="text" class="form-control step__input">
+                        <br>
+                        <label class="form-label">Departamento:</label>
+                        <select name="departmento_id" class="form-select">
+                            <option value="-1">----- Seleccione una opción -----</option>
+                        </select>
+                        <br>
+                        <label class="form-label">Provincia:</label>
+                        <select name="provincia_id" class="form-select">
+                            <option value="-1">----- Seleccione una opción -----</option>
+                        </select>
+                        <br>
+                        <label class="form-label">Distrito:</label>
+                        <select name="distrito_id" class="form-select">
+                            <option value="-1">----- Seleccione una opción -----</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer step__body">
+                        <button type="button" class="btn btn-success step__button--back"
+                        data-to_step="3" data-step="4">Regresar</button>
+                        <button type="button" class="btn btn-success step__button--next"
+                        data-to_step="5" data-step="4">Siguiente</button>
+                    </div>
+                </div>
+                <div class="modal-content step" id="step-5">
+                    <div class="modal-body step__body">
+                        <input type="checkbox" class="form-check-input">
+                        <label class="form-check-label">PEP</label>
+                    </div>
+                    <div class="modal-footer step__body">
+                        <button type="button" class="btn btn-success step__button--back"
+                        data-to_step="4" data-step="5">Regresar</button>
+                        <button type="submit" class="btn btn-success step__button">Finalizar</button>
                     </div>
                 </div>
             </div>
