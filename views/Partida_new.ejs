@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TIM-BEAR</title>
+        <meta charset="utf-8" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    </head>
+    <body class="container">
+        <%- include('header_admin') %>
+        <h2 class="mb-5">Space</h2>
+        <h2 class="mb-5">Space</h2>
+        <h2 class="mt-5">Nueva Partida</h2>
+        <form method="post" action="/partida/new">
+            <div>
+                <label class="form-label">JuegoId:</label>
+                <select name="partida_juego_id" class="form-select">
+                    <option value="-1">------ Seleccione una opcion ------</option>
+                    <% juegos.forEach((juego)=>{ %>
+                    <option value="<%= juego.id %>"><%= juego.nombre %></option>
+                    <% })%>
+                </select>
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Fecha:</label>
+                <input name="partida_fecha" type="date" class="form-control"/>
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Hora:</label>
+                <input name="partida_hora" type="datetime-local" class="form-control"/>
+            </div>
+            <div>
+                <label class="form-label">Duracion:</label>
+                <input name="partida_duracion" type="number" class="form-control"/> (min)
+            </div>
+            <div>
+                <label class="form-label">Equipo1:</label>
+                <input name="partida_equipo1" type="text" class="form-control" />
+            </div>
+            <div>
+                <label class="form-label">Equipo2:</label>
+                <input name="partida_equipo2" type="text" class="form-control" />
+            </div>
+            <div>
+                <label class="form-label">Factor1:</label>
+                <input name="partida_factor1" type="number" class="form-control"/> (min)
+            </div>
+            <div>
+                <label class="form-label">Factor2:</label>
+                <input name="partida_factor2" type="number" class="form-control"/> (min)
+            </div>
+            <div>
+                <label class="form-label">JuegoId:</label>
+                <select name="partida_resultado" class="form-select">
+                    <option value="-1">------ Seleccione una opcion ------</option>
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Iniciado">Iniciado</option>
+                    <option value="Finalizado">Finalizado</option>
+                </select>
+            </div>
+           
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </form>
+
+        <%- include('footer') %>
+    </body>
+</html>
