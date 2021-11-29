@@ -32,6 +32,12 @@ module.exports = {
       direccion: {
         type: Sequelize.STRING
       },
+      departamentoId: {
+        type: Sequelize.INTEGER
+      },
+      provinciaId: {
+        type: Sequelize.INTEGER
+      },
       distritoId: {
         type: Sequelize.INTEGER
       },
@@ -51,6 +57,24 @@ module.exports = {
       }
     });
     await queryInterface.addConstraint('Cliente', {
+      fields: ['departamentoId'],
+      type: 'FOREIGN KEY',
+      name: 'FK_CLIENTE_DEPARTAMENTO',
+      references: {
+        table: 'Departamento',
+        field: 'id'
+      }
+    })
+    await queryInterface.addConstraint('Cliente', {
+      fields: ['provinciaId'],
+      type: 'FOREIGN KEY',
+      name: 'FK_CLIENTE_PROVINCIA',
+      references: {
+        table: 'Provincia',
+        field: 'id'
+      }
+    })
+    await queryInterface.addConstraint('Cliente', {
       fields: ['distritoId'],
       type: 'FOREIGN KEY',
       name: 'FK_CLIENTE_DISTRITO',
@@ -61,6 +85,8 @@ module.exports = {
     })
   },
   down: async (queryInterface, Sequelize) => {
+    await queryInterface.removeConstraint('Cliente', 'FK_CLIENTE_DEPARTAMENTO')
+    await queryInterface.removeConstraint('Cliente', 'FK_CLIENTE_PROVINCIA')
     await queryInterface.removeConstraint('Cliente', 'FK_CLIENTE_DISTRITO')
     await queryInterface.dropTable('Cliente');
   }

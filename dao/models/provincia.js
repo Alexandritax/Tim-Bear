@@ -11,14 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Provincia.belongsTo(models.Departamento, {
-        foreignKey: 'departamentoId'
-      })
     }
   };
   Provincia.init({
-    nombre: DataTypes.STRING,
-    departamentoId: DataTypes.INTEGER
+    nombre: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Provincia',

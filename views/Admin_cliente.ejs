@@ -9,6 +9,7 @@
     <body class="container">
         <main>
             <%- include('header_admin') %>
+            <!--Esto pueden utilizarlo para el que le toque esta parte sino la eliminan-->
             <div class="mt-5">
                 <div class="container">
                     <h2 class="mb-5">Space</h2>
@@ -59,35 +60,34 @@
                     </table>
                 </div>
             </div>
-        <h3>Lista de partidas</h3>
-        <div class="col-6">
-            <!-- Lista de partidas -->
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Juego</th>
-                        <th>Fecha</th>
-                        <th>Hora de inicio</th>
-                        <th>Equipo A</th>
-                        <th>Equipo B</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>  
-                    <% partidaLista.forEach((partida)=> { %>
+            <h3>Lista de clientes</h3>
+            <div class="col-6">
+                <!-- Lista de partidas -->
+                <table class="table">
+                    <thead>
                         <tr>
-                            <th><%= partida.juegoId %></th>
-                            <th><%= partida.fecha.toISOString().substring(0,10) %></th>
-                            <th><%= partida.hora%></th>
-                            <th><%= partida.equipo1 %></th>
-                            <th><%= partida.equipo2 %></th>
-                            <th><%= partida.selector %></th>
-                        </tr> 
-                    <% }) %>
-                </tbody>
-            </table>
-        </div>
-           
+                            <th>Id</th>
+                            <th>Nombre completo</th>
+                            <th>Dni</th>
+                            <th>Correo electronico</th>
+                            <th>Número telefónico</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% clienteLista.forEach((cliente)=> { %>
+                            <tr>
+                                <th><%= cliente.id %></th>
+                                <th><%= cliente.nombre %> <%= cliente.apellidos %></th>
+                                <th><%= cliente.dni%></th>
+                                <th><%= cliente.correo %></th>
+                                <th><%= cliente.telefono %></th>
+                                <th><%= cliente.estado %></th>
+                            </tr> 
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>    
         </main>
         <%- include('Footer') %>
     </body>

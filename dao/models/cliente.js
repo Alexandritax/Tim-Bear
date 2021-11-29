@@ -11,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Cliente.belongsTo(models.Departamento, {
+        foreignKey: 'departamentoId'
+      })
+      Cliente.belongsTo(models.Provincia, {
+        foreignKey: 'provinciaId'
+      })
       Cliente.belongsTo(models.Distrito, {
         foreignKey: 'distritoId'
       })
@@ -25,6 +31,8 @@ module.exports = (sequelize, DataTypes) => {
     contrasenia: DataTypes.STRING,
     telefono: DataTypes.STRING,
     direccion: DataTypes.STRING,
+    departamentoId: DataTypes.INTEGER,
+    provinciaId: DataTypes.INTEGER,
     distritoId: DataTypes.INTEGER,
     pep: DataTypes.BOOLEAN,
     estado: DataTypes.STRING
