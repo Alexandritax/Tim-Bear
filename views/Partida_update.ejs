@@ -10,48 +10,52 @@
         <%- include('header_admin') %>
         <h2 class="mb-5">Space</h2>
         <h2 class="mb-5">Space</h2>
-        <h2 class="mt-5">Nueva Partida</h2>
+        <h2 class="mt-5">Editar Partida <%= partida.id%></h2>
         <form method="post" action="/partida/new">
             <div>
                 <label class="form-label">JuegoId:</label>
                 <select name="partida_juego_id" class="form-select">
                     <option value="-1">------ Seleccione una opcion ------</option>
                     <% juegos.forEach((juego)=>{ %>
-                    <option value="<%= juego.id %>"><%= juego.nombre %></option>
+                        <%if (juego.id == partida.juegoId) {%>
+                            <option selected value="<%= juego.id %>"><%= juego.nombre %></option>
+                        <%} else {%>
+                            <option value="<%= juego.id %>"><%= juego.nombre %></option>
+                        <%}%>        
                     <% })%>
                 </select>
             </div>
             <div class="mb-2">
                 <label class="form-label">Fecha:</label>
-                <input name="partida_fecha" type="date" class="form-control"/>
+                <input name="partida_fecha" type="date" class="form-control" value="<%=partida.fecha.toISOString().substring(0,10)%>"/>
             </div>
             <div class="mb-2">
                 <label class="form-label">Hora:</label>
-                <input name="partida_hora" type="time" class="form-control"/>
+                <input name="partida_hora" type="time" class="form-control" value="<%=partida.hora%>"/>
             </div>
             <div>
                 <label class="form-label">Duracion(minutos):</label>
-                <input name="partida_duracion" type="number" class="form-control"/>
+                <input name="partida_duracion" type="number" class="form-control" value="<%=partida.duracion%>"/>
             </div>
             <div>
                 <label class="form-label">Equipo1:</label>
-                <input name="partida_equipo1" type="text" class="form-control" />
+                <input name="partida_equipo1" type="text" class="form-control" value="<%=partida.equipo1%>"/>
             </div>
             <div>
                 <label class="form-label">Equipo2:</label>
-                <input name="partida_equipo2" type="text" class="form-control" />
+                <input name="partida_equipo2" type="text" class="form-control" value="<%=partida.equipo2%>"/>
             </div>
             <div>
                 <label class="form-label">Factor1:</label>
-                <input name="partida_factor1" type="number" class="form-control"/>
+                <input name="partida_factor1" type="number" class="form-control" value="<%=partida.factor1%>"/>
             </div>
             <div>
                 <label class="form-label">Factor2:</label>
-                <input name="partida_factor2" type="number" class="form-control"/>
+                <input name="partida_factor2" type="number" class="form-control" value="<%=partida.factor2%>"/>
             </div>
             <div>
                 <label class="form-label">Resultado:</label>
-                <select name="partida_resultado" class="form-select">
+                <select name="partida_resultado" class="form-select" value="<%=partida.resultado%>">
                     <option value="-1">------ Seleccione una opcion ------</option>
                     <option value="Pendiente">Pendiente</option>
                     <option value="Iniciado">Iniciado</option>

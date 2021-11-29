@@ -181,7 +181,6 @@ app.get("/partida/admin", async (req, res) => {
             aPartidasRegistradas.push(partida)
         }
     }
-    console.log(aPartidasRegistradas)
 
 
     if (req.session.rol != undefined) {
@@ -229,8 +228,18 @@ app.post("/partida/new", async (req, res) =>{
     res.redirect("/partida/admin")
 })
 
-app.get("/partida/update/:id", (req, res) => {
-    res.redirect("/partida/admin")
+app.get("/partida/update/:id", async (req, res) => {
+    const idPartida = req.params.id
+
+    const partida = await db.Partida.findOne({
+        where: { id: idPartida}
+    })
+
+    const juegos = await db.Juego.findAll()
+    res.render("Partida_update",{
+        partida: partida,
+        juegos: juegos
+    })
 })
 
 app.get("/partida/delete/:id", (req, res) => {
