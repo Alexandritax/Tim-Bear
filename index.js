@@ -219,30 +219,32 @@ app.get("/partida", async (req, res) => {
 
 // ESTO CREO QUE LO HIZO RODRIGO NO FUNCIONA PERO NO LO BORRO
 app.get("/partidasss", async (req, res) => {
-    let juego = null;
-    let partidas = null;
+
     if (Object.keys(req.query).length > 0) {
         console.log(req.query);
-        juego = await db.Juego.findByPk(req.query.juegoId);
-        partidas = await db.Partida.findAll({
-            where: { juegoId: Number(req.query.juegoId) },
-        });
+        const juego = await db.Juego.findByPk(req.query.juegoId);
+        console.log(req.query.juegoId)
+        const partidas = await db.Partida.findAll({
+            where: { juegoId: req.query.juegoId },
+        })
+        res.render("Client_partidas", { partidaLista: partidas, juego:juego });
+    }else{
+    res.redirect('/partida');
     }
-    res.render("Client_partidas", { partidas, juego });
 });
 
-app.get("/partidasss", async (req, res) => {
-    let juego = null;
-    let partidas = null;
-    if (Object.keys(req.query).length > 0) {
-        console.log(req.query);
-        juego = await db.Juego.findByPk(req.query.juegoId);
-        partidas = await db.Partida.findAll({
-            where: { juegoId: Number(req.query.juegoId) },
-        });
-    }
-    res.render("Client_partidas", { partidas, juego });
-});
+// app.get("/partidasss", async (req, res) => {
+//     let juego = null;
+//     let partidas = null;
+//     if (Object.keys(req.query).length > 0) {
+//         console.log(req.query);
+//         juego = await db.Juego.findByPk(req.query.juegoId);
+//         partidas = await db.Partida.findAll({
+//             where: { juegoId: Number(req.query.juegoId) },
+//         });
+//     }
+//     res.render("Client_partidas", { partidas, juego });
+// });
 
 //HASTA ACÁ CHECA BIEN ESO SI NO SIRVE LO ELIMINAS
 
