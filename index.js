@@ -267,6 +267,95 @@ app.get("/juego/admin", (req, res) => {
     }
 })
 
+// CATEGORIAS
+app.get("/categoria/admin",async (req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            //Obtener categorias de la base de datos
+            const categorias = await db.Categoria.findAll({
+                order : [
+                    ['id', 'ASC']
+                ]
+            });
+            res.render('Admin_categoria',{
+                categorias :categorias
+            })
+        }
+    } else {
+        res.redirect('/')
+    }
+
+})
+//Mostrar formularios categoria
+app.get("/categoria/admin/new",(req,res) =>{
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            res.render('Categoria_new')
+        }
+    } else {
+        res.redirect('/')
+    }
+})
+//Guardar datos del formulario nueva categoria
+app.post("/categoria/admin/new", async (req,res)=>{
+    const categoriaNombre = req.body.categoria_nombre
+
+    await db.Categoria.create({
+        nombre : categoriaNombre
+    })
+    res.redirect('/categoria/admin')
+})
+
+app.get("/categoria/admin/modificar/:codigo",async (req,res)=>{
+    const idCategoria = req.params.codigo
+    const categoria = await db.Categoria.findOne({
+        where: {
+            id : idCategoria
+        }
+    })
+    res.render('Categoria_update',{
+        categoria : categoria
+    })
+
+})
+
+app.post("/categoria/admin/modificar",async(req,res)=>{
+    const idCategoria = req.body.categoria_id
+    const nombre = req.body.categoria_nombre
+
+    const categoria = await db.Categoria.findOne({
+        where : {
+            id : idCategoria
+        }
+    })
+    categoria.nombre = nombre
+
+    await categoria.save()
+    res.redirect('/categoria/admin')
+})
+
+app.get("/categoria/admin/eliminar/:codigo", async(req,res)=>{
+    const idCategoria = req.params.codigo
+    await db.Categoria.destroy({
+        where : {
+            id : idCategoria
+        }
+    })
+    res.redirect('/categoria/admin')
+})
+
 app.get("/banner/admin", (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
@@ -281,6 +370,7 @@ app.get("/banner/admin", (req, res) => {
         res.redirect('/')
     }
 })
+
 
 app.get("/juego/new", (req, res) => {
     const timestampActual = new Date().getTime();
