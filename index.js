@@ -146,7 +146,7 @@ app.get('/admin', (req, res) => {
     }
 })
 
-app.post("/", async (req, res) => {
+app.post("/", async (req, res) => { //contraseña en el primer correo es 123
     const username = req.body.username
     const password = req.body.password
     const FoundUser = 'pw'
@@ -185,6 +185,7 @@ app.get("/partida/admin", async (req, res) => {
             aPartidasRegistradas.push(partida)
         }
     }
+    console.log(aPartidasRegistradas)
 
 
     if (req.session.rol != undefined) {
