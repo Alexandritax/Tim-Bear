@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const bcrypt = require('bcrypt');
 const db = require('./dao/models');
+const { render } = require('ejs');
 const saltRounds = 10
 
 const app = express()
@@ -27,7 +28,7 @@ app.get('/', (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
             res.redirect('/admin')
         }
         else if(req.session.rol == "Cliente"){
-            res.redirect('/client')
+            res.redirect('/cliente')
         } else{
             res.render('Default')
         }
@@ -125,11 +126,6 @@ app.get('/cliente/validacion', (req, res) => {
     res.render('Client_wait')
 })
 
-app.get('/logout', async (req, res) => {
-    req.session.destroy();
-    res.redirect('/')
-})
-
 app.get('/admin', (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
@@ -146,7 +142,7 @@ app.get('/admin', (req, res) => {
     }
 })
 
-app.post("/", async (req, res) => {
+app.post("/", async (req, res) => { //contraseña en el primer correo es 123
     const username = req.body.username
     const password = req.body.password
     const FoundUser = 'pw'
@@ -167,7 +163,7 @@ app.post("/", async (req, res) => {
         }
         
     } else {
-        console.log("contraseña incorrecta")
+        console.log("contraseña incorrecta123")
         res.render('Default')
     }
 })
@@ -201,31 +197,56 @@ app.get("/partida/admin", async (req, res) => {
     }
 })
 
-app.get("/partidas", async (req, res) => {
-    let juego = null;
-    let partidas = null;
+// PARTIDAS GENERAL PARA TODOS
+app.get("/partida", async (req, res) => {
+
+    const partida = await db.Partida.findAll()
+    const aPartidasRegistradas = []
+    if (partida.length > 0) {
+        for (let te of partida) {
+            const partida = await te.get()
+            aPartidasRegistradas.push(partida)
+        }
+    }
+
+    res.render('Client_partidas', {
+        partidaLista: aPartidasRegistradas
+    })
+
+
+    
+})
+
+// ESTO CREO QUE LO HIZO RODRIGO NO FUNCIONA PERO NO LO BORRO
+app.get("/partidasss", async (req, res) => {
+
     if (Object.keys(req.query).length > 0) {
         console.log(req.query);
-        juego = await db.Juego.findByPk(req.query.juegoId);
-        partidas = await db.Partida.findAll({
-            where: { juegoId: Number(req.query.juegoId) },
-        });
+        const juego = await db.Juego.findByPk(req.query.juegoId);
+        console.log(req.query.juegoId)
+        const partidas = await db.Partida.findAll({
+            where: { juegoId: req.query.juegoId },
+        })
+        res.render("Client_partidas", { partidaLista: partidas, juego:juego });
+    }else{
+    res.redirect('/partida');
     }
-    res.render("Client_partidas", { partidas, juego });
 });
 
-app.get("/partidas", async (req, res) => {
-    let juego = null;
-    let partidas = null;
-    if (Object.keys(req.query).length > 0) {
-        console.log(req.query);
-        juego = await db.Juego.findByPk(req.query.juegoId);
-        partidas = await db.Partida.findAll({
-            where: { juegoId: Number(req.query.juegoId) },
-        });
-    }
-    res.render("Client_partidas", { partidas, juego });
-});
+// app.get("/partidasss", async (req, res) => {
+//     let juego = null;
+//     let partidas = null;
+//     if (Object.keys(req.query).length > 0) {
+//         console.log(req.query);
+//         juego = await db.Juego.findByPk(req.query.juegoId);
+//         partidas = await db.Partida.findAll({
+//             where: { juegoId: Number(req.query.juegoId) },
+//         });
+//     }
+//     res.render("Client_partidas", { partidas, juego });
+// });
+
+//HASTA ACÁ CHECA BIEN ESO SI NO SIRVE LO ELIMINAS
 
 // CLIENTES
 app.get("/cliente/admin", async (req, res) => {
@@ -395,6 +416,11 @@ app.get("/juego/new", (req, res) => {
     } else {
         res.redirect('/')
     }
+})
+
+app.get('/logout', async (req, res) => {
+    req.session.destroy();
+    res.redirect('/')
 })
 
 app.listen(PORT, () => {

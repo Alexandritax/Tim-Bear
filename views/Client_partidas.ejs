@@ -14,14 +14,14 @@
 <body class="container">
     <main>
         <%- include('header_login') %>
-            <div class="mt-10">
+            <div>
                 <h2 class="mt-5">Space</h2>
                 <h2 class="mb-1">Space</h2>
                 <div class="mb-5"></div>
-                <div class="container mb-5">
+                <div >
 
                     <div class="row mt-10 mb-5">
-                        <h2 class="col-3">Lista de partidas</h2>
+                        <h2 class="col-3">Partidas</h2>
                         <div class="form-floating col-3">
                             <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
                                 <option selected>Abre esta mrd</option>
@@ -34,134 +34,93 @@
                         <div class="col-2">
                             <input type="text" class="form-control" id="query" placeholder="Buscar">
                         </div>
-                        <div class="col-4">
-                            <label>Filtrar por fechas</label>
-                            <input type="date" class="form-control mb-1" id="date" placeholder="Filtrar por fecha">
-                            <input type="date" class="form-control mb-1" id="date" placeholder="Filtrar por fecha">
-                            <input type="submit" class="form-control btn btn-primary" id="query" value="Filtrar"
-                                placeholder="Filtrar por fecha">
-                        </div>
+                        
+                        <form class="row g-3" action="/partidas" method="GET">
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary me-1" name="juegoId" value="1">Futbol</button>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary me-1" name="juegoId"
+                                    value="2">Baloncesto</button>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary me-1">Voleibol</button>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary me-1">Tenis</button>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary me-1">Béisbol</button>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary me-1">Hockey</button>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary me-1">E-Sport</button>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary me-1">Ping-pong</button>
+                            </div>
+    
+                        </form>
                     </div>
-                    <form class="row g-3" action="/partidas" method="GET">
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary me-1" name="juegoId" value="1">Futbol</button>
-                        </div>
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary me-1" name="juegoId"
-                                value="2">Baloncesto</button>
-                        </div>
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary me-1">Voleibol</button>
-                        </div>
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary me-1">Tenis</button>
-                        </div>
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary me-1">Béisbol</button>
-                        </div>
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary me-1">Hockey</button>
-                        </div>
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary me-1">E-Sport</button>
-                        </div>
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary me-1">Ping-pong</button>
-                        </div>
-
-                    </form>
-
-                    <table class="table table-hover mt-2">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Juego</th>
-                                <th>Fecha</th>
-                                <th>Hora de inicio</th>
-                                <th>Duracion(min)</th>
-                                <th>estado
-                                    <span class="btn-group dropup">
-                                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button"
-                                            id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-filter-circle" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M7 11.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z" />
-                                                <path
-                                                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                            </svg>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><a class="dropdown-item" href="#">Reset</a></li>
-                                            <li>
-                                                <hr class="dropdown-divider">
-                                            </li>
-                                            <li><a class="dropdown-item" href="#">Pendientes</a></li>
-                                            <li><a class="dropdown-item" href="#">Inicializados</a></li>
-                                            <li><a class="dropdown-item" href="#">Finalizados</a></li>
-                                        </ul>
-                                    </span>
-                                </th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Liga de campeones</td>
-                                <td>01/12/2021</td>
-                                <td>14:00 GTM -5 </td>
-                                <td>120</td>
-                                <td>pendiente</td>
-                                <td>
-                                    <a href="#">Editar</a>
-                                    <a href="#">Eliminar</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                       
                 </div>
+
+                <!--Todo lo que tenga que ver con la lista de partidas y la parte de apuesta-->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <!-- Lista de partidas -->
+                        <div class="col-6">
+        
+                            <table class="table">
+
+                                <% partidaLista.forEach((partida)=> { %>
+
+
+                                <thead>
+                                       
+                                        <tr>
+                                            <h3>liga 1</h3>
+                                            <th> <%= partida.equipo1%> vs <%= partida.equipo2%></th>
+                                            <th> Fecha : <%= partida.fecha.toISOString().substring(0,10) %> </th>
+                                            <th> Hora : <%= partida.hora%></th>
+                                        </tr>
+
+                                </thead>      
+                                <tbody>
+                                        <tr>
+                                            
+                                            <th>
+                                                <button type="submit" class="btn btn-secondary" name="factor1" value="#"><%= partida.factor1%></button>
+
+                                            </th>
+                                            <th>
+                                                <button type="submit" class="btn btn-secondary" name="factorEmpate" value="#">empate</button>
+                                            </th>
+                                            <th>
+                                                <button type="submit" class="btn btn-secondary" name="factor2" value="#"><%= partida.factor2%></button>
+                                            </th>
+                                        </tr>
+                                </tbody>
+                                <% }) %>
+                                 
+                            </table>
+                           
+                        </div>
+                        <!--Fin Lista de partidas -->
+                        <!--Aca deberia ir las apuestas-->
+                        <div class="col-3"></div>
+
+                    </div>
+
+                </div>
+
+
             </div>
-            <h3>Lista de partidas</h3>
-            <div class="col-6">
-                <!-- Lista de partidas -->
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Juego</th>
-                            <th>Fecha</th>
-                            <th>Hora de inicio</th>
-                            <th>Equipo A</th>
-                            <th>Equipo B</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% if(partidas!=null){ if(partidas.length>0){ partidas.forEach((partida)=> { %>
-                            <tr>
-                                <th>
-                                    <%= partida.juegoId %>
-                                </th>
-                                <th>
-                                    <%= partida.fecha.toISOString().substring(0,10) %>
-                                </th>
-                                <th>
-                                    <%= partida.hora%>
-                                </th>
-                                <th>
-                                    <%= partida.equipo1 %>
-                                </th>
-                                <th>
-                                    <%= partida.equipo2 %>
-                                </th>
-                                <th>
-                                    <%= partida.selector %>
-                                </th>
-                            </tr>
-                            <% })}} %>
-                    </tbody>
-                </table>
-            </div>
+           
+            
 
     </main>
     <%- include('Footer') %>
