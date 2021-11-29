@@ -101,6 +101,7 @@ app.post("/", async (req,res) => {
     }
 })
 
+// PARTIDAS
 app.get("/partida/admin",async (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
@@ -129,6 +130,38 @@ app.get("/partida/admin",async (req, res) => {
    
     
 })
+
+// CLIENTES
+app.get("/cliente/admin",async (req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    const cliente = await db.Cliente.findAll()
+
+    const aClienteRegistradas = []
+    if (cliente.length > 0) {
+        for (let te of cliente) {
+            const cliente = await te.get()
+            aClienteRegistradas.push(cliente)
+        }
+    }
+
+
+    if(req.session.rol != undefined){
+    if (dif >= 3 * 60 * 60 * 1000) {
+        req.session.destroy() // Destruyes la sesion
+        res.redirect('/')
+    }else{
+        res.render('Admin_cliente',{
+            clienteLista : aClienteRegistradas
+        })
+    }}else{
+        res.redirect('/')
+    }
+   
+    
+})
+
 
 app.get("/juego/admin", (req, res) => {
     const timestampActual = new Date().getTime();

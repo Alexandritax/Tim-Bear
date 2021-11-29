@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TIM-BEAR</title>
+        <meta charset="utf-8" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    </head>
+    <body class="container">
+        <main>
+            <%- include('header_admin') %>
+            <!--Esto pueden utilizarlo para el que le toque esta parte sino la eliminan-->
+            <div class="mt-5">
+                <div class="container">
+                    <h2 class="mb-5">Space</h2>
+                    <h2 class="mt-5">Mantenimiento de partidas</h2>
+                    <a class="btn btn-success my-4" href="/partida/new">Nuevo</a>
+                    <table class="table table-hover mt-2">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Juego</th>
+                                <th>Fecha</th>
+                                <th>Hora de inicio</th>
+                                <th>Duracion(min)</th>
+                                <th>estado
+                                    <span class="btn-group dropup">
+                                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter-circle" viewBox="0 0 16 16">
+                                                <path d="M7 11.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z"/>
+                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                            </svg>
+                                        </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                      <li><a class="dropdown-item" href="#">Reset</a></li>
+                                      <li><hr class="dropdown-divider"></li>
+                                      <li><a class="dropdown-item" href="#">Pendientes</a></li>
+                                      <li><a class="dropdown-item" href="#">Inicializados</a></li>
+                                      <li><a class="dropdown-item" href="#">Finalizados</a></li>
+                                    </ul>
+                                    </span>
+                                  </th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Liga de campeones</td>
+                                    <td>01/12/2021</td>
+                                    <td>14:00 GTM -5 </td>
+                                    <td>120</td>
+                                    <td>pendiente</td>
+                                    <td>
+                                        <a href="#" >Editar</a>
+                                        <a href="#" >Eliminar</a>
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <h3>Lista de clientes</h3>
+            <div class="col-6">
+                <!-- Lista de partidas -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre completo</th>
+                            <th>Dni</th>
+                            <th>Correo electronico</th>
+                            <th>Número telefónico</th>
+             
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% clienteLista.forEach((cliente)=> { %>
+                            <tr>
+                                <th><%= cliente.id %></th>
+                                <th><%= cliente.nombre%> <%= cliente.apellidos%></th>
+                                <th><%= cliente.dni%></th>
+                                <th><%= cliente.correo %></th>
+                                <th><%= cliente.telefono %></th>
+                                
+                            </tr> 
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>    
+        </main>
+        <%- include('Footer') %>
+    </body>
+</html>
