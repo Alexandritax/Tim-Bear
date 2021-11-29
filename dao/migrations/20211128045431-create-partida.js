@@ -32,7 +32,7 @@ module.exports = {
       factor2: {
         type: Sequelize.FLOAT
       },
-      selector: {
+      resultado: {
         type: Sequelize.STRING
       },
       createdAt: {
