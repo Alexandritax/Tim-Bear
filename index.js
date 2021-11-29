@@ -27,7 +27,7 @@ app.get('/', (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
             res.redirect('/admin')
         }
         else if(req.session.rol == "Cliente"){
-            res.redirect('/client')
+            res.redirect('/cliente')
         } else{
             res.render('Default')
         }
@@ -125,11 +125,6 @@ app.get('/cliente/validacion', (req, res) => {
     res.render('Client_wait')
 })
 
-app.get('/logout', async (req, res) => {
-    req.session.destroy();
-    res.redirect('/')
-})
-
 app.get('/admin', (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
@@ -167,7 +162,7 @@ app.post("/", async (req, res) => { //contraseña en el primer correo es 123
         }
         
     } else {
-        console.log("contraseña incorrecta")
+        console.log("contraseña incorrecta123")
         res.render('Default')
     }
 })
@@ -398,8 +393,8 @@ app.get("/juego/new", (req, res) => {
     }
 })
 
-app.get("/destroy", (req, res) =>{
-    req.session.rol = null
+app.get('/logout', async (req, res) => {
+    req.session.destroy();
     res.redirect('/')
 })
 

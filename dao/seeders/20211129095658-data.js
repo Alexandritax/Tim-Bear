@@ -17,7 +17,7 @@ module.exports = {
     await queryInterface.bulkInsert('Administrador', [
       { 
         correo: '20181799@aloe.ulima.edu.pe',
-        contrasenia: '$2b$10$jAsJfo1RxWfRXTv2q0xxhu0nEE9/mKFgZcE.6XDxd0n0BvydcEuBi',
+        contrasenia: '$2b$10$jAsJfo1RxWfRXTv2q0xxhu0nEE9/mKFgZcE.6XDxd0n0BvydcEuBi', // 123
         createdAt: new Date(), updatedAt: new Date()
       }
     ])
