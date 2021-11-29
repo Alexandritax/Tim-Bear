@@ -62,8 +62,58 @@ app.get('/client',(req, res) => {
     }
 })
 
-app.get('/client/new', (req, res) => {
-    res.render('Client_new')
+app.get('/cliente/nuevo', async (req, res) => {
+    const distritos = await db.Distrito.findAll()
+    const provincias = await db.Provincia.findAll()
+    const departamentos = await db.Departamento.findAll()
+
+    res.render('Client_new', {
+        distritos: distritos,
+        provincias: provincias,
+        departamentos: departamentos
+    })
+})
+
+app.post('/cliente/nuevo', async (req, res) => {
+    const clienteNombre = req.body.cliente_nombre
+    const clienteApellidos = req.body.cliente_apellidos
+    const clienteDNI = req.body.cliente_DNI
+    const clienteFoto = req.body.cliente_foto
+    const clienteCorreo = req.body.cliente_correo
+    const clienteContrasenia = req.body.cliente_contrasenia
+    const clienteContrasenia2 = req.body.cliente_contrasenia2
+    const clienteTelefono = req.body.cliente_telefono
+    const clienteDireccion = req.body.cliente_direccion
+    const clienteDepartamentoId = req.body.cliente_departamento_id
+    const clienteProvinciaId = req.body.cliente_provincia_id
+    const clienteDistritoId = req.body.cliente_distrito_id
+    const clientePEP = req.body.cliente_pep
+
+    if (clienteContrasenia !== clienteContrasenia2) {
+        errors.push({msg: 'Las contraseñas no coinciden'});
+    }
+
+    await db.Cliente.create({
+        nombre: clienteNombre,
+        apellidos: clienteApellidos,
+        dni: clienteDNI,
+        imagen_url: clienteFoto,
+        correo: clienteCorreo,
+        contrasenia: clienteContrasenia,
+        telefono: clienteTelefono,
+        direccion: clienteDireccion,
+        departamentoId: clienteDepartamentoId,
+        provinciaId: clienteProvinciaId,
+        distritoId: clienteDistritoId,
+        pep: clientePEP,
+        estado: "pendiente de validación"
+    })
+
+    res.redirect('/client/wait')
+})
+
+app.get('/client/wait', async (req, res) => {
+    res.render('Client_wait')
 })
 
 app.get('/admin', (req, res) => {

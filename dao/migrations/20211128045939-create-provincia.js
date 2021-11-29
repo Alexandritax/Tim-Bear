@@ -11,9 +11,6 @@ module.exports = {
       nombre: {
         type: Sequelize.STRING
       },
-      departamentoId: {
-        type: Sequelize.INTEGER
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -23,18 +20,8 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
-    await queryInterface.addConstraint('Provincia', {
-      fields: ['departamentoId'],
-      type: 'FOREIGN KEY',
-      name: 'FK_PROVINCIA_DEPARTAMENTO',
-      references: {
-        table: 'Departamento',
-        field: 'id'
-      }
-    })
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.removeConstraint('Provincia', 'FK_PROVINCIA_DEPARTAMENTO')
     await queryInterface.dropTable('Provincia');
   }
 };
