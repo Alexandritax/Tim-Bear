@@ -197,7 +197,28 @@ app.get("/partida/admin", async (req, res) => {
     }
 })
 
-app.get("/partidas", async (req, res) => {
+// PARTIDAS GENERAL PARA TODOS
+app.get("/partida", async (req, res) => {
+
+    const partida = await db.Partida.findAll()
+    const aPartidasRegistradas = []
+    if (partida.length > 0) {
+        for (let te of partida) {
+            const partida = await te.get()
+            aPartidasRegistradas.push(partida)
+        }
+    }
+
+    res.render('Client_partidas', {
+        partidaLista: aPartidasRegistradas
+    })
+
+
+    
+})
+
+// ESTO CREO QUE LO HIZO RODRIGO NO FUNCIONA PERO NO LO BORRO
+app.get("/partidasss", async (req, res) => {
     let juego = null;
     let partidas = null;
     if (Object.keys(req.query).length > 0) {
@@ -210,7 +231,7 @@ app.get("/partidas", async (req, res) => {
     res.render("Client_partidas", { partidas, juego });
 });
 
-app.get("/partidas", async (req, res) => {
+app.get("/partidasss", async (req, res) => {
     let juego = null;
     let partidas = null;
     if (Object.keys(req.query).length > 0) {
@@ -222,6 +243,8 @@ app.get("/partidas", async (req, res) => {
     }
     res.render("Client_partidas", { partidas, juego });
 });
+
+//HASTA ACÁ CHECA BIEN ESO SI NO SIRVE LO ELIMINAS
 
 // CLIENTES
 app.get("/cliente/admin", async (req, res) => {
