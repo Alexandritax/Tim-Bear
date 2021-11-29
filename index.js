@@ -27,7 +27,7 @@ app.get('/', (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
             res.redirect('/admin')
         }
         else if(req.session.rol == "Cliente"){
-            res.redirect('/client')
+            res.redirect('/cliente')
         } else{
             res.render('Default')
         }
@@ -125,11 +125,6 @@ app.get('/cliente/validacion', (req, res) => {
     res.render('Client_wait')
 })
 
-app.get('/logout', async (req, res) => {
-    req.session.destroy();
-    res.redirect('/')
-})
-
 app.get('/admin', (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
@@ -146,7 +141,7 @@ app.get('/admin', (req, res) => {
     }
 })
 
-app.post("/", async (req, res) => {
+app.post("/", async (req, res) => { //contraseña en el primer correo es 123
     const username = req.body.username
     const password = req.body.password
     const FoundUser = 'pw'
@@ -167,7 +162,7 @@ app.post("/", async (req, res) => {
         }
         
     } else {
-        console.log("contraseña incorrecta")
+        console.log("contraseña incorrecta123")
         res.render('Default')
     }
 })
@@ -185,6 +180,7 @@ app.get("/partida/admin", async (req, res) => {
             aPartidasRegistradas.push(partida)
         }
     }
+    console.log(aPartidasRegistradas)
 
 
     if (req.session.rol != undefined) {
@@ -276,6 +272,95 @@ app.get("/juego/admin", (req, res) => {
     }
 })
 
+// CATEGORIAS
+app.get("/categoria/admin",async (req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            //Obtener categorias de la base de datos
+            const categorias = await db.Categoria.findAll({
+                order : [
+                    ['id', 'ASC']
+                ]
+            });
+            res.render('Admin_categoria',{
+                categorias :categorias
+            })
+        }
+    } else {
+        res.redirect('/')
+    }
+
+})
+//Mostrar formularios categoria
+app.get("/categoria/admin/new",(req,res) =>{
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            res.render('Categoria_new')
+        }
+    } else {
+        res.redirect('/')
+    }
+})
+//Guardar datos del formulario nueva categoria
+app.post("/categoria/admin/new", async (req,res)=>{
+    const categoriaNombre = req.body.categoria_nombre
+
+    await db.Categoria.create({
+        nombre : categoriaNombre
+    })
+    res.redirect('/categoria/admin')
+})
+
+app.get("/categoria/admin/modificar/:codigo",async (req,res)=>{
+    const idCategoria = req.params.codigo
+    const categoria = await db.Categoria.findOne({
+        where: {
+            id : idCategoria
+        }
+    })
+    res.render('Categoria_update',{
+        categoria : categoria
+    })
+
+})
+
+app.post("/categoria/admin/modificar",async(req,res)=>{
+    const idCategoria = req.body.categoria_id
+    const nombre = req.body.categoria_nombre
+
+    const categoria = await db.Categoria.findOne({
+        where : {
+            id : idCategoria
+        }
+    })
+    categoria.nombre = nombre
+
+    await categoria.save()
+    res.redirect('/categoria/admin')
+})
+
+app.get("/categoria/admin/eliminar/:codigo", async(req,res)=>{
+    const idCategoria = req.params.codigo
+    await db.Categoria.destroy({
+        where : {
+            id : idCategoria
+        }
+    })
+    res.redirect('/categoria/admin')
+})
+
 app.get("/banner/admin", (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
@@ -291,6 +376,7 @@ app.get("/banner/admin", (req, res) => {
     }
 })
 
+
 app.get("/juego/new", (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
@@ -305,6 +391,11 @@ app.get("/juego/new", (req, res) => {
     } else {
         res.redirect('/')
     }
+})
+
+app.get('/logout', async (req, res) => {
+    req.session.destroy();
+    res.redirect('/')
 })
 
 app.listen(PORT, () => {

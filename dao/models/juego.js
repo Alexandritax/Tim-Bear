@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'categoriaId'
       })
     }
-  };
+  }
   Juego.init({
     nombre: DataTypes.STRING,
     categoriaId: DataTypes.INTEGER

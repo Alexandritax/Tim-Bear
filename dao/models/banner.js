@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
   };
   Banner.init({
     nombre: DataTypes.STRING,
-    imagenURL: DataTypes.STRING,
+    imagen: DataTypes.STRING,
+    URL: DataTypes.STRING,
     estado: DataTypes.BOOLEAN
   }, {
     sequelize,
