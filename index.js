@@ -205,6 +205,7 @@ app.get("/partidas", async (req, res) => {
     }
     res.render("Client_partidas", { partidas, juego });
 });
+
 app.get("/partidas", async (req, res) => {
     let juego = null;
     let partidas = null;
