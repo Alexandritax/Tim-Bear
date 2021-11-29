@@ -85,9 +85,9 @@ module.exports = {
     })
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.removeConstraint('Cliente', 'FK_CLIENTE_DEPARTAMENTO')
-    await queryInterface.removeConstraint('Cliente', 'FK_CLIENTE_PROVINCIA')
     await queryInterface.removeConstraint('Cliente', 'FK_CLIENTE_DISTRITO')
+    await queryInterface.removeConstraint('Cliente', 'FK_CLIENTE_PROVINCIA')
+    await queryInterface.removeConstraint('Cliente', 'FK_CLIENTE_DEPARTAMENTO')
     await queryInterface.dropTable('Cliente');
   }
 };

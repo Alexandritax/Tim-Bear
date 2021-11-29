@@ -11,6 +11,9 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+
+    // Administrador
+
     // Departamento
     await queryInterface.bulkInsert('Departamento', [
       {nombre: "Lima", createdAt: new Date(), updatedAt: new Date()},
