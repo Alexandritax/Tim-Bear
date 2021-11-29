@@ -11,13 +11,36 @@
     <header>
         <div>
         <!--Inicio del encabezado-->
-        <%- include('header_usuario') %>
+        <nav class="navbar navbar-expand-md fixed-top navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">TIM-BEAR</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Partidas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Categorias</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Juegos</a>
+                        </li>
+                    </ul>
+                </div>
+            </div> 
+        </nav>
         </div>
     </header>
 
     <!--Fin del encabezado-->
     <!--Inicio de la seccion de banners-->
-    <main class="flex-shrink-0 mt-5">
+    <main class="flex-shrink-0 ">
         <div class="album py-5 bg-light mt-5">
             <div class="container">
                 <h2>NOSOTROS</h2>

@@ -14,8 +14,8 @@ module.exports = {
 
     // Categoria
     await queryInterface.bulkInsert('Categoria', [
-      {nombre:"Finales",createdAt: new Date(), updatedAt: new Date()},
-      {nombre:"Seleccion",createdAt: new Date(), updatedAt: new Date()}
+      {nombre:"Deportes",createdAt: new Date(), updatedAt: new Date()},
+      {nombre:"E-Sports",createdAt: new Date(), updatedAt: new Date()}
     ])
 
     // Juego
