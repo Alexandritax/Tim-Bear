@@ -90,33 +90,41 @@ app.post('/cliente/nuevo', async (req, res) => {
     const clienteDistritoId = req.body.cliente_distrito_id
     const clientePEP = req.body.cliente_pep
 
-    let errors = []
-    if (clienteContrasenia !== clienteContrasenia2) {
-        errors.push({msg: 'Las contraseñas no coinciden'})
+    let passwordhash = await bcrypt.hash(clienteContrasenia, saltRounds)
+
+    if (clienteContrasenia != clienteContrasenia2) {
+        console.log("contraseña incorrecta")
         res.redirect('/cliente/nuevo')
+    }else{
+        await db.Cliente.create({
+            nombre: clienteNombre,
+            apellidos: clienteApellidos,
+            dni: clienteDNI,
+            imagen_url: clienteFoto,
+            correo: clienteCorreo,
+            contrasenia: passwordhash,
+            telefono: clienteTelefono,
+            direccion: clienteDireccion,
+            departamentoId: clienteDepartamentoId,
+            provinciaId: clienteProvinciaId,
+            distritoId: clienteDistritoId,
+            pep: clientePEP,
+            estado: "pendiente de validación"
+        })
+        // Login correcto
+        req.session.clienteCorreo = clienteCorreo // guardando variable en sesion
+        req.session.rol = "Cliente"
+        res.redirect('/cliente/validacion')
     }
-
-    await db.Cliente.create({
-        nombre: clienteNombre,
-        apellidos: clienteApellidos,
-        dni: clienteDNI,
-        imagen_url: clienteFoto,
-        correo: clienteCorreo,
-        contrasenia: clienteContrasenia,
-        telefono: clienteTelefono,
-        direccion: clienteDireccion,
-        departamentoId: clienteDepartamentoId,
-        provinciaId: clienteProvinciaId,
-        distritoId: clienteDistritoId,
-        pep: clientePEP,
-        estado: "pendiente de validación"
-    })
-
-    res.redirect('/client/wait')
 })
 
-app.get('/client/wait', async (req, res) => {
+app.get('/cliente/validacion', (req, res) => {
     res.render('Client_wait')
+})
+
+app.get('/logout', async (req, res) => {
+    req.session.destroy();
+    res.redirect('/')
 })
 
 app.get('/admin', (req, res) => {
