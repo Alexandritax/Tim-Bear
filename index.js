@@ -101,7 +101,34 @@ app.post("/", async (req,res) => {
 })
 
 app.get("/partida/admin", (req, res) => {
-    res.render('Admin_partida')
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    if(req.session.rol != undefined){
+    if (dif >= 3 * 60 * 60 * 1000) {
+        req.session.destroy() // Destruyes la sesion
+        res.redirect('/')
+    }else{
+        res.render('Admin_partida')
+    }}else{
+        res.redirect('/')
+    }
+    
+})
+
+app.get("/juego/admin", (req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    if(req.session.rol != undefined){
+    if (dif >= 3 * 60 * 60 * 1000) {
+        req.session.destroy() // Destruyes la sesion
+        res.redirect('/')
+    }else{
+        res.render('Admin_juego')
+    }}else{
+        res.redirect('/')
+    }
 })
 
 app.listen(PORT, ()=> {
