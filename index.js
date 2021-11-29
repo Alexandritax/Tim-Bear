@@ -205,6 +205,30 @@ app.get("/partida/new", async (req, res) => {
     })
 })
 
+app.post("/partida/new", async (req, res) =>{
+    const partidaJuegoId =  req.body.partida_juego_id
+    const partidaFecha = req.body.partida_fecha
+    const partidaHora = req.body.partida_hora
+    const partidaDuracion = req.body.partida_duracion
+    const partidaEquipo1 = req.body.partida_equipo1
+    const partidaEquipo2 = req.body.partida_equipo2
+    const partidaFactor1 = req.body.partida_factor1
+    const partidaFactor2 = req.body.partida_factor2
+    const partidaResultado = req.body.partida_resultado
+    await db.Partida.create({
+        juegoId: partidaJuegoId,
+        fecha: partidaFecha,
+        hora: partidaHora,
+        duracion: partidaDuracion,
+        equipo1: partidaEquipo1,
+        equipo2: partidaEquipo2,
+        factor1: partidaFactor1,
+        factor2: partidaFactor2,
+        resultado: partidaResultado
+    })
+    res.redirect("/partida/admin")
+})
+
 app.get("/partida/update/:id", (req, res) => {
     res.redirect("/partida/admin")
 })
