@@ -26,8 +26,10 @@ app.get('/', (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
         if (req.session.rol == "Admin") {
             res.redirect('/admin')
         }
-        else {
+        else if(req.session.rol == "Cliente"){
             res.redirect('/client')
+        } else{
+            res.render('Default')
         }
     } else {
         res.render('Default')
@@ -47,7 +49,7 @@ app.get('/nosotros', (req, res) => {
     res.render('nosotros')
 })
 
-app.get('/client', (req, res) => {
+app.get('/cliente', (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
 
@@ -149,6 +151,7 @@ app.post("/", async (req, res) => {
     const password = req.body.password
     const FoundUser = 'pw'
     const correctPW = "123"
+    const tablename = 'Admin' // Admin || Cliente
     let passwordhash = await bcrypt.hash(correctPW, saltRounds) //pasar a registro de BD
     let compare = await bcrypt.compare(password, passwordhash)
 
@@ -156,8 +159,13 @@ app.post("/", async (req, res) => {
     if (username == FoundUser && compare) {
         // Login correcto
         req.session.username = username // guardando variable en sesion
-        req.session.rol = "Admin"
-        res.redirect('/admin')
+        req.session.rol = tablename
+        if(tablename == "Admin"){
+            res.redirect('/admin')
+        }else{
+            res.redirect('/cliente')
+        }
+        
     } else {
         console.log("contraseña incorrecta")
         res.render('Default')
@@ -205,6 +213,7 @@ app.get("/partidas", async (req, res) => {
     }
     res.render("Client_partidas", { partidas, juego });
 });
+
 app.get("/partidas", async (req, res) => {
     let juego = null;
     let partidas = null;

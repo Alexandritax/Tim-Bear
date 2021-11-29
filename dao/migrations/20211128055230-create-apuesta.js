@@ -53,6 +53,7 @@ module.exports = {
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.removeConstraint('Apuesta', 'FK_APUESTA_CLIENTE')
+    await queryInterface.removeConstraint('Apuesta', 'FK_APUESTA_PARTIDA')
     await queryInterface.dropTable('Apuesta');
   }
 };
