@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const bcrypt = require('bcrypt');
 const db = require('./dao/models');
+const { render } = require('ejs');
 const saltRounds = 10
 
 const app = express()
@@ -180,7 +181,6 @@ app.get("/partida/admin", async (req, res) => {
             aPartidasRegistradas.push(partida)
         }
     }
-    console.log(aPartidasRegistradas)
 
 
     if (req.session.rol != undefined) {

@@ -52,8 +52,8 @@
                                     <th><%= partida.equipo2 %></th>
                                     <th><%= partida.resultado %></th>
                                     <td>
-                                        <a href="#" >Editar</a>
-                                        <a href="#" >Eliminar</a>
+                                        <a href="/partida/update/<%= partida.id%>" >Editar</a>
+                                        <a href="/partida/delete/<%= partida.id%>" >Eliminar</a>
                                     </td>
                                 </tr> 
                             <% }) %>

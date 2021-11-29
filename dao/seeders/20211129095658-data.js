@@ -36,7 +36,7 @@ module.exports = {
 
     //Partida
     var hoy = new Date;
-    var newhora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+    var newhora = hoy.getHours() + ':' + hoy.getMinutes();
     await queryInterface.bulkInsert('Partida', [
       {juegoId:1,fecha:new Date(), hora:newhora, duracion:90,
         equipo1:"Peru",equipo2:"Chile",factor1:2,factor2:5,
