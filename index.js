@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const bcrypt = require ('bcrypt');
+const db = require('./dao/models');
 const saltRounds = 10
 
 const app = express()
@@ -100,21 +101,67 @@ app.post("/", async (req,res) => {
     }
 })
 
-app.get("/partida/admin", (req, res) => {
+// PARTIDAS
+app.get("/partida/admin",async (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
+
+    const partida = await db.Partida.findAll()
+    const aPartidasRegistradas = []
+    if (partida.length > 0) {
+        for (let te of partida) {
+            const partida = await te.get()
+            aPartidasRegistradas.push(partida)
+        }
+    }
+
 
     if(req.session.rol != undefined){
     if (dif >= 3 * 60 * 60 * 1000) {
         req.session.destroy() // Destruyes la sesion
         res.redirect('/')
     }else{
-        res.render('Admin_partida')
+        res.render('Admin_partida',{
+            partidaLista : aPartidasRegistradas
+        })
     }}else{
         res.redirect('/')
     }
+   
     
 })
+
+// CLIENTES
+app.get("/cliente/admin",async (req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    const cliente = await db.Cliente.findAll()
+
+    const aClienteRegistradas = []
+    if (cliente.length > 0) {
+        for (let te of cliente) {
+            const cliente = await te.get()
+            aClienteRegistradas.push(cliente)
+        }
+    }
+
+
+    if(req.session.rol != undefined){
+    if (dif >= 3 * 60 * 60 * 1000) {
+        req.session.destroy() // Destruyes la sesion
+        res.redirect('/')
+    }else{
+        res.render('Admin_cliente',{
+            clienteLista : aClienteRegistradas
+        })
+    }}else{
+        res.redirect('/')
+    }
+   
+    
+})
+
 
 app.get("/juego/admin", (req, res) => {
     const timestampActual = new Date().getTime();
