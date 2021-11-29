@@ -131,6 +131,21 @@ app.get("/juego/admin", (req, res) => {
     }
 })
 
+app.get("/banner/admin", (req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    if(req.session.rol != undefined){
+    if (dif >= 3 * 60 * 60 * 1000) {
+        req.session.destroy() // Destruyes la sesion
+        res.redirect('/')
+    }else{
+        res.render('Admin_banner')
+    }}else{
+        res.redirect('/')
+    }
+})
+
 app.get("/juego/new", (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
