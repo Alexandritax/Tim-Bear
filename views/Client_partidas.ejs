@@ -75,13 +75,16 @@
                         <div class="col-6">
         
                             <table class="table">
+                                
+                                <% if(partidas!=null){ if(partidas.length>0){ partidas.forEach((partida)=> { %>
+
                                 <thead>
                                        
                                         <tr>
                                             <h3>liga 1</h3>
-                                            <th>partida1 vs partida2</th>
-                                            <th>Fecha</th>
-                                            <th>Hora</th>
+                                            <th> <%= partida.equipo1%> vs <%= partida.equipo2%></th>
+                                            <th> Fecha : <%= partida.fecha.toISOString().substring(0,10) %> </th>
+                                            <th> Hora : <%= partida.hora%></th>
                                         </tr>
 
                                 </thead>      
@@ -89,17 +92,18 @@
                                         <tr>
                                             
                                             <th>
-                                                <button type="submit" class="btn btn-secondary" name="factor1" value="#">factor1</button>
+                                                <button type="submit" class="btn btn-secondary" name="factor1" value="#"><%= partida.factor1%></button>
 
                                             </th>
                                             <th>
                                                 <button type="submit" class="btn btn-secondary" name="factorEmpate" value="#">empate</button>
                                             </th>
                                             <th>
-                                                <button type="submit" class="btn btn-secondary" name="factor2" value="#">factor2</button>
+                                                <button type="submit" class="btn btn-secondary" name="factor2" value="#"><%= partida.factor2%></button>
                                             </th>
                                         </tr>
                                 </tbody>
+                                <% })}} %>
                                  
                             </table>
                            
