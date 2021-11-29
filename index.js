@@ -75,9 +75,10 @@ app.get('/cliente/nuevo', async (req, res) => {
 })
 
 app.post('/cliente/nuevo', async (req, res) => {
+    req.body.cliente_pep = Boolean(req.body.cliente_pep)
     const clienteNombre = req.body.cliente_nombre
     const clienteApellidos = req.body.cliente_apellidos
-    const clienteDNI = req.body.cliente_DNI
+    const clienteDNI = req.body.cliente_dni
     const clienteFoto = req.body.cliente_foto
     const clienteCorreo = req.body.cliente_correo
     const clienteContrasenia = req.body.cliente_contrasenia
@@ -89,8 +90,10 @@ app.post('/cliente/nuevo', async (req, res) => {
     const clienteDistritoId = req.body.cliente_distrito_id
     const clientePEP = req.body.cliente_pep
 
+    let errors = []
     if (clienteContrasenia !== clienteContrasenia2) {
-        errors.push({msg: 'Las contraseñas no coinciden'});
+        errors.push({msg: 'Las contraseñas no coinciden'})
+        res.redirect('/cliente/nuevo')
     }
 
     await db.Cliente.create({

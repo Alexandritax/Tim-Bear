@@ -157,7 +157,7 @@
                             <input name="cliente_direccion" type="text" class="form-control">
                             <br>
                             <label class="form-label">Departamento:</label>
-                            <select name="cliente_departmento_id" class="form-select">
+                            <select name="cliente_departamento_id" class="form-select">
                                 <option value="-1">----- Seleccione una opción -----</option>
                                 <% departamentos.forEach( (departamento) => { %>
                                     <option value="<%= departamento.id%>"><%= departamento.nombre %></option>
@@ -215,7 +215,7 @@
                             <h5 class="modal-title">Paso 5</h5>
                         </div>
                         <div class="modal-body">
-                            <input name="cliente_pep" type="checkbox" class="form-check-input">
+                            <input name="cliente_pep" type="checkbox" value="false" class="form-check-input">
                             <label class="form-check-label">PEP</label>
                         </div>
                         <div class="modal-footer step__body">
