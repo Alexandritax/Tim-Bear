@@ -11,7 +11,16 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-
+   //
+   
+    //Administrador
+    await queryInterface.bulkInsert('Administrador', [
+      { 
+        correo: '20181799@aloe.ulima.edu.pe',
+        contrasenia: '$2b$10$jAsJfo1RxWfRXTv2q0xxhu0nEE9/mKFgZcE.6XDxd0n0BvydcEuBi',
+        createdAt: new Date(), updatedAt: new Date()
+      }
+    ])
     // Categoria
     await queryInterface.bulkInsert('Categoria', [
       {nombre:"Finales",createdAt: new Date(), updatedAt: new Date()},
