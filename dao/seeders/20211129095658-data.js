@@ -20,19 +20,21 @@ module.exports = {
 
     // Juego
     await queryInterface.bulkInsert('Juego', [
-      {nombre="Futbol",categoriaId=1,createdAt: new Date(), updatedAt: new Date()},
-      {nombre="Baloncesto",categoriaId=1,createdAt: new Date(), updatedAt: new Date()},
-      {nombre="Volleyball",categoriaId=1,createdAt: new Date(), updatedAt: new Date()}
+      {nombre:"Futbol",categoriaId:1,createdAt: new Date(), updatedAt: new Date()},
+      {nombre:"Baloncesto",categoriaId:1,createdAt: new Date(), updatedAt: new Date()},
+      {nombre:"Volleyball",categoriaId:1,createdAt: new Date(), updatedAt: new Date()}
     ])
 
     //Partida
-    await queryInterface.bulkInsert('Juego', [
-      {juegoId=1,fecha=new Date(), hora=new hora(new Date), duracion=90,
-        equipo1="Peru",equipo2="Chile",factor1=2,factor2=5,
-        resultado="iniciado",createdAt: new Date(), updatedAt: new Date()},
-      {juegoId=2,fecha=new Date(), hora=new hora(new Date), duracion=90,
-        equipo1="Venezuela",equipo2="Argentina",factor1=3,factor2=1,
-        resultado="iniciado",createdAt: new Date(), updatedAt: new Date()}
+    var hoy = new Date;
+    var newhora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+    await queryInterface.bulkInsert('Partida', [
+      {juegoId:1,fecha:new Date(), hora:newhora, duracion:90,
+        equipo1:"Peru",equipo2:"Chile",factor1:2,factor2:5,
+        resultado:"iniciado",createdAt: new Date(), updatedAt: new Date()},
+      {juegoId:2,fecha:new Date(), hora:newhora, duracion:90,
+        equipo1:"Venezuela",equipo2:"Argentina",factor1:3,factor2:1,
+        resultado:"iniciado",createdAt: new Date(), updatedAt: new Date()}
     ])
 
     // Departamento
@@ -88,6 +90,9 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete('Categoria', null, {})
+    await queryInterface.bulkDelete('Juego', null, {})
+    await queryInterface.bulkDelete('Partida', null, {})
     await queryInterface.bulkDelete('Distrito', null, {})
     await queryInterface.bulkDelete('Provincia', null, {})
     await queryInterface.bulkDelete('Departamento', null, {})
