@@ -397,6 +397,11 @@ app.get("/juego/new", (req, res) => {
     }
 })
 
+app.get("/destroy", (req, res) =>{
+    req.session.rol = null
+    res.redirect('/')
+})
+
 app.listen(PORT, () => {
     console.log(`El servidor inicio correctamente en el puerto ${PORT}`);
 })
