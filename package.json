@@ -11,7 +11,7 @@
     "db:migrate": "npx sequelize db:migrate --config ./dao/config/config.json --migrations-path ./dao/migrations",
     "db:migrate:undo:all": "npx sequelize db:migrate:undo:all --config ./dao/config/config.json --migrations-path ./dao/migrations",
     "db:seed": "npx sequelize db:seed:all --config ./dao/config/config.json --seeders-path ./dao/seeders",
-    "db:seed:undo:all":"npx sequelize db:seed:undo:all --config ./dao/config/config.json --seeders-path ./dao/seeders"
+    "db:seed:undo:all": "npx sequelize db:seed:undo:all --config ./dao/config/config.json --seeders-path ./dao/seeders"
   },
   "keywords": [],
   "author": "",
