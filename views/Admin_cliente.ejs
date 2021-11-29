@@ -72,17 +72,21 @@
                             <th>Correo electronico</th>
                             <th>Número telefónico</th>
                             <th>Estado</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% clienteLista.forEach((cliente)=> { %>
                             <tr>
-                                <th><%= cliente.id %></th>
-                                <th><%= cliente.nombre %> <%= cliente.apellidos %></th>
-                                <th><%= cliente.dni%></th>
-                                <th><%= cliente.correo %></th>
-                                <th><%= cliente.telefono %></th>
-                                <th><%= cliente.estado %></th>
+                                <td><%= cliente.id %></td>
+                                <td><%= cliente.nombre %> <%= cliente.apellidos %></td>
+                                <td><%= cliente.dni%></td>
+                                <td><%= cliente.correo %></td>
+                                <td><%= cliente.telefono %></td>
+                                <td><%= cliente.estado %></td>
+                                <td>
+                                    <a href="/cliente/modificar/<%= cliente.id %>" >Editar</a>
+                                </td>
                             </tr> 
                         <% }) %>
                     </tbody>

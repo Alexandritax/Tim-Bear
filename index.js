@@ -126,6 +126,38 @@ app.get('/cliente/validacion', (req, res) => {
     res.render('Client_wait')
 })
 
+app.get('/cliente/modificar/:codigo', async (req, res) => {
+    const idCliente = req.params.codigo
+
+    const cliente = await db.Cliente.findOne({
+        where : {
+            id : idCliente
+        }
+    })
+
+    res.render('Client_update', {
+        cliente : cliente,
+    })
+})
+
+app.post('/cliente/modificar', async (req, res) => {
+    const idCliente = req.body.cliente_id
+    const estado = req.body.estado
+
+    const cliente = await db.Torneo.findOne({
+        where : {
+            id : idCliente
+        }
+    })
+ 
+    cliente.estado = estado
+
+    await cliente.save()
+
+    res.redirect('/cliente/admin')
+
+})
+
 app.get('/admin', (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
@@ -145,24 +177,57 @@ app.get('/admin', (req, res) => {
 app.post("/", async (req, res) => { //contraseña en el primer correo es 123
     const username = req.body.username
     const password = req.body.password
+    //const userAdmin = await db.Administrador.findAll({ where: {correo: '20181799@aloe.ulima.edu.pe'} })
+    //console.log(userAdmin)
+    //const pwAdmin = await db.Administrador.findAll({ where: {contrasenia: '$2b$10$jAsJfo1RxWfRXTv2q0xxhu0nEE9/mKFgZcE.6XDxd0n0BvydcEuBi'} })
+    //console.log(pwAdmin)
+    //const userClient = await db.Cliente.findAll()
+    //const pwClient = await db.Cliente.findAll()
     const FoundUser = 'pw'
     const correctPW = "123"
     const tablename = 'Admin' // Admin || Cliente
-    let passwordhash = await bcrypt.hash(correctPW, saltRounds) //pasar a registro de BD
-    let compare = await bcrypt.compare(password, passwordhash)
-
+    //let passwordhashAdmin = await bcrypt.hash(pwAdmin, saltRounds) //pasar a registro de BD
+    //let compareAdmin = await bcrypt.compare(password, passwordhashAdmin)
+    //let passwordhashClient = await bcrypt.hash(pwClient, saltRounds) //pasar a registro de BD
+    //let compareClient = await bcrypt.compare(password, passwordhashClient)
+    let passwordhash = await bcrypt.hash(correctPW, saltRounds)
+    let compare = await bcrypt.hash(password, passwordhash)
+    /*console.log(username)
+    console.log(FoundUser)
+    console.log(passwordhash)
+    console.log(compare)*/
 
     if (username == FoundUser && compare) {
         // Login correcto
         req.session.username = username // guardando variable en sesion
         req.session.rol = tablename
+        //console.log(0)
         if(tablename == "Admin"){
-            res.redirect('/admin')
+            return res.redirect('/admin')
+            //console.log(1)
         }else{
-            res.redirect('/cliente')
+            return res.redirect('/cliente')
+            //console.log(2)
         }
         
     } else {
+        /*if (username == FoundUser && compare) {
+            // Login correcto
+            req.session.username = username // guardando variable en sesion
+            req.session.rol = tablename
+            console.log(0)
+            if(tablename == "Admin"){
+                return res.redirect('/admin')
+                console.log(1)
+            }else{
+                return res.redirect('/cliente')
+                console.log(2)
+            }
+            
+        } else {
+        console.log("contraseña incorrecta123")
+        res.render('Default')
+        }*/
         console.log("contraseña incorrecta123")
         res.render('Default')
     }
