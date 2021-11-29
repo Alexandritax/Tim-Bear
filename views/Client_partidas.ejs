@@ -18,7 +18,7 @@
                 <h2 class="mt-5">Space</h2>
                 <h2 class="mb-1">Space</h2>
                 <div class="mb-5"></div>
-                <div >
+                <div>
 
                     <div class="row mt-10 mb-5">
                         <h2 class="col-3">Partidas</h2>
@@ -77,12 +77,11 @@
                             <table class="table">
 
                                 <% partidaLista.forEach((partida)=> { %>
-
-
                                 <thead>
-                                       
                                         <tr>
-                                            <h3>liga 1</h3>
+                                            <th>
+                                                <h3>liga 1</h3>
+                                            </th>
                                             <th> <%= partida.equipo1%> vs <%= partida.equipo2%></th>
                                             <th> Fecha : <%= partida.fecha.toISOString().substring(0,10) %> </th>
                                             <th> Hora : <%= partida.hora%></th>
