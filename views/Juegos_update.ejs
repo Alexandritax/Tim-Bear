@@ -9,18 +9,26 @@
     <body class="container">
         <%- include('header_admin') %>
         <h2 class="my-5">Space</h2>
+        <h2 class="my-5">Space</h2>
         <h2 class="mt-5">Formulario Juego</h2>
-        <form method="post" action="/juego/new">
+        <form method="post" action="/juego/update">
+            <div>
+                <input name="juego_id" type="hidden" class="form-control" value="<%=juego.nombre%>"/>
+            </div>
             <div>
                 <label class="form-label">Nombre:</label>
-                <input name="juego_nombre" type="text" class="form-control" />
+                <input name="juego_nombre" type="text" class="form-control" value="<%=juego.nombre%>"/>
             </div>
             <div>
                 <label class="form-label">Categoria</label>
                 <select name="juegocategoria_id" class="form-select">
                     <option value="-1">------ Seleccione una opcion ------</option>
                     <%categorias.forEach((categoria)=> {%>
-                    <option value="<%=categoria.id%>"><%=categoria.nombre%></option>
+                        <%if(juego.categoriaId == categoria.id){%>
+                            <option selected value="<%=categoria.id%>"><%=categoria.nombre%></option>
+                        <%}else{%>
+                            <option value="<%=categoria.id%>"><%=categoria.nombre%></option>
+                        <%}%>
                     <%})%>
                 </select>
             </div>

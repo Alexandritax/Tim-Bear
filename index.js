@@ -1,3 +1,5 @@
+
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
@@ -30,10 +32,14 @@ app.get('/', (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
         else if(req.session.rol == "Cliente"){
             res.redirect('/cliente')
         } else{
-            res.render('Default')
+            res.render('Default',{
+                LogFlag: 0
+            })
         }
     } else {
-        res.render('Default')
+        res.render('Default',{
+            LogFlag: 0
+        })
     }
 
 })
@@ -175,61 +181,90 @@ app.get('/admin', (req, res) => {
 })
 
 app.post("/", async (req, res) => { //contraseña en el primer correo es 123
+    async function findUser(correo) {
+            const administrator = await db.Administrador.findOne({where:{
+            correo: correo
+        }})
+            const cliente = await db.Cliente.findOne({where:{
+            correo: correo
+        }})
+        if(administrator == null && cliente != null){
+            return cliente
+        }
+        else if(cliente == null && administrator != null){
+            return administrator
+        }else if(cliente != null && administrator != null){
+            return administrator
+        }else{
+            return "NonUser"
+        }
+    }
+
+    async function findUserType(correo) {
+        const administrator = await db.Administrador.findOne({where:{
+        correo: correo
+    }})
+        const cliente = await db.Cliente.findOne({where:{
+        correo: correo
+    }})
+    if(administrator == null && cliente != null){
+        return "Cliente"
+    }
+    else if(cliente == null && administrator != null){
+        return "Admin"
+    }
+    else if(cliente != null && administrator != null){
+        return "Admin"
+    }
+    else{
+        return "NonUser"
+    }
+}
+
     const username = req.body.username
     const password = req.body.password
-    //const userAdmin = await db.Administrador.findAll({ where: {correo: '20181799@aloe.ulima.edu.pe'} })
-    //console.log(userAdmin)
-    //const pwAdmin = await db.Administrador.findAll({ where: {contrasenia: '$2b$10$jAsJfo1RxWfRXTv2q0xxhu0nEE9/mKFgZcE.6XDxd0n0BvydcEuBi'} })
-    //console.log(pwAdmin)
-    //const userClient = await db.Cliente.findAll()
-    //const pwClient = await db.Cliente.findAll()
-    const FoundUser = 'pw'
-    const correctPW = "123"
-    const tablename = 'Admin' // Admin || Cliente
-    //let passwordhashAdmin = await bcrypt.hash(pwAdmin, saltRounds) //pasar a registro de BD
-    //let compareAdmin = await bcrypt.compare(password, passwordhashAdmin)
-    //let passwordhashClient = await bcrypt.hash(pwClient, saltRounds) //pasar a registro de BD
-    //let compareClient = await bcrypt.compare(password, passwordhashClient)
-    let passwordhash = await bcrypt.hash(correctPW, saltRounds)
-    let compare = await bcrypt.hash(password, passwordhash)
+    const FoundUser = await findUser(username)
+    const tablename = await findUserType(username) // Admin || Cliente
+    //let passwordhash = bcrypt.hashSync("123", saltRounds)
     /*console.log(username)
     console.log(FoundUser)
     console.log(passwordhash)
     console.log(compare)*/
+    //const correctPW = "123"
 
-    if (username == FoundUser && compare) {
+    if(username==FoundUser.correo) {
+        let compare = bcrypt.compareSync(password, FoundUser.contrasenia)
+        if (compare) {
         // Login correcto
-        req.session.username = username // guardando variable en sesion
-        req.session.rol = tablename
+        
         //console.log(0)
         if(tablename == "Admin"){
-            return res.redirect('/admin')
-            //console.log(1)
-        }else{
-            return res.redirect('/cliente')
-            //console.log(2)
-        }
-        
-    } else {
-        /*if (username == FoundUser && compare) {
-            // Login correcto
             req.session.username = username // guardando variable en sesion
             req.session.rol = tablename
-            console.log(0)
-            if(tablename == "Admin"){
-                return res.redirect('/admin')
-                console.log(1)
-            }else{
-                return res.redirect('/cliente')
-                console.log(2)
-            }
-            
-        } else {
-        console.log("contraseña incorrecta123")
-        res.render('Default')
-        }*/
-        console.log("contraseña incorrecta123")
-        res.render('Default')
+            res.redirect('/admin')
+            //console.log(1)
+        }else if(tablename == "Cliente"){
+            req.session.username = username // guardando variable en sesion
+            req.session.rol = tablename
+            res.redirect('/cliente')
+            //console.log(2)
+        }else{
+            res.render('Default',{
+                LogFlag: 2
+            })
+        }
+        
+    } else{
+        console.log("contraseña incorrecta")
+        res.render('Default',{
+            LogFlag: 1
+        })
+    } 
+    }else{
+        console.log('Usuario no existente')
+        res.render('Default',{
+            LogFlag: 3
+        })
     }
 })
 
@@ -239,11 +274,22 @@ app.get("/partida/admin", async (req, res) => {
     const dif = timestampActual - req.session.lastLogin
 
     const partida = await db.Partida.findAll()
-    const aPartidasRegistradas = []
+    const NewPartida = []
     if (partida.length > 0) {
         for (let te of partida) {
-            const partida = await te.get()
-            aPartidasRegistradas.push(partida)
+            const juego = await te.getJuego()
+            NewPartida.push({
+                juegoId: te.juegoId,
+                juegoNombre: juego.nombre,
+                fecha: te.fecha,
+                hora: te.hora,
+                duracion: te.duracion,
+                equipo1: te.equipo1,
+                equipo2: te.equipo2,
+                factor1: te.factor1,
+                factor2: te.factor2,
+                resultado: te.resultado
+            })
         }
     }
 
@@ -253,7 +299,7 @@ app.get("/partida/admin", async (req, res) => {
             res.redirect('/')
         } else {
             res.render('Admin_partida', {
-                partidaLista: aPartidasRegistradas
+                partidaLista: NewPartida
             })
         }
     } else {
@@ -347,21 +393,32 @@ app.post('/partida/update', async (req, res) =>{
 
 })
 
+app.get("/partida/delete/:id", async (req, res) => {
+    const idPartida = req.params.id
+    await db.Partida.destroy({
+        where: {id: idPartida}
+    })
+    res.redirect("/partida/admin")
+})
+
 // PARTIDAS GENERAL PARA TODOS
 app.get("/partida", async (req, res) => {
 
     const partida = await db.Partida.findAll()
-    const aPartidasRegistradas = []
-    if (partida.length > 0) {
-        for (let te of partida) {
-            const partida = await te.get()
-            aPartidasRegistradas.push(partida)
-        }
-    }
+    // const aPartidasRegistradas = []
+    // if (partida.length > 0) {
+    //     for (let te of partida) {
+    //         const partida = await te.get()
+    //         aPartidasRegistradas.push(partida)
+    //     }
+    // }
+
+    const juegos = await db.Juego.findAll()
     const estados = ["Pendiente","Iniciado","Finalizado"]
     res.render('Client_partidas', {
-        partidaLista: aPartidasRegistradas,
-        estados: estados
+        partidaLista: partida,
+        estados: estados,
+        juegos: juegos
     })
 
 
@@ -419,21 +476,124 @@ app.get("/cliente/admin", async (req, res) => {
 
 })
 
+//Juegos
 
-app.get("/juego/admin", (req, res) => {
+app.get("/juego/admin", async (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
+
+    const juegos = await db.Juego.findAll()
+    const NewJuego = []
+    if (juegos.length > 0) {
+        for (let te of juegos) {
+            const categoria = await db.Categoria.findOne({where:{id:te.categoriaId}})
+            NewJuego.push({
+                id: te.id,
+                nombre: te.nombre,
+                categoriaId: te.categoriaId,
+                categoriaNombre: categoria.nombre
+            })
+        }
+    }
+
 
     if (req.session.rol != undefined) {
         if (dif >= 3 * 60 * 60 * 1000) {
             req.session.destroy() // Destruyes la sesion
             res.redirect('/')
         } else {
-            res.render('Admin_juego')
+            res.render('Admin_juego',{
+                juegos: NewJuego
+            })
         }
     } else {
         res.redirect('/')
     }
+})
+
+app.get("/juego/new", async (req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    const juegos = await db.Juego.findAll()
+    const categorias = await db.Categoria.findAll()
+
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            res.render('Juegos_new',{
+                juegos: juegos,
+                categorias: categorias
+            })
+        }
+    } else {
+        res.redirect('/')
+    }
+})
+
+app.post("/juego/new", async (req, res) => {
+    const juegoNombre = req.body.juego_nombre
+    const juegoCategoria = req.body.juegocategoria_id
+
+    await db.Juego.create({
+        nombre: juegoNombre,
+        categoriaId: juegoCategoria
+    })
+    res.redirect('/juego/admin')
+})
+
+app.get("/juego/update/:id", async (req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    const idJuego = req.params.id
+
+    const juego = await db.Juego.findOne({where:{id:idJuego}})
+    const categorias = await db.Categoria.findAll()
+
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            res.render('Juegos_update',{
+                juego: juego,
+                categorias: categorias
+            })
+        }
+    } else {
+        res.redirect('/')
+    }
+})
+
+app.post("/juego/update/", async (req, res) => {
+    const juegoId = req.body.juegocategoria_id
+    const juegoNombre = req.body.juego_nombre
+    const juegoCategoria = req.body.juegocategoria_id
+
+    const juego = await db.Juego.findOne({where:{id:juegoId}})
+
+    juego.nombre = juegoNombre
+    juego.categoriaId = juegoCategoria
+
+    await juego.save()
+
+    res.redirect('/juego/admin')
+
+})
+
+app.get("/juego/delete/:id", async (req, res) => {
+    const juegoId = req.params.id
+
+    await db.Juego.destroy({
+        where: {
+            id: juegoId
+        }
+    })
+
+    res.redirect("/juego/admin")
 })
 
 // CATEGORIAS
@@ -541,21 +701,7 @@ app.get("/banner/admin", (req, res) => {
 })
 
 
-app.get("/juego/new", (req, res) => {
-    const timestampActual = new Date().getTime();
-    const dif = timestampActual - req.session.lastLogin
 
-    if (req.session.rol != undefined) {
-        if (dif >= 3 * 60 * 60 * 1000) {
-            req.session.destroy() // Destruyes la sesion
-            res.redirect('/')
-        } else {
-            res.render('Juegos_new')
-        }
-    } else {
-        res.redirect('/')
-    }
-})
 
 app.get('/logout', async (req, res) => {
     req.session.destroy();

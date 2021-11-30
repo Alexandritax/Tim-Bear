@@ -35,6 +35,9 @@ module.exports = {
       resultado: {
         type: Sequelize.STRING
       },
+      estado: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
