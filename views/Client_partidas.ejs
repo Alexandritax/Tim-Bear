@@ -76,7 +76,10 @@
                 <!--Todo lo que tenga que ver con la lista de partidas y la parte de apuesta-->
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-3"></div>
+                        <!--Banner -->
+                        <div class="col-3">
+                            <%- include('Banners_default') %>
+                        </div>
                         <!-- Lista de partidas -->
                         <div class="col-6">
         
@@ -85,27 +88,40 @@
                                 <% partidaLista.forEach((partida)=> { %>
                                 <thead>
                                         <tr>
-                                            <th>
-                                                <h3>liga 1</h3>
+                                            <th> 
+                                                <h6><%= partida.juegoId%></h6>
+                                                <%= partida.equipo1%> vs <%= partida.equipo2%>
+                                                
                                             </th>
-                                            <th> <%= partida.equipo1%> vs <%= partida.equipo2%></th>
-                                            <th> Fecha : <%= partida.fecha.toISOString().substring(0,10) %> </th>
-                                            <th> Hora : <%= partida.hora%></th>
+                                            <th>
+                                                <h6 class="mx-5">
+                                                    Fecha : <%= partida.fecha.toISOString().substring(0,10) %>
+                                                    Hora  : <%= partida.hora%>
+                                                    
+                                                
+                                                </h6>
+
+                                            </th>
+                                            <th>
+                                            </th>
+                                            
                                         </tr>
 
                                 </thead>      
                                 <tbody>
                                         <tr>
                                             
+                                            
                                             <th>
-                                                <button type="submit" class="ms-3 btn btn-secondary" name="factor1" value="#"><%= partida.factor1%></button>
+                                               
+                                                <button type="submit" class="ms-3 btn btn-dark btn-sm" name="factor1" value="#"><%= partida.equipo1%> : <%= partida.factor1%></button>
 
                                             </th>
                                             <th>
-                                                <button type="submit" class="ms-3 btn btn-secondary" name="factorEmpate" value="#">empate</button>
+                                                <button type="submit" class=" mx-5 btn btn-dark btn-sm" name="Empate" value="#">empate : <%= partida.empate%></button>
                                             </th>
                                             <th>
-                                                <button type="submit" class="btn btn-secondary" name="factor2" value="#"><%= partida.factor2%></button>
+                                                <button type="submit" class="ms-3 btn btn-dark btn-sm" name="factor2" value="#"><%= partida.equipo2%> : <%= partida.factor2%></button>
                                             </th>
                                         </tr>
                                 </tbody>
