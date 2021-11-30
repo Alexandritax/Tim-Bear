@@ -43,10 +43,10 @@ module.exports = {
     await queryInterface.bulkInsert('Partida', [
       {juegoId:1,fecha:new Date(), hora:newhora, duracion:90,
         equipo1:"Peru",equipo2:"Chile",factor1:2,factor2:5,
-        resultado:"Iniciado",createdAt: new Date(), updatedAt: new Date()},
+        estado:"Iniciado",resultado:"equipo1",createdAt: new Date(), updatedAt: new Date()},
       {juegoId:2,fecha:new Date(), hora:newhora, duracion:90,
         equipo1:"Venezuela",equipo2:"Argentina",factor1:3,factor2:1,
-        resultado:"Iniciadoju",createdAt: new Date(), updatedAt: new Date()}
+        estado:"Iniciado",resultado:"empate",createdAt: new Date(), updatedAt: new Date()}
     ])
 
     // Departamento

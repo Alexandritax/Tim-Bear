@@ -40,18 +40,24 @@
                                     </ul>
                                     </span>
                                   </th>
-                                <th>Acciones</th>
+                                  <th>Resultado</th>
+                                  <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% partidaLista.forEach((partida)=> { %>
                                 <tr>
-                                    <th><%= partida.juegoId %></th>
-                                    <th><%= partida.fecha.toISOString().substring(0,10) %></th>
-                                    <th><%= partida.hora%></th>
-                                    <th><%= partida.equipo1 %></th>
-                                    <th><%= partida.equipo2 %></th>
-                                    <th><%= partida.estado %></th>
+                                    <td><%= partida.juegoId %></td>
+                                    <td><%= partida.fecha.toISOString().substring(0,10) %></td>
+                                    <td><%= partida.hora%></td>
+                                    <td><%= partida.equipo1 %></td>
+                                    <td><%= partida.equipo2 %></td>
+                                    <td><%= partida.estado %></td>
+                                    <%if(partida.resultado!= "empate" && partida.resultado!= "pendiente"){%>
+                                    <td>Gano <%=partida.resultado%></td>
+                                    <%}else{%>
+                                    <td><%=partida.resultado%></td>
+                                    <%}%>
                                     <td>
                                         <a href="/partida/update/<%= partida.id%>" >Editar</a>
                                         <a href="/partida/delete/<%= partida.id%>" >Eliminar</a>

@@ -279,6 +279,7 @@ app.get("/partida/admin", async (req, res) => {
         for (let te of partida) {
             const juego = await te.getJuego()
             NewPartida.push({
+                id:te.id,
                 juegoId: te.juegoId,
                 juegoNombre: juego.nombre,
                 fecha: te.fecha,
@@ -288,6 +289,7 @@ app.get("/partida/admin", async (req, res) => {
                 equipo2: te.equipo2,
                 factor1: te.factor1,
                 factor2: te.factor2,
+                estado: te.estado,
                 resultado: te.resultado
             })
         }
@@ -307,12 +309,19 @@ app.get("/partida/admin", async (req, res) => {
     }
 })
 
+app.get("/partida/search",(req, res)=> {
+    const filtro = req.query.categoria
+
+})
+
 app.get("/partida/new", async (req, res) => {
     const juegos = await db.Juego.findAll()
     const estados = ["Pendiente","Iniciado","Finalizado"]
+    const resultados = ["pendiente","equipo1","empate","equipo2"]
     res.render('partida_new',{
         juegos: juegos,
-        estados: estados
+        estados: estados,
+        resultados: resultados
     })
 })
 
@@ -326,7 +335,11 @@ app.post("/partida/new", async (req, res) =>{
     const partidaEquipo2 = req.body.partida_equipo2
     const partidaFactor1 = req.body.partida_factor1
     const partidaFactor2 = req.body.partida_factor2
-    const partidaResultado = req.body.partida_resultado
+    const partidaEstado = req.body.partida_estado
+    var partidaResultado = req.body.partida_resultado
+    if(partidaResultado == undefined){
+        partidaResultado = "pendiente"
+    }
     await db.Partida.create({
         juegoId: partidaJuegoId,
         fecha: partidaFecha,
@@ -336,6 +349,7 @@ app.post("/partida/new", async (req, res) =>{
         equipo2: partidaEquipo2,
         factor1: partidaFactor1,
         factor2: partidaFactor2,
+        estado: partidaEstado,
         resultado: partidaResultado
     })
     res.redirect("/partida/admin")
@@ -352,10 +366,12 @@ app.get("/partida/update/:id", async (req, res) => {
     })
     const juegos = await db.Juego.findAll()
     const estados = ["Pendiente","Iniciado","Finalizado"]
+    const resultados = ["pendiente","equipo1","empate","equipo2"]
     res.render("Partida_update",{
         partida: partida,
         juegos: juegos,
-        estados: estados
+        estados: estados,
+        resultados: resultados
     })
 })
 
@@ -369,6 +385,7 @@ app.post('/partida/update', async (req, res) =>{
     const partidaEquipo2 = req.body.partida_equipo2
     const partidaFactor1 = req.body.partida_factor1
     const partidaFactor2 = req.body.partida_factor2
+    const partidaEstado = req.body.partida_estado
     const partidaResultado = req.body.partida_resultado
 
     const partida = await db.Partida.findOne({
@@ -384,7 +401,8 @@ app.post('/partida/update', async (req, res) =>{
     partida.equipo1= partidaEquipo1 
     partida.equipo2= partidaEquipo2 
     partida.factor1= partidaFactor1 
-    partida.factor2= partidaFactor2 
+    partida.factor2= partidaFactor2
+    partida.estado = partidaEstado 
     partida.resultado= partidaResultado 
 
     await partida.save()
@@ -405,14 +423,6 @@ app.get("/partida/delete/:id", async (req, res) => {
 app.get("/partida", async (req, res) => {
 
     const partida = await db.Partida.findAll()
-    // const aPartidasRegistradas = []
-    // if (partida.length > 0) {
-    //     for (let te of partida) {
-    //         const partida = await te.get()
-    //         aPartidasRegistradas.push(partida)
-    //     }
-    // }
-
     const juegos = await db.Juego.findAll()
     const estados = ["Pendiente","Iniciado","Finalizado"]
     res.render('Client_partidas', {
