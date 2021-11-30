@@ -24,7 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     equipo1: DataTypes.STRING,
     equipo2: DataTypes.STRING,
     factor1: DataTypes.FLOAT,
+    empate: DataTypes.FLOAT,
     factor2: DataTypes.FLOAT,
+    estado: DataTypes.STRING,
     resultado: DataTypes.STRING
   }, {
     sequelize,

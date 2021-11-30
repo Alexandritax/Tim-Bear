@@ -8,8 +8,7 @@
     </head>
     <body class="container">
         <%- include('header_admin') %>
-        <h2 class="my-5">Space</h2>
-        <h2 class="my-5">Space</h2>
+        <div class="d-flex" style="height: 150px;"></div>
         <h2 class="mt-5">Editar Partida <%= partida.id%></h2>
         <form method="post" action="/partida/update">
             <div>
@@ -51,15 +50,19 @@
                 <input name="partida_factor1" type="number" class="form-control" value="<%=partida.factor1%>"/>
             </div>
             <div>
+                <label class="form-label">Empate:</label>
+                <input name="partida_empate" type="number" class="form-control" value="<%=partida.empate%>"/>
+            </div>
+            <div>
                 <label class="form-label">Factor2:</label>
                 <input name="partida_factor2" type="number" class="form-control" value="<%=partida.factor2%>"/>
             </div>
             <div>
-                <label class="form-label">Resultado:</label>
-                <select name="partida_resultado" class="form-select">
+                <label class="form-label">estado:</label>
+                <select id="selectEstado" name="partida_resultado" class="form-select">
                     <option value="-1">------ Seleccione una opcion ------</option>
-                    <% estados.forEach((estado)=>{ %>
-                        <%if (estado == partida.resultado) {%>
+                    <% estados.forEach((estado)=>{%>
+                        <%if (estado == partida.estado) {%>
                             <option selected value="<%=estado%>"><%= estado %></option>
                         <%} else {%>
                             <option value="<%=estado%>"><%=estado%></option>
@@ -67,10 +70,32 @@
                     <% })%>
                 </select>
             </div>
+            <div>
+                <label class="form-label">Resultado:</label>
+                <select id="selectResultado" name="partida_resultado" class="form-select">
+                    <option value="-1">------ Seleccione una opcion ------</option>
+                        <% resultados.forEach((resultado) => { console.log(partida.resultado)%>
+                            <%if(resultado == partida.resultado){%>
+                                <%if(resultado!="empate" && resultado!="pendiente"){%>
+                                    <option selected value="<%=resultado%>">Gano <%=resultado%></option>
+                                <%}else{%>
+                                    <option selected value="<%=resultado%>"><%=resultado%></option>
+                                <%}%>
+                            <%}else{%>
+                                <%if(resultado!="empate" && resultado!="pendiente"){%>
+                                    <option value="<%=resultado%>">Gano <%=resultado%></option>
+                                <%}else{%>
+                                    <option value="<%=resultado%>"><%=resultado%></option>
+                                <%}%>
+                            <%}%>
+                        <%})%>    
+                </select>
+            </div>            
            
             <button type="submit" class="my-2 btn btn-success">Guardar</button>
         </form>
 
         <%- include('footer') %>
+        <script src="/js/Partida_new.js"></script>
     </body>
 </html>

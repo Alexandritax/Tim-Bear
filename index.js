@@ -279,19 +279,23 @@ app.get("/partida/admin", async (req, res) => {
         for (let te of partida) {
             const juego = await te.getJuego()
             NewPartida.push({
+                id:te.id,
                 juegoId: te.juegoId,
                 juegoNombre: juego.nombre,
                 fecha: te.fecha,
                 hora: te.hora,
                 duracion: te.duracion,
                 equipo1: te.equipo1,
+                empate: te.empate,
                 equipo2: te.equipo2,
                 factor1: te.factor1,
                 factor2: te.factor2,
+                estado: te.estado,
                 resultado: te.resultado
             })
         }
     }
+    const estados = ["Pendiente","Iniciado","Finalizado"]
 
     if (req.session.rol != undefined) {
         if (dif >= 3 * 60 * 60 * 1000) {
@@ -299,7 +303,52 @@ app.get("/partida/admin", async (req, res) => {
             res.redirect('/')
         } else {
             res.render('Admin_partida', {
-                partidaLista: NewPartida
+                partidaLista: NewPartida,
+                estados: estados
+            })
+        }
+    } else {
+        res.redirect('/')
+    }
+})
+
+app.get("/partida/search", async (req, res)=> {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    const filtro = req.query.estado
+    const partida = await db.Partida.findAll({where:{estado:filtro}})
+    const NewPartida = []
+    if (partida.length > 0) {
+        for (let te of partida) {
+            const juego = await te.getJuego()
+            NewPartida.push({
+                id:te.id,
+                juegoId: te.juegoId,
+                juegoNombre: juego.nombre,
+                fecha: te.fecha,
+                hora: te.hora,
+                duracion: te.duracion,
+                equipo1: te.equipo1,
+                empate: te.empate,
+                equipo2: te.equipo2,
+                factor1: te.factor1,
+                factor2: te.factor2,
+                estado: te.estado,
+                resultado: te.resultado
+            })
+        }
+    }
+    const estados = ["Pendiente","Iniciado","Finalizado"]
+
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            res.render('Admin_partida', {
+                partidaLista: NewPartida,
+                estados: estados
             })
         }
     } else {
@@ -308,12 +357,30 @@ app.get("/partida/admin", async (req, res) => {
 })
 
 app.get("/partida/new", async (req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
     const juegos = await db.Juego.findAll()
     const estados = ["Pendiente","Iniciado","Finalizado"]
-    res.render('partida_new',{
-        juegos: juegos,
-        estados: estados
-    })
+    const resultados = ["pendiente","equipo1","empate","equipo2"]
+
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            res.render('partida_new',{
+                juegos: juegos,
+                estados: estados,
+                resultados: resultados
+            })
+        }
+    } else {
+        res.redirect('/')
+    }
+
+
+    
 })
 
 
@@ -323,10 +390,15 @@ app.post("/partida/new", async (req, res) =>{
     const partidaHora = req.body.partida_hora
     const partidaDuracion = req.body.partida_duracion
     const partidaEquipo1 = req.body.partida_equipo1
+    const partidaEmpate = req.body.partida_empate
     const partidaEquipo2 = req.body.partida_equipo2
     const partidaFactor1 = req.body.partida_factor1
     const partidaFactor2 = req.body.partida_factor2
-    const partidaResultado = req.body.partida_resultado
+    const partidaEstado = req.body.partida_estado
+    var partidaResultado = req.body.partida_resultado
+    if(partidaResultado == undefined){
+        partidaResultado = "pendiente"
+    }
     await db.Partida.create({
         juegoId: partidaJuegoId,
         fecha: partidaFecha,
@@ -335,7 +407,9 @@ app.post("/partida/new", async (req, res) =>{
         equipo1: partidaEquipo1,
         equipo2: partidaEquipo2,
         factor1: partidaFactor1,
+        empate: partidaEmpate,
         factor2: partidaFactor2,
+        estado: partidaEstado,
         resultado: partidaResultado
     })
     res.redirect("/partida/admin")
@@ -352,10 +426,12 @@ app.get("/partida/update/:id", async (req, res) => {
     })
     const juegos = await db.Juego.findAll()
     const estados = ["Pendiente","Iniciado","Finalizado"]
+    const resultados = ["pendiente","equipo1","empate","equipo2"]
     res.render("Partida_update",{
         partida: partida,
         juegos: juegos,
-        estados: estados
+        estados: estados,
+        resultados: resultados
     })
 })
 
@@ -366,9 +442,11 @@ app.post('/partida/update', async (req, res) =>{
     const partidaHora = req.body.partida_hora
     const partidaDuracion = req.body.partida_duracion
     const partidaEquipo1 = req.body.partida_equipo1
+    const partidaEmpate = req.body.partida_empate
     const partidaEquipo2 = req.body.partida_equipo2
     const partidaFactor1 = req.body.partida_factor1
     const partidaFactor2 = req.body.partida_factor2
+    const partidaEstado = req.body.partida_estado
     const partidaResultado = req.body.partida_resultado
 
     const partida = await db.Partida.findOne({
@@ -383,8 +461,10 @@ app.post('/partida/update', async (req, res) =>{
     partida.duracion= partidaDuracion 
     partida.equipo1= partidaEquipo1 
     partida.equipo2= partidaEquipo2 
-    partida.factor1= partidaFactor1 
-    partida.factor2= partidaFactor2 
+    partida.factor1= partidaFactor1
+    partida.empate= partidaEmpate 
+    partida.factor2= partidaFactor2
+    partida.estado = partidaEstado 
     partida.resultado= partidaResultado 
 
     await partida.save()
@@ -405,14 +485,6 @@ app.get("/partida/delete/:id", async (req, res) => {
 app.get("/partida", async (req, res) => {
 
     const partida = await db.Partida.findAll()
-    // const aPartidasRegistradas = []
-    // if (partida.length > 0) {
-    //     for (let te of partida) {
-    //         const partida = await te.get()
-    //         aPartidasRegistradas.push(partida)
-    //     }
-    // }
-
     const juegos = await db.Juego.findAll()
     const estados = ["Pendiente","Iniciado","Finalizado"]
     res.render('Client_partidas', {
@@ -638,6 +710,29 @@ app.get("/juego/delete/:id", async (req, res) => {
     })
 
     res.redirect("/juego/admin")
+})
+//BANNERS
+app.get("/banner/admin",async (req,res)=>{
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            //Obtener categorias de la base de datos
+            const banners = await db.Banner.findAll({
+                order : [
+                    ['id', 'ASC']
+                ]
+            });
+            res.render('Admin_banner',{
+                banners :banners
+            })
+        }
+    } else {
+        res.redirect('/')
+    }
 })
 
 // CATEGORIAS

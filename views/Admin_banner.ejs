@@ -9,8 +9,41 @@
     <body class="container">
         <main>
             <%- include('header_admin') %>
-            <h2 class="mt-5">Mantenimiento de Banners</h2>
-            <%- include('Banners_admin') %>
+            <h2 class="mt-5">Modificar Banners</h2>
+            <div>
+                <a class="btn btn-success my-4" href="/banner/admin/new">Nuevo</a>
+                <table class="table table-hover mt-2">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Imagen</th>
+                            <th>Url de pagina a vincular</th>
+                            <th>Estado</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% banners.forEach((banner)=>{ %>
+                            <tr>
+                                <td><%= banner.id %></td>
+                                <td><%= banner.nombre %></td>
+                                <td><%= banner.imagen %></td>
+                                <td><%= banner.URL %></td>
+                                <td><%= banner.estado %></td>
+                                
+                                <td>
+                                    <a href="/banner/admin/modificar/<%= banner.id %>" >Editar</a>
+                                    
+                                </td>
+                            </tr>
+
+                        <%}) %>
+                            
+                    </tbody>
+                </table>
+            </div>
+            
         </main>
         <%- include('Footer') %>
     </body>

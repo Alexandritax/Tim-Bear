@@ -21,6 +21,27 @@ module.exports = {
         createdAt: new Date(), updatedAt: new Date()
       }
     ])
+    // Banner
+    await queryInterface.bulkInsert('Banner',[
+      {nombre:"Champions League",
+      imagen:"https://as.com/futbol/imagenes/2019/03/13/champions/1552472334_709181_1552488446_noticia_normal.jpg",
+      URL:"https://es.uefa.com/uefachampionsleague/",
+      estado: "activo",
+      createdAt: new Date(), updatedAt: new Date()
+      },
+      {nombre:"Libertadores",
+      imagen:"https://www.minhatorcida.com.br/imagens/post/10602/capa-ss.jpg",
+      URL:"https://www.conmebol.com/es/conmebol-libertadores-2021",
+      estado: "activo",
+      createdAt: new Date(), updatedAt: new Date()
+      },
+      {nombre:"Mundial Qatar 2022",
+      imagen:"https://www.agenciapi.co/sites/default/files/2021-10/qatar%202022.jpg",
+      URL:"https://www.fifa.com/es/tournaments/mens/worldcup/qatar2022",
+      estado: "inactivo",
+      createdAt: new Date(), updatedAt: new Date()
+      }
+    ])
 
 
     // Categoria
@@ -45,13 +66,13 @@ module.exports = {
     await queryInterface.bulkInsert('Partida', [
       {juegoId:1,fecha:new Date(), hora:newhora, duracion:90,
         equipo1:"Peru",equipo2:"Chile",factor1:2,factor2:5,empate:3,
-        estado:"Iniciado",createdAt: new Date(), updatedAt: new Date()},
+        estado:"Iniciado",resultado:"empate",createdAt: new Date(), updatedAt: new Date()},
       {juegoId:2,fecha:new Date(), hora:newhora, duracion:90,
         equipo1:"Venezuela",equipo2:"Argentina",factor1:3,factor2:1,empate:2,
-        estado:"Finalizado",createdAt: new Date(), updatedAt: new Date()},
+        estado:"Finalizado",resultado:"empate",createdAt: new Date(), updatedAt: new Date()},
       {juegoId:3,fecha:new Date(), hora:newhora, duracion:90,
         equipo1:"Universitario",equipo2:"Alianza Lima",factor1:2.15,factor2:2.45,empate:2.30,
-        estado:"Pendiente",createdAt: new Date(), updatedAt: new Date()}
+        estado:"Pendiente",resultado:"empate",createdAt: new Date(), updatedAt: new Date()}
     ])
 
     // Departamento
