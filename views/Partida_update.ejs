@@ -8,11 +8,12 @@
     </head>
     <body class="container">
         <%- include('header_admin') %>
-        <h2 class="mb-5">Space</h2>
-        <h2 class="mb-5">Space</h2>
+        <h2 class="my-5">Space</h2>
+        <h2 class="my-5">Space</h2>
         <h2 class="mt-5">Editar Partida <%= partida.id%></h2>
-        <form method="post" action="/partida/new">
+        <form method="post" action="/partida/update">
             <div>
+                <input name="partida_id" type="hidden" value="<%=partida.id%>">
                 <label class="form-label">JuegoId:</label>
                 <select name="partida_juego_id" class="form-select">
                     <option value="-1">------ Seleccione una opcion ------</option>
@@ -55,15 +56,19 @@
             </div>
             <div>
                 <label class="form-label">Resultado:</label>
-                <select name="partida_resultado" class="form-select" value="<%=partida.resultado%>">
+                <select name="partida_resultado" class="form-select">
                     <option value="-1">------ Seleccione una opcion ------</option>
-                    <option value="Pendiente">Pendiente</option>
-                    <option value="Iniciado">Iniciado</option>
-                    <option value="Finalizado">Finalizado</option>
+                    <% estados.forEach((estado)=>{ %>
+                        <%if (estado == partida.resultado) {%>
+                            <option selected value="<%=estado%>"><%= estado %></option>
+                        <%} else {%>
+                            <option value="<%=estado%>"><%=estado%></option>
+                        <%}%>        
+                    <% })%>
                 </select>
             </div>
            
-            <button type="submit" class="btn btn-success">Guardar</button>
+            <button type="submit" class="my-2 btn btn-success">Guardar</button>
         </form>
 
         <%- include('footer') %>

@@ -53,9 +53,9 @@
                 <label class="form-label">Resultado:</label>
                 <select name="partida_resultado" class="form-select">
                     <option value="-1">------ Seleccione una opcion ------</option>
-                    <option value="Pendiente">Pendiente</option>
-                    <option value="Iniciado">Iniciado</option>
-                    <option value="Finalizado">Finalizado</option>
+                    <% estados.forEach((estado))=>{ %>
+                        <option value="<%= estado%>"><%= estado %></option>       
+                    <% })%>
                 </select>
             </div>
            

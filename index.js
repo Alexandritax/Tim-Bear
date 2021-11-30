@@ -247,7 +247,6 @@ app.get("/partida/admin", async (req, res) => {
         }
     }
 
-
     if (req.session.rol != undefined) {
         if (dif >= 3 * 60 * 60 * 1000) {
             req.session.destroy() // Destruyes la sesion
@@ -262,6 +261,92 @@ app.get("/partida/admin", async (req, res) => {
     }
 })
 
+app.get("/partida/new", async (req, res) => {
+    const juegos = await db.Juego.findAll()
+    const estados = ["Pendiente","Iniciado","Finalizado"]
+    res.render('partida_new',{
+        juegos: juegos,
+        estados: estados
+    })
+})
+
+
+app.post("/partida/new", async (req, res) =>{
+    const partidaJuegoId =  req.body.partida_juego_id
+    const partidaFecha = req.body.partida_fecha
+    const partidaHora = req.body.partida_hora
+    const partidaDuracion = req.body.partida_duracion
+    const partidaEquipo1 = req.body.partida_equipo1
+    const partidaEquipo2 = req.body.partida_equipo2
+    const partidaFactor1 = req.body.partida_factor1
+    const partidaFactor2 = req.body.partida_factor2
+    const partidaResultado = req.body.partida_resultado
+    await db.Partida.create({
+        juegoId: partidaJuegoId,
+        fecha: partidaFecha,
+        hora: partidaHora,
+        duracion: partidaDuracion,
+        equipo1: partidaEquipo1,
+        equipo2: partidaEquipo2,
+        factor1: partidaFactor1,
+        factor2: partidaFactor2,
+        resultado: partidaResultado
+    })
+    res.redirect("/partida/admin")
+})
+
+
+app.get("/partida/update/:id", async (req, res) => {
+    const partidaid = req.params.id
+
+    const partida = await db.Partida.findOne({
+        where : {
+            id : partidaid
+        }
+    })
+    const juegos = await db.Juego.findAll()
+    const estados = ["Pendiente","Iniciado","Finalizado"]
+    res.render("Partida_update",{
+        partida: partida,
+        juegos: juegos,
+        estados: estados
+    })
+})
+
+app.post('/partida/update', async (req, res) =>{
+    const partidaid = req.body.partida_id
+    const partidaJuegoId =  req.body.partida_juego_id
+    const partidaFecha = req.body.partida_fecha
+    const partidaHora = req.body.partida_hora
+    const partidaDuracion = req.body.partida_duracion
+    const partidaEquipo1 = req.body.partida_equipo1
+    const partidaEquipo2 = req.body.partida_equipo2
+    const partidaFactor1 = req.body.partida_factor1
+    const partidaFactor2 = req.body.partida_factor2
+    const partidaResultado = req.body.partida_resultado
+
+    const partida = await db.Partida.findOne({
+        where : {
+            id : partidaid
+        }
+    })
+
+    partida.juegoId= partidaJuegoId 
+    partida.fecha= partidaFecha 
+    partida.hora= partidaHora 
+    partida.duracion= partidaDuracion 
+    partida.equipo1= partidaEquipo1 
+    partida.equipo2= partidaEquipo2 
+    partida.factor1= partidaFactor1 
+    partida.factor2= partidaFactor2 
+    partida.resultado= partidaResultado 
+
+    await partida.save()
+
+    res.redirect("/partida/admin")
+
+})
+
 // PARTIDAS GENERAL PARA TODOS
 app.get("/partida", async (req, res) => {
 
@@ -273,9 +358,10 @@ app.get("/partida", async (req, res) => {
             aPartidasRegistradas.push(partida)
         }
     }
-
+    const estados = ["Pendiente","Iniciado","Finalizado"]
     res.render('Client_partidas', {
-        partidaLista: aPartidasRegistradas
+        partidaLista: aPartidasRegistradas,
+        estados: estados
     })
 
 
@@ -298,18 +384,6 @@ app.get("/partidasss", async (req, res) => {
     }
 });
 
-// app.get("/partidasss", async (req, res) => {
-//     let juego = null;
-//     let partidas = null;
-//     if (Object.keys(req.query).length > 0) {
-//         console.log(req.query);
-//         juego = await db.Juego.findByPk(req.query.juegoId);
-//         partidas = await db.Partida.findAll({
-//             where: { juegoId: Number(req.query.juegoId) },
-//         });
-//     }
-//     res.render("Client_partidas", { partidas, juego });
-// });
 
 //HASTA ACÁ CHECA BIEN ESO SI NO SIRVE LO ELIMINAS
 
