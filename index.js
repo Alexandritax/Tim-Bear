@@ -476,6 +476,50 @@ app.get("/cliente/admin", async (req, res) => {
 
 })
 
+//PORFA REVISEN PQ NO AGARRA ESTE GET CON ADMI_CLIENTE
+
+app.get('/cliente/admin/filtrar', async (req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    const filtro = req.query.filtros;
+    
+    const cliente = await db.Cliente.findAll();
+
+    const aClienteRegistradas = []
+
+    cliente.forEach( (cliente)=> {
+        if( cliente.DNI.includes(filtro) || cliente.nombre.includes(filtro) || cliente.apellido.includes(filtro)
+        || cliente.correo.includes(filtro))
+        {
+        aClienteRegistradas.push(cliente)
+    }
+    })
+
+
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            res.render('Admin_cliente_filtrado', {
+                clienteLista : aClienteRegistradas,
+                filtros : filtro,
+               
+            })
+        }
+    } else {
+        res.redirect('/')
+    }
+
+
+})
+
+
+
+
+
+
 //Juegos
 
 app.get("/juego/admin", async (req, res) => {
