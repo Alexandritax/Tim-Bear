@@ -711,6 +711,29 @@ app.get("/juego/delete/:id", async (req, res) => {
 
     res.redirect("/juego/admin")
 })
+//BANNERS
+app.get("/banner/admin",async (req,res)=>{
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            //Obtener categorias de la base de datos
+            const banners = await db.Banner.findAll({
+                order : [
+                    ['id', 'ASC']
+                ]
+            });
+            res.render('Admin_banner',{
+                banners :banners
+            })
+        }
+    } else {
+        res.redirect('/')
+    }
+})
 
 // CATEGORIAS
 app.get("/categoria/admin",async (req, res) => {
