@@ -43,6 +43,7 @@ module.exports = {
       }
     ])
 
+
     // Categoria
     await queryInterface.bulkInsert('Categoria', [
       {nombre:"Deportes",createdAt: new Date(), updatedAt: new Date()},
@@ -65,13 +66,13 @@ module.exports = {
     await queryInterface.bulkInsert('Partida', [
       {juegoId:1,fecha:new Date(), hora:newhora, duracion:90,
         equipo1:"Peru",equipo2:"Chile",factor1:2,factor2:5,empate:3,
-        estado:"Iniciado",createdAt: new Date(), updatedAt: new Date()},
+        estado:"Iniciado",resultado:"empate",createdAt: new Date(), updatedAt: new Date()},
       {juegoId:2,fecha:new Date(), hora:newhora, duracion:90,
         equipo1:"Venezuela",equipo2:"Argentina",factor1:3,factor2:1,empate:2,
-        estado:"Finalizado",createdAt: new Date(), updatedAt: new Date()},
+        estado:"Finalizado",resultado:"empate",createdAt: new Date(), updatedAt: new Date()},
       {juegoId:3,fecha:new Date(), hora:newhora, duracion:90,
         equipo1:"Universitario",equipo2:"Alianza Lima",factor1:2.15,factor2:2.45,empate:2.30,
-        estado:"Pendiente",createdAt: new Date(), updatedAt: new Date()}
+        estado:"Pendiente",resultado:"empate",createdAt: new Date(), updatedAt: new Date()}
     ])
 
     // Departamento
@@ -118,7 +119,43 @@ module.exports = {
       {nombre: "Palcamayo", createdAt: new Date(), updatedAt: new Date()},
       {nombre: "Pancan", createdAt: new Date(), updatedAt: new Date()},
     ])
+
+    
+    //Cliente
+    await queryInterface.bulkInsert('Cliente', [
+      { 
+        nombre:'Jhan carlos',apellidos:'Mendoza Aylas',dni:'77798438',correo:'20181173@aloe.ulima.edu.pe',
+        contrasenia: '$2b$10$jAsJfo1RxWfRXTv2q0xxhu0nEE9/mKFgZcE.6XDxd0n0BvydcEuBi', // 123
+        telefono :'987654321' ,direccion:'dasdlsbdkaskdb',departamentoId:'1',provinciaId:'1',
+        distritoId:1,pep:'0',estado:'validado',
+        createdAt: new Date(), updatedAt: new Date()
+      },
+      { 
+        nombre:'Luis',apellidos:'Quispe Quispe',dni:'777815438',correo:'luis_quispe@gmail.com',
+        contrasenia: '$2b$10$jAsJfo1RxWfRXTv2q0xxhu0nEE9/mKFgZcE.6XDxd0n0BvydcEuBi', // 123
+        telefono :'945678249' ,direccion:'dasdlsbdkaskdb',departamentoId:'1',provinciaId:'1',
+        distritoId:1,pep:'0',estado:'pendiente de validación,',
+        createdAt: new Date(), updatedAt: new Date()
+      },
+      { 
+        nombre:'Miguel',apellidos:'Lopez Ferran',dni:'78434687',correo:'miguelito@gmail.com',
+        contrasenia: '$2b$10$jAsJfo1RxWfRXTv2q0xxhu0nEE9/mKFgZcE.6XDxd0n0BvydcEuBi', // 123
+        telefono :'975167843' ,direccion:'dasdlsbdkaskdb',departamentoId:'1',provinciaId:'1',
+        distritoId:1,pep:'1',estado:'dado de baja',
+        createdAt: new Date(), updatedAt: new Date()
+      },
+      { 
+        nombre:'Maria',apellidos:'Ortega Paz',dni:'78134597',correo:'maria@gmail.com',
+        contrasenia: '$2b$10$jAsJfo1RxWfRXTv2q0xxhu0nEE9/mKFgZcE.6XDxd0n0BvydcEuBi', // 123
+        telefono :'979513498' ,direccion:'dasdlsbdkaskdb',departamentoId:'1',provinciaId:'2',
+        distritoId:1,pep:'1',estado:'validado',
+        createdAt: new Date(), updatedAt: new Date()
+      }
+      
+    ])
   },
+
+
 
   down: async (queryInterface, Sequelize) => {
     /**

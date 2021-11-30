@@ -38,6 +38,10 @@
                 <input name="partida_equipo1" type="text" class="form-control" />
             </div>
             <div>
+                <label class="form-label">Empate:</label>
+                <input name="partida_empate" type="number" class="form-control"/>
+            </div>
+            <div>
                 <label class="form-label">Equipo2:</label>
                 <input name="partida_equipo2" type="text" class="form-control" />
             </div>
@@ -50,12 +54,25 @@
                 <input name="partida_factor2" type="number" class="form-control"/>
             </div>
             <div>
-                <label class="form-label">Resultado:</label>
-                <select name="partida_resultado" class="form-select">
+                <label class="form-label">Estado:</label>
+                <select id="selectEstado" name="partida_estado" class="form-select">
                     <option value="-1">------ Seleccione una opcion ------</option>
-                    <% estados.forEach((estado))=>{ %>
+                    <% estados.forEach((estado)=>{ %>
                         <option value="<%= estado%>"><%= estado %></option>       
                     <% })%>
+                </select>
+            </div>
+            <div>
+                <label class="form-label">Resultado:</label>
+                <select id="selectResultado" name="partida_resultado" class="form-select">
+                    <option value="-1">------ Seleccione una opcion ------</option>
+                        <% resultados.forEach((resultado) => {%>
+                            <%if(resultado!="empate" && resultado!="pendiente"){%>
+                                <option value="<%=resultado%>">Gano <%=resultado%></option>
+                            <%}else{%>
+                                <option value="<%=resultado%>"><%=resultado%></option>
+                            <%}%>
+                        <%})%>    
                 </select>
             </div>
            
@@ -63,5 +80,6 @@
         </form>
 
         <%- include('footer') %>
+        <script src="/js/Partida_new.js"></script>
     </body>
 </html>
