@@ -12,10 +12,28 @@
       <%- include('header_login') %>
     <!--Fin del encabezado-->
     <!--Inicio de la seccion de banners-->
+    <h2 class="my-5">Space</h2>
+    <%if(LogFlag == 3){%>
+    <div class="mt-2 alert alert-danger" role="alert">
+      <strong>Hey! eres nuevo?</strong> No apareces como uno de nuestros usuarios. <a href="/cliente/nuevo">Create una cuenta!</a>
+      <button type="button" class="position-absolute end-0 btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <%}else if(LogFlag == 2){%>
+      <div class="mt-2 alert alert-danger" role="alert">
+        <strong>Hola hacker!</strong> No se como hiciste para llegar a este mensaje... felicidades supongo.
+        <button type="button" class="position-absolute end-0 btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <%}else if(LogFlag == 1){%>
+      <div class="mt-2 alert alert-danger" role="alert">
+        <strong>Te equivocaste de contraseña!</strong>!</strong> Trata de reingresar la correcta.
+        <button type="button" class="position-absolute end-0 btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <%}%>
     <%- include('Banners_default') %>
     <!--Fin de la seccion de banners-->
     <!--Inicio del pie-->
     <%- include('Footer') %>
     <!--Fin del pie-->
 </body>
+
 </html>

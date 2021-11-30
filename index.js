@@ -1,3 +1,5 @@
+
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
@@ -30,10 +32,14 @@ app.get('/', (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
         else if(req.session.rol == "Cliente"){
             res.redirect('/cliente')
         } else{
-            res.render('Default')
+            res.render('Default',{
+                LogFlag: 0
+            })
         }
     } else {
-        res.render('Default')
+        res.render('Default',{
+            LogFlag: 0
+        })
     }
 
 })
@@ -182,11 +188,15 @@ app.post("/", async (req, res) => { //contraseña en el primer correo es 123
             const cliente = await db.Cliente.findOne({where:{
             correo: correo
         }})
-        if(administrator == null){
+        if(administrator == null && cliente != null){
             return cliente
         }
-        else{
+        else if(cliente == null && administrator != null){
             return administrator
+        }else if(cliente != null && administrator != null){
+            return administrator
+        }else{
+            return "NonUser"
         }
     }
 
@@ -214,31 +224,47 @@ app.post("/", async (req, res) => { //contraseña en el primer correo es 123
     const username = req.body.username
     const password = req.body.password
     const FoundUser = await findUser(username)
-    //const correctPW = "123"
     const tablename = await findUserType(username) // Admin || Cliente
     //let passwordhash = bcrypt.hashSync("123", saltRounds)
-    let compare = bcrypt.compareSync(password, FoundUser.contrasenia)
     /*console.log(username)
     console.log(FoundUser)
     console.log(passwordhash)
     console.log(compare)*/
+    //const correctPW = "123"
 
-    if (username == FoundUser.correo && compare) {
+    if(username==FoundUser.correo) {
+        let compare = bcrypt.compareSync(password, FoundUser.contrasenia)
+        if (compare) {
         // Login correcto
-        req.session.username = username // guardando variable en sesion
-        req.session.rol = tablename
+        
         //console.log(0)
         if(tablename == "Admin"){
-            return res.redirect('/admin')
+            req.session.username = username // guardando variable en sesion
+            req.session.rol = tablename
+            res.redirect('/admin')
             //console.log(1)
-        }else{
-            return res.redirect('/cliente')
+        }else if(tablename == "Cliente"){
+            req.session.username = username // guardando variable en sesion
+            req.session.rol = tablename
+            res.redirect('/cliente')
             //console.log(2)
+        }else{
+            res.render('Default',{
+                LogFlag: 2
+            })
         }
         
-    } else {
-        console.log("contraseña incorrecta123")
-        res.render('Default')
+    } else{
+        console.log("contraseña incorrecta")
+        res.render('Default',{
+            LogFlag: 1
+        })
+    } 
+    }else{
+        console.log('Usuario no existente')
+        res.render('Default',{
+            LogFlag: 3
+        })
     }
 })
 
