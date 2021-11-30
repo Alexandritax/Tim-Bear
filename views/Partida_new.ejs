@@ -7,79 +7,80 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
     </head>
     <body class="container">
+        <div class="vstack gap-3">
         <%- include('header_admin') %>
-        <h2 class="mb-5">Space</h2>
-        <h2 class="mb-5">Space</h2>
-        <h2 class="mt-5">Nueva Partida</h2>
-        <form method="post" action="/partida/new">
-            <div>
-                <label class="form-label">JuegoId:</label>
-                <select name="partida_juego_id" class="form-select">
-                    <option value="-1">------ Seleccione una opcion ------</option>
-                    <% juegos.forEach((juego)=>{ %>
-                    <option value="<%= juego.id %>"><%= juego.nombre %></option>
-                    <% })%>
-                </select>
-            </div>
-            <div class="mb-2">
-                <label class="form-label">Fecha:</label>
-                <input name="partida_fecha" type="date" class="form-control"/>
-            </div>
-            <div class="mb-2">
-                <label class="form-label">Hora:</label>
-                <input name="partida_hora" type="time" class="form-control"/>
-            </div>
-            <div>
-                <label class="form-label">Duracion(minutos):</label>
-                <input name="partida_duracion" type="number" class="form-control"/>
-            </div>
-            <div>
-                <label class="form-label">Equipo1:</label>
-                <input name="partida_equipo1" type="text" class="form-control" />
-            </div>
-            <div>
-                <label class="form-label">Empate:</label>
-                <input name="partida_empate" type="number" class="form-control"/>
-            </div>
-            <div>
-                <label class="form-label">Equipo2:</label>
-                <input name="partida_equipo2" type="text" class="form-control" />
-            </div>
-            <div>
-                <label class="form-label">Factor1:</label>
-                <input name="partida_factor1" type="number" class="form-control"/>
-            </div>
-            <div>
-                <label class="form-label">Factor2:</label>
-                <input name="partida_factor2" type="number" class="form-control"/>
-            </div>
-            <div>
-                <label class="form-label">Estado:</label>
-                <select id="selectEstado" name="partida_estado" class="form-select">
-                    <option value="-1">------ Seleccione una opcion ------</option>
-                    <% estados.forEach((estado)=>{ %>
-                        <option value="<%= estado%>"><%= estado %></option>       
-                    <% })%>
-                </select>
-            </div>
-            <div>
-                <label class="form-label">Resultado:</label>
-                <select id="selectResultado" name="partida_resultado" class="form-select">
-                    <option value="-1">------ Seleccione una opcion ------</option>
-                        <% resultados.forEach((resultado) => {%>
-                            <%if(resultado!="empate" && resultado!="pendiente"){%>
-                                <option value="<%=resultado%>">Gano <%=resultado%></option>
-                            <%}else{%>
-                                <option value="<%=resultado%>"><%=resultado%></option>
-                            <%}%>
-                        <%})%>    
-                </select>
-            </div>
-           
-            <button type="submit" class="btn btn-success">Guardar</button>
-        </form>
-
-        <%- include('footer') %>
+            <div class="d-flex" style="height: 150px;"></div>
+            <h2 class="mt-5">Nueva Partida</h2>
+            <form method="post" action="/partida/new">
+                <div>
+                    <label class="form-label">JuegoId:</label>
+                    <select name="partida_juego_id" class="form-select">
+                        <option value="-1">------ Seleccione una opcion ------</option>
+                        <% juegos.forEach((juego)=>{ %>
+                        <option value="<%= juego.id %>"><%= juego.nombre %></option>
+                        <% })%>
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Fecha:</label>
+                    <input name="partida_fecha" type="date" class="form-control"/>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Hora:</label>
+                    <input name="partida_hora" type="time" class="form-control"/>
+                </div>
+                <div>
+                    <label class="form-label">Duracion(minutos):</label>
+                    <input name="partida_duracion" type="number" class="form-control"/>
+                </div>
+                <div>
+                    <label class="form-label">Equipo1:</label>
+                    <input name="partida_equipo1" type="text" class="form-control" />
+                </div>
+                <div>
+                    <label class="form-label">Equipo2:</label>
+                    <input name="partida_equipo2" type="text" class="form-control" />
+                </div>
+                <div>
+                    <label class="form-label">Factor1:</label>
+                    <input name="partida_factor1" type="number" class="form-control"/>
+                </div>
+                <div>
+                    <label class="form-label">Empate:</label>
+                    <input name="partida_empate" type="number" class="form-control"/>
+                </div>
+                <div>
+                    <label class="form-label">Factor2:</label>
+                    <input name="partida_factor2" type="number" class="form-control"/>
+                </div>
+            
+                <div>
+                    <label class="form-label">Estado:</label>
+                    <select id="selectEstado" name="partida_estado" class="form-select">
+                        <option value="-1">------ Seleccione una opcion ------</option>
+                        <% estados.forEach((estado)=>{ %>
+                            <option value="<%= estado%>"><%= estado %></option>
+                        <% })%>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">Resultado:</label>
+                    <select id="selectResultado" name="partida_resultado" class="form-select">
+                        <option value="-1">------ Seleccione una opcion ------</option>
+                            <% resultados.forEach((resultado) => {%>
+                                <%if(resultado!="empate" && resultado!="pendiente"){%>
+                                    <option value="<%=resultado%>">Gano <%=resultado%></option>
+                                <%}else{%>
+                                    <option value="<%=resultado%>"><%=resultado%></option>
+                                <%}%>
+                            <%})%>
+                    </select>
+                </div>
+            
+                <button type="submit" class="btn btn-success">Guardar</button>
+            </form>
+            <%- include('footer') %>
+        </div>
         <script src="/js/Partida_new.js"></script>
     </body>
 </html>
