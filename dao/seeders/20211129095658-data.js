@@ -21,6 +21,28 @@ module.exports = {
         createdAt: new Date(), updatedAt: new Date()
       }
     ])
+    // Banner
+    await queryInterface.bulkInsert('Banner',[
+      {nombre:"Champions League",
+      imagen:"https://as.com/futbol/imagenes/2019/03/13/champions/1552472334_709181_1552488446_noticia_normal.jpg",
+      URL:"https://es.uefa.com/uefachampionsleague/",
+      estado: "activo",
+      createdAt: new Date(), updatedAt: new Date()
+      },
+      {nombre:"Libertadores",
+      imagen:"https://www.minhatorcida.com.br/imagens/post/10602/capa-ss.jpg",
+      URL:"https://www.conmebol.com/es/conmebol-libertadores-2021",
+      estado: "activo",
+      createdAt: new Date(), updatedAt: new Date()
+      },
+      {nombre:"Mundial Qatar 2022",
+      imagen:"https://www.agenciapi.co/sites/default/files/2021-10/qatar%202022.jpg",
+      URL:"https://www.fifa.com/es/tournaments/mens/worldcup/qatar2022",
+      estado: "inactivo",
+      createdAt: new Date(), updatedAt: new Date()
+      }
+    ])
+
     // Categoria
     await queryInterface.bulkInsert('Categoria', [
       {nombre:"Deportes",createdAt: new Date(), updatedAt: new Date()},
