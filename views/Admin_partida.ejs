@@ -22,6 +22,7 @@
                                 <th>Fecha</th>
                                 <th>Hora de inicio</th>
                                 <th>Equipo A</th>
+                                <th>Empate</th>
                                 <th>Equipo B</th>
                                 <th>estado
                                     <span class="btn-group dropup">
@@ -45,13 +46,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% partidaLista.forEach((partida)=> { %>
+                            <% partidaLista.forEach((partida)=> {%>
                                 <tr>
                                     <td><%= partida.juegoId %></td>
                                     <td><%= partida.fecha.toISOString().substring(0,10) %></td>
                                     <td><%= partida.hora%></td>
-                                    <td><%= partida.equipo1 %></td>
-                                    <td><%= partida.equipo2 %></td>
+                                    <td><%= partida.equipo1 %><div><%=partida.factor1%></div></td>
+                                    <td>empate <div><%=partida.empate%></div></td>
+                                    <td><%= partida.equipo2 %><div><%=partida.factor2%></div></td>
                                     <td><%= partida.estado %></td>
                                     <%if(partida.resultado!= "empate" && partida.resultado!= "pendiente"){%>
                                     <td>Gano <%=partida.resultado%></td>

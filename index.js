@@ -286,6 +286,7 @@ app.get("/partida/admin", async (req, res) => {
                 hora: te.hora,
                 duracion: te.duracion,
                 equipo1: te.equipo1,
+                empate: te.empate,
                 equipo2: te.equipo2,
                 factor1: te.factor1,
                 factor2: te.factor2,
@@ -332,6 +333,7 @@ app.post("/partida/new", async (req, res) =>{
     const partidaHora = req.body.partida_hora
     const partidaDuracion = req.body.partida_duracion
     const partidaEquipo1 = req.body.partida_equipo1
+    const partidaEmpate = req.body.partida_empate
     const partidaEquipo2 = req.body.partida_equipo2
     const partidaFactor1 = req.body.partida_factor1
     const partidaFactor2 = req.body.partida_factor2
@@ -348,6 +350,7 @@ app.post("/partida/new", async (req, res) =>{
         equipo1: partidaEquipo1,
         equipo2: partidaEquipo2,
         factor1: partidaFactor1,
+        empate: partidaEmpate,
         factor2: partidaFactor2,
         estado: partidaEstado,
         resultado: partidaResultado
@@ -382,6 +385,7 @@ app.post('/partida/update', async (req, res) =>{
     const partidaHora = req.body.partida_hora
     const partidaDuracion = req.body.partida_duracion
     const partidaEquipo1 = req.body.partida_equipo1
+    const partidaEmpate = req.body.partida_empate
     const partidaEquipo2 = req.body.partida_equipo2
     const partidaFactor1 = req.body.partida_factor1
     const partidaFactor2 = req.body.partida_factor2
@@ -400,7 +404,8 @@ app.post('/partida/update', async (req, res) =>{
     partida.duracion= partidaDuracion 
     partida.equipo1= partidaEquipo1 
     partida.equipo2= partidaEquipo2 
-    partida.factor1= partidaFactor1 
+    partida.factor1= partidaFactor1
+    partida.empate= partidaEmpate 
     partida.factor2= partidaFactor2
     partida.estado = partidaEstado 
     partida.resultado= partidaResultado 
