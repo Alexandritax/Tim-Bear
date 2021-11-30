@@ -20,6 +20,7 @@
                                 <th>Juego</th>
                                 <th>Fecha</th>
                                 <th>Hora de inicio</th>
+                                <th>Duracion</th>
                                 <th>Equipo A</th>
                                 <th>Empate</th>
                                 <th>Equipo B</th>
@@ -50,6 +51,7 @@
                                     <td><%= partida.juegoId %></td>
                                     <td><%= partida.fecha.toISOString().substring(0,10) %></td>
                                     <td><%= partida.hora%></td>
+                                    <td><%= partida.duracion%></td>
                                     <td><%= partida.equipo1 %><div><%=partida.factor1%></div></td>
                                     <td>empate <div><%=partida.empate%></div></td>
                                     <td><%= partida.equipo2 %><div><%=partida.factor2%></div></td>
