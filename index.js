@@ -239,11 +239,22 @@ app.get("/partida/admin", async (req, res) => {
     const dif = timestampActual - req.session.lastLogin
 
     const partida = await db.Partida.findAll()
-    const aPartidasRegistradas = []
+    const NewPartida = []
     if (partida.length > 0) {
         for (let te of partida) {
-            const partida = await te.get()
-            aPartidasRegistradas.push(partida)
+            const juego = await te.getJuego()
+            NewPartida.push({
+                juegoId: te.juegoId,
+                juegoNombre: juego.nombre,
+                fecha: te.fecha,
+                hora: te.hora,
+                duracion: te.duracion,
+                equipo1: te.equipo1,
+                equipo2: te.equipo2,
+                factor1: te.factor1,
+                factor2: te.factor2,
+                resultado: te.resultado
+            })
         }
     }
 
@@ -253,7 +264,7 @@ app.get("/partida/admin", async (req, res) => {
             res.redirect('/')
         } else {
             res.render('Admin_partida', {
-                partidaLista: aPartidasRegistradas
+                partidaLista: NewPartida
             })
         }
     } else {
@@ -345,6 +356,14 @@ app.post('/partida/update', async (req, res) =>{
 
     res.redirect("/partida/admin")
 
+})
+
+app.get("/partida/delete/:id", async (req, res) => {
+    const idPartida = req.params.id
+    await db.Partida.destroy({
+        where: {id: idPartida}
+    })
+    res.redirect("/partida/admin")
 })
 
 // PARTIDAS GENERAL PARA TODOS

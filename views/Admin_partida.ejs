@@ -12,6 +12,7 @@
             <div class="mt-5">
                 <div class="container">
                     <h2 class="mb-5">Space</h2>
+                    <h2 class="my-5">Space</h2>
                     <h2 class="mt-5">Mantenimiento de partidas</h2>
                     <a class="btn btn-success my-4" href="/partida/new">Nuevo</a>
                     <table class="table table-hover mt-2">
@@ -45,12 +46,12 @@
                         <tbody>
                             <% partidaLista.forEach((partida)=> { %>
                                 <tr>
-                                    <th><%= partida.juegoId %></th>
-                                    <th><%= partida.fecha.toISOString().substring(0,10) %></th>
-                                    <th><%= partida.hora%></th>
-                                    <th><%= partida.equipo1 %></th>
-                                    <th><%= partida.equipo2 %></th>
-                                    <th><%= partida.resultado %></th>
+                                    <td><%= partida.juegoNombre %></td>
+                                    <td><%= partida.fecha.toISOString().substring(0,10) %></td>
+                                    <td><%= partida.hora%></td>
+                                    <td><%= partida.equipo1 %></td>
+                                    <td><%= partida.equipo2 %></td>
+                                    <td><%= partida.resultado %></td>
                                     <td>
                                         <a href="/partida/update/<%= partida.id%>" >Editar</a>
                                         <a href="/partida/delete/<%= partida.id%>" >Eliminar</a>
