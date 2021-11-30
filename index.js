@@ -295,6 +295,7 @@ app.get("/partida/admin", async (req, res) => {
             })
         }
     }
+    const estados = ["Pendiente","Iniciado","Finalizado"]
 
     if (req.session.rol != undefined) {
         if (dif >= 3 * 60 * 60 * 1000) {
@@ -302,7 +303,8 @@ app.get("/partida/admin", async (req, res) => {
             res.redirect('/')
         } else {
             res.render('Admin_partida', {
-                partidaLista: NewPartida
+                partidaLista: NewPartida,
+                estados: estados
             })
         }
     } else {
@@ -310,20 +312,75 @@ app.get("/partida/admin", async (req, res) => {
     }
 })
 
-app.get("/partida/search",(req, res)=> {
-    const filtro = req.query.categoria
+app.get("/partida/search", async (req, res)=> {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
 
+    const filtro = req.query.estado
+    const partida = await db.Partida.findAll({where:{estado:filtro}})
+    const NewPartida = []
+    if (partida.length > 0) {
+        for (let te of partida) {
+            const juego = await te.getJuego()
+            NewPartida.push({
+                id:te.id,
+                juegoId: te.juegoId,
+                juegoNombre: juego.nombre,
+                fecha: te.fecha,
+                hora: te.hora,
+                duracion: te.duracion,
+                equipo1: te.equipo1,
+                empate: te.empate,
+                equipo2: te.equipo2,
+                factor1: te.factor1,
+                factor2: te.factor2,
+                estado: te.estado,
+                resultado: te.resultado
+            })
+        }
+    }
+    const estados = ["Pendiente","Iniciado","Finalizado"]
+
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            res.render('Admin_partida', {
+                partidaLista: NewPartida,
+                estados: estados
+            })
+        }
+    } else {
+        res.redirect('/')
+    }
 })
 
 app.get("/partida/new", async (req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
     const juegos = await db.Juego.findAll()
     const estados = ["Pendiente","Iniciado","Finalizado"]
     const resultados = ["pendiente","equipo1","empate","equipo2"]
-    res.render('partida_new',{
-        juegos: juegos,
-        estados: estados,
-        resultados: resultados
-    })
+
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            res.render('partida_new',{
+                juegos: juegos,
+                estados: estados,
+                resultados: resultados
+            })
+        }
+    } else {
+        res.redirect('/')
+    }
+
+
+    
 })
 
 

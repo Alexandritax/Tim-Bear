@@ -32,11 +32,11 @@
                                             </svg>
                                         </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                      <li><a class="dropdown-item" href="#">Reset</a></li>
+                                      <li><a class="dropdown-item" href="/partida/admin">Reset</a></li>
                                       <li><hr class="dropdown-divider"></li>
-                                      <li><a class="dropdown-item" href="#">Pendientes</a></li>
-                                      <li><a class="dropdown-item" href="#">Inicializados</a></li>
-                                      <li><a class="dropdown-item" href="#">Finalizados</a></li>
+                                      <%estados.forEach((estado)=> {%>
+                                      <li><a class="dropdown-item" href="/partida/search?estado=<%=estado%>"><%=estado%></a></li>
+                                      <%})%>
                                     </ul>
                                     </span>
                                   </th>
