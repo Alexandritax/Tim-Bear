@@ -32,6 +32,9 @@ module.exports = {
       factor2: {
         type: Sequelize.FLOAT
       },
+      empate: {
+        type: Sequelize.FLOAT
+      },
       resultado: {
         type: Sequelize.STRING
       },

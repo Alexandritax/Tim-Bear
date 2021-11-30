@@ -42,11 +42,14 @@ module.exports = {
     var newhora = hoy.getHours() + ':' + hoy.getMinutes();
     await queryInterface.bulkInsert('Partida', [
       {juegoId:1,fecha:new Date(), hora:newhora, duracion:90,
-        equipo1:"Peru",equipo2:"Chile",factor1:2,factor2:5,
-        resultado:"Iniciado",createdAt: new Date(), updatedAt: new Date()},
+        equipo1:"Peru",equipo2:"Chile",factor1:2,factor2:5,empate:3,
+        estado:"Iniciado",createdAt: new Date(), updatedAt: new Date()},
       {juegoId:2,fecha:new Date(), hora:newhora, duracion:90,
-        equipo1:"Venezuela",equipo2:"Argentina",factor1:3,factor2:1,
-        resultado:"Iniciadoju",createdAt: new Date(), updatedAt: new Date()}
+        equipo1:"Venezuela",equipo2:"Argentina",factor1:3,factor2:1,empate:2,
+        estado:"Finalizado",createdAt: new Date(), updatedAt: new Date()},
+      {juegoId:3,fecha:new Date(), hora:newhora, duracion:90,
+        equipo1:"Universitario",equipo2:"Alianza Lima",factor1:2.15,factor2:2.45,empate:2.30,
+        estado:"Pendiente",createdAt: new Date(), updatedAt: new Date()}
     ])
 
     // Departamento
