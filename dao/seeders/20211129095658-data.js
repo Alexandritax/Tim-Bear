@@ -33,9 +33,8 @@ module.exports = {
       {nombre:"Baloncesto",categoriaId:1,createdAt: new Date(), updatedAt: new Date()},
       {nombre:"Tenis",categoriaId:1,createdAt: new Date(), updatedAt: new Date()},
       {nombre:"Béisbol",categoriaId:1,createdAt: new Date(), updatedAt: new Date()},
-      {nombre:"Hockey",categoriaId:2,createdAt: new Date(), updatedAt: new Date()},
-      {nombre:"E-Sport",categoriaId:2,createdAt: new Date(), updatedAt: new Date()},
-      {nombre:"Ping-pon",categoriaId:2,createdAt: new Date(), updatedAt: new Date()}
+      {nombre:"Hockey",categoriaId:1,createdAt: new Date(), updatedAt: new Date()},
+      {nombre:"Ping-pon",categoriaId:1,createdAt: new Date(), updatedAt: new Date()}
     ])
 
     //Partida
