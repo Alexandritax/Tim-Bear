@@ -476,21 +476,124 @@ app.get("/cliente/admin", async (req, res) => {
 
 })
 
+//Juegos
 
-app.get("/juego/admin", (req, res) => {
+app.get("/juego/admin", async (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
+
+    const juegos = await db.Juego.findAll()
+    const NewJuego = []
+    if (juegos.length > 0) {
+        for (let te of juegos) {
+            const categoria = await db.Categoria.findOne({where:{id:te.categoriaId}})
+            NewJuego.push({
+                id: te.id,
+                nombre: te.nombre,
+                categoriaId: te.categoriaId,
+                categoriaNombre: categoria.nombre
+            })
+        }
+    }
+
 
     if (req.session.rol != undefined) {
         if (dif >= 3 * 60 * 60 * 1000) {
             req.session.destroy() // Destruyes la sesion
             res.redirect('/')
         } else {
-            res.render('Admin_juego')
+            res.render('Admin_juego',{
+                juegos: NewJuego
+            })
         }
     } else {
         res.redirect('/')
     }
+})
+
+app.get("/juego/new", async (req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    const juegos = await db.Juego.findAll()
+    const categorias = await db.Categoria.findAll()
+
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            res.render('Juegos_new',{
+                juegos: juegos,
+                categorias: categorias
+            })
+        }
+    } else {
+        res.redirect('/')
+    }
+})
+
+app.post("/juego/new", async (req, res) => {
+    const juegoNombre = req.body.juego_nombre
+    const juegoCategoria = req.body.juegocategoria_id
+
+    await db.Juego.create({
+        nombre: juegoNombre,
+        categoriaId: juegoCategoria
+    })
+    res.redirect('/juego/admin')
+})
+
+app.get("/juego/update/:id", async (req, res) => {
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+    const idJuego = req.params.id
+
+    const juego = await db.Juego.findOne({where:{id:idJuego}})
+    const categorias = await db.Categoria.findAll()
+
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            res.render('Juegos_update',{
+                juego: juego,
+                categorias: categorias
+            })
+        }
+    } else {
+        res.redirect('/')
+    }
+})
+
+app.post("/juego/update/", async (req, res) => {
+    const juegoId = req.body.juegocategoria_id
+    const juegoNombre = req.body.juego_nombre
+    const juegoCategoria = req.body.juegocategoria_id
+
+    const juego = await db.Juego.findOne({where:{id:juegoId}})
+
+    juego.nombre = juegoNombre
+    juego.categoriaId = juegoCategoria
+
+    await juego.save()
+
+    res.redirect('/juego/admin')
+
+})
+
+app.get("/juego/delete/:id", async (req, res) => {
+    const juegoId = req.params.id
+
+    await db.Juego.destroy({
+        where: {
+            id: juegoId
+        }
+    })
+
+    res.redirect("/juego/admin")
 })
 
 // CATEGORIAS
@@ -598,21 +701,7 @@ app.get("/banner/admin", (req, res) => {
 })
 
 
-app.get("/juego/new", (req, res) => {
-    const timestampActual = new Date().getTime();
-    const dif = timestampActual - req.session.lastLogin
 
-    if (req.session.rol != undefined) {
-        if (dif >= 3 * 60 * 60 * 1000) {
-            req.session.destroy() // Destruyes la sesion
-            res.redirect('/')
-        } else {
-            res.render('Juegos_new')
-        }
-    } else {
-        res.redirect('/')
-    }
-})
 
 app.get('/logout', async (req, res) => {
     req.session.destroy();
