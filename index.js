@@ -370,17 +370,20 @@ app.get("/partida/delete/:id", async (req, res) => {
 app.get("/partida", async (req, res) => {
 
     const partida = await db.Partida.findAll()
-    const aPartidasRegistradas = []
-    if (partida.length > 0) {
-        for (let te of partida) {
-            const partida = await te.get()
-            aPartidasRegistradas.push(partida)
-        }
-    }
+    // const aPartidasRegistradas = []
+    // if (partida.length > 0) {
+    //     for (let te of partida) {
+    //         const partida = await te.get()
+    //         aPartidasRegistradas.push(partida)
+    //     }
+    // }
+
+    const juegos = await db.Juego.findAll()
     const estados = ["Pendiente","Iniciado","Finalizado"]
     res.render('Client_partidas', {
-        partidaLista: aPartidasRegistradas,
-        estados: estados
+        partidaLista: partida,
+        estados: estados,
+        juegos: juegos
     })
 
 
