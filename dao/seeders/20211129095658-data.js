@@ -31,7 +31,10 @@ module.exports = {
     await queryInterface.bulkInsert('Juego', [
       {nombre:"Futbol",categoriaId:1,createdAt: new Date(), updatedAt: new Date()},
       {nombre:"Baloncesto",categoriaId:1,createdAt: new Date(), updatedAt: new Date()},
-      {nombre:"Volleyball",categoriaId:1,createdAt: new Date(), updatedAt: new Date()}
+      {nombre:"Tenis",categoriaId:1,createdAt: new Date(), updatedAt: new Date()},
+      {nombre:"Béisbol",categoriaId:1,createdAt: new Date(), updatedAt: new Date()},
+      {nombre:"Hockey",categoriaId:1,createdAt: new Date(), updatedAt: new Date()},
+      {nombre:"Ping-pon",categoriaId:1,createdAt: new Date(), updatedAt: new Date()}
     ])
 
     //Partida
