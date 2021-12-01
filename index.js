@@ -158,7 +158,7 @@ app.post('/cliente/modificar', async (req, res) => {
     const idCliente = req.body.cliente_id
     const estado = req.body.estado
 
-    const cliente = await db.Torneo.findOne({
+    const cliente = await db.Cliente.findOne({
         where : {
             id : idCliente
         }
@@ -168,7 +168,7 @@ app.post('/cliente/modificar', async (req, res) => {
 
     await cliente.save()
 
-    res.redirect('/cliente/admin')
+    res.redirect('/admin/cliente')
 
 })
 
