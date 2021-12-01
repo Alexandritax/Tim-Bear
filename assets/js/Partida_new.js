@@ -11,9 +11,16 @@ const disableSelect = (selectEstado) => {
     }
 }
 
+const disableNoObstrusivo = (evt) => {
+    const select = evt.target;
+    const value = select.value;
+
+    disableSelect(value)
+}
+
 const main = () => {
     var selectEstado = document.getElementById("selectEstado")
-    selectEstado.addEventListener("click",() => {disableSelect(selectEstado.value)})
+    selectEstado.addEventListener("click",(disableNoObstrusivo))
 }
 
 window.addEventListener("load",main)
