@@ -492,10 +492,12 @@ app.get("/partida", async (req, res) => {
         estados: estados,
         juegos: juegos
     })
-
-
     
 })
+
+// PARTIDA FILTRO 
+
+
 
 // ESTO CREO QUE LO HIZO RODRIGO NO FUNCIONA PERO NO LO BORRO
 app.get("/partidasss", async (req, res) => {
@@ -516,12 +518,16 @@ app.get("/partidasss", async (req, res) => {
 
 //HASTA ACÁ CHECA BIEN ESO SI NO SIRVE LO ELIMINAS
 
-// CLIENTES
-app.get("/cliente/admin", async (req, res) => {
+// CLIENTES ADMIN
+app.get("/admin/cliente", async (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
 
-    const cliente = await db.Cliente.findAll()
+    const cliente = await db.Cliente.findAll({
+        order : [ 
+            ['id','ASC'] 
+        ]
+    });
 
     const aClienteRegistradas = []
     if (cliente.length > 0) {
@@ -548,43 +554,38 @@ app.get("/cliente/admin", async (req, res) => {
 
 })
 
-//PORFA REVISEN PQ NO AGARRA ESTE GET CON ADMI_CLIENTE
+//CLIENTES ADMIN FILTRAR
+app.get('/admin/cliente/filtrar', async (req, res) => { 
 
-app.get('/cliente/admin/filtrar', async (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
 
-    const filtro = req.query.filtros;
-    
-    const cliente = await db.Cliente.findAll();
+    const Filtro = req.query.filtros;
+    const clientes = await db.Cliente.findAll();
 
-    const aClienteRegistradas = []
+    const aClienteRegistradas = [];
 
-    cliente.forEach( (cliente)=> {
-        if( cliente.DNI.includes(filtro) || cliente.nombre.includes(filtro) || cliente.apellido.includes(filtro)
-        || cliente.correo.includes(filtro))
+    clientes.forEach( (cliente)=> {
+        if( cliente.dni.includes(Filtro) || cliente.nombre.includes(Filtro) ||
+        cliente.apellidos.includes(Filtro) || 
+        cliente.correo.includes(Filtro))
         {
-        aClienteRegistradas.push(cliente)
-    }
+            aClienteRegistradas.push(cliente);
+        }
     })
-
 
     if (req.session.rol != undefined) {
         if (dif >= 3 * 60 * 60 * 1000) {
             req.session.destroy() // Destruyes la sesion
             res.redirect('/')
         } else {
-            res.render('Admin_cliente_filtrado', {
+            res.render('Admin_cliente_filtrado',{
                 clienteLista : aClienteRegistradas,
-                filtros : filtro,
-               
-            })
-        }
-    } else {
+                filtros : Filtro,})
+            }}
+    else {
         res.redirect('/')
     }
-
-
 })
 
 

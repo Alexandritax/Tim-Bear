@@ -19,21 +19,20 @@
                     <h2 class="mt-5 ">Lista de Clientes</h2>
                     
                     <!--Campo para filtrar-->
-                    <div>
-                        <form action="/cliente/admin/filtrar" method="get"> 
-                            <div class="form-group mb-3 mt-2">
-                              <h6>Filtrar Clientes</h6>
-                              <input type="text email number" class="form-control"  name="filtro" placeholder="DNI-NOMBRE-APELLIDOS-CORREO">
-                            </div>
-                            <button type="submit" class="btn btn-dark">Buscar</button>
-                        </form>
-        
-                        <a class="btn btn-dark my-4" href="/partida/new">Nuevo</a>
-
-                    </div>
-
+                    <form method="get" action="/admin/cliente/filtrar" >
+                        <div class="form-group mb-3 mt-2">
+                            <h6>Filtrar Clientes</h6>
+                            <input class="form-control me-2" type="text" name="filtros" placeholder="DNI-NOMBRE-APELLIDOS-CORREO">
+                            <button class="btn btn-dark my-4"  type="submit">Filtrar</button>
+                        </div>  
+                   </form>
+            
+                        
                     
 
+                    <a class="btn btn-dark my-4" href="/partida/new">Nuevo</a>
+
+                    
                 
 
 
