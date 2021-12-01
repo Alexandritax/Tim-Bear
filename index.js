@@ -25,6 +25,9 @@ app.use(session({
 
 app.get('/', async (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
     const banners = await db.Banner.findAll({
+        where: {
+            estado:"activo"
+        },
         order : [
             ['id', 'ASC']
         ]
@@ -177,10 +180,13 @@ app.get('/admin', async (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
     const banners = await db.Banner.findAll({
-            order : [
-                ['id', 'ASC']
-            ]
-        })
+        where: {
+            estado:"activo"
+        },
+        order : [
+            ['id', 'ASC']
+        ]
+    })
     if (req.session.rol != undefined) {
         if (dif >= 3 * 60 * 60 * 1000) {
             req.session.destroy() // Destruyes la sesion
@@ -783,6 +789,7 @@ app.get("/banner/admin",async (req,res)=>{
         } else {
             //Obtener categorias de la base de datos
             const banners = await db.Banner.findAll({
+                
                 order : [
                     ['id', 'ASC']
                 ]
@@ -796,6 +803,79 @@ app.get("/banner/admin",async (req,res)=>{
         res.redirect('/')
     }
 })
+
+
+
+app.get("/banner/admin/modificar/:codigo",async(req,res)=>{
+
+    const idBanner = req.params.codigo
+    const banner = await db.Banner.findOne({
+        where: {
+            id : idBanner
+        }
+    })
+    res.render('Banners_update',{
+        user:req.session.username,
+        banner : banner
+    })
+
+})
+
+app.post("/banner/admin/modificar",async(req,res)=>{
+    const idBanner = req.body.banner_id
+    const nombre = req.body.banner_nombre
+    const imagen = req.body.banner_imagen 
+    const url = req.body.banner_url
+    const estado = req.body.banner_estado
+
+    const banner = await db.Banner.findOne({
+        where : {
+            id : idBanner
+        }
+    })
+    banner.nombre = nombre
+    banner.imagen = imagen
+    banner.URL = url
+    banner.estado = estado
+
+    await banner.save()
+    res.redirect('/banner/admin')
+
+})
+
+app.get("/banner/admin/new",(req,res)=>{
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            res.render('Banners_new',{
+                user:req.session.username
+            })
+        }
+    } else {
+        res.redirect('/')
+    }
+})
+
+app.post("/banner/admin/new",async(req,res)=>{
+    
+    const bannerNombre = req.body.banner_nombre
+    const bannerImagen = req.body.banner_imagen 
+    const bannerurl = req.body.banner_url
+    const bannerestado = req.body.banner_estado
+
+    await db.Banner.create({
+        nombre : bannerNombre,
+        imagen : bannerImagen,
+        URL : bannerurl,
+        estado : bannerestado
+    })
+    res.redirect('/banner/admin')
+})
+
 
 // CATEGORIAS
 app.get("/categoria/admin",async (req, res) => {
@@ -855,11 +935,11 @@ app.get("/categoria/admin/modificar/:codigo",async (req,res)=>{
     const idCategoria = req.params.codigo
     const categoria = await db.Categoria.findOne({
         where: {
-            user:req.session.username,
             id : idCategoria
         }
     })
     res.render('Categoria_update',{
+        user:req.session.username,
         categoria : categoria
     })
 
@@ -890,22 +970,7 @@ app.get("/categoria/admin/eliminar/:codigo", async(req,res)=>{
     res.redirect('/categoria/admin')
 })
 
-app.get("/banner/admin", (req, res) => {
-    const timestampActual = new Date().getTime();
-    const dif = timestampActual - req.session.lastLogin
 
-    if(req.session.rol != undefined){
-    if (dif >= 3 * 60 * 60 * 1000) {
-        req.session.destroy() // Destruyes la sesion
-        res.redirect('/')
-    }else{
-        res.render('Admin_banner',{
-            user:req.session.username
-        })
-    }}else{
-        res.redirect('/')
-    }
-})
 
 app.get('/logout', async (req, res) => {
     req.session.destroy();
