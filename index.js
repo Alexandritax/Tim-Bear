@@ -537,7 +537,7 @@ app.get('/partida/juego/:id', async(req,res)=>{
 
     const juegoid = req.params.id
     const juegos= await db.Juego.findAll();
-    const categorias=await db.Categoria.findAll()
+    const categorias= await db.Categoria.findAll()
     const banners = await db.Banner.findAll({
         order : [
             ['id', 'ASC']
@@ -550,7 +550,32 @@ app.get('/partida/juego/:id', async(req,res)=>{
     })
     res.render('client_partidas', {
         partidaLista : partidas,
-        categorias: categorias,
+        categoria: categorias,
+        banners: banners ,
+        juegos : juegos
+    })
+})
+
+//PARTIDA FILTRO POR CATEGORIA
+
+app.get('/partida/categoria/:id', async(req,res)=>{
+
+    const categoriaid = req.params.id
+    const categorias=await db.Categoria.findAll()
+    const partidas = await db.Partida.findAll()
+    const banners = await db.Banner.findAll({
+        order : [
+            ['id', 'ASC']
+        ]
+    })
+    const juegos=await db.Juego.findAll({
+        where: {
+            categoriaId: categoriaid
+        }
+    })
+    res.render('client_partidas', {
+        partidaLista : partidas,
+        categoria: categorias,
         banners: banners ,
         juegos : juegos
     })

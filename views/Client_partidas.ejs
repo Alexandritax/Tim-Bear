@@ -21,18 +21,30 @@
                 <div>
                     <div class="row mt-10 mb-5">
                         <h2 class="col-3">Partidas</h2>
-                        <div class="form-floating col-3">
-                            <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                                <option selected>--- Seleccione uno ---</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                            <label for="floatingSelect">Categorías</label>
+                        
+                        
+                        <!--APARTADO PARA FILTRAR CATEGORIAS-->
+                        <div mt=5>
+                            <form method="post" action="/partida/categoria" >
+                                <div class="dropdown">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                      Categoria:
+                                    </a>
+                                  
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <li><a class="dropdown-item" href="/partida">Mostrar todos</a></li>
+                                         <% categoria.forEach((categoria) => {  %>
+                                        <li><a class="dropdown-item" href="/partida/categoria/<%=categoria.id%>"><%=categoria.nombre%></a></li>
+                                     <% })%>
+
+                                    </ul>
+                                </div> 
+                           
+                            </form>
+
                         </div>
-                        <div class="col-2">
-                            <input type="text" class="form-control" id="query" placeholder="Buscar">
-                        </div>
+
+                       
 
                         <!--APARTADO PARA JUEGOS -->
                         <div class="mt-5">
