@@ -79,7 +79,7 @@ app.get('/cliente', async (req, res) => {
         ]
     })
 
-    if (req.session.rol != undefined || estado!="validado") {
+    if (req.session.rol != undefined) {
         if (dif >= 3 * 60 * 60 * 1000) {
             req.session.destroy() // Destruyes la sesion
             res.redirect('/')
