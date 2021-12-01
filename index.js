@@ -23,7 +23,13 @@ app.use(session({
     saveUninitialized: false
 }))
 
-app.get('/', (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
+app.get('/', async (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
+    const banners = await db.Banner.findAll({
+        order : [
+            ['id', 'ASC']
+        ]
+    })
+
     if (req.session.username != undefined) {
         req.session.lastLogin = new Date().getTime()
         if (req.session.rol == "Admin") {
@@ -33,12 +39,14 @@ app.get('/', (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
             res.redirect('/cliente')
         } else{
             res.render('Default',{
-                LogFlag: 0
+                LogFlag: 0,
+                banners: banners
             })
         }
     } else {
         res.render('Default',{
-            LogFlag: 0
+            LogFlag: 0,
+            banners: banners
         })
     }
 
@@ -164,10 +172,15 @@ app.post('/cliente/modificar', async (req, res) => {
 
 })
 
-app.get('/admin', (req, res) => {
+app.get('/admin', async (req, res) => {
+    
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
-
+    const banners = await db.Banner.findAll({
+            order : [
+                ['id', 'ASC']
+            ]
+        })
     if (req.session.rol != undefined) {
         if (dif >= 3 * 60 * 60 * 1000) {
             req.session.destroy() // Destruyes la sesion
@@ -175,7 +188,8 @@ app.get('/admin', (req, res) => {
         } else {
             let admin = req.session.username
             res.render('Admin_page',{
-                user:admin
+                user:admin,
+                banners: banners
             })
         }
     } else {
@@ -245,20 +259,23 @@ app.post("/", async (req, res) => { //contraseña en el primer correo es 123
                 //console.log(2)
             }else{
                 res.render('Default',{
-                    LogFlag: 2
+                    LogFlag: 2,
+                    banners: banners
                 })
             }
             
         }else{
             console.log("contraseña incorrecta")
             res.render('Default',{
-                LogFlag: 1
+                LogFlag: 1,
+                banners: banners
             })
         } 
         }else{
             console.log('Usuario no existente')
             res.render('Default',{
-                LogFlag: 3
+                LogFlag: 3,
+                banners: banners
             })
         }
     }
@@ -737,7 +754,6 @@ app.get("/banner/admin",async (req,res)=>{
                     ['id', 'ASC']
                 ]
             })
-            console.log(banners)
             res.render('Admin_banner',{
                 banners :banners,
                 user: req.session.username
