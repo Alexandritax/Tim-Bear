@@ -224,16 +224,6 @@ app.post("/", async (req, res) => { //contraseña en el primer correo es 123
         }
     }
 
-    
-    //const FoundUser = await findUser(username)
-    //const tablename = await findUserType(username) // Admin || Cliente
-    //let passwordhash = bcrypt.hashSync("123", saltRounds)
-    /*console.log(username)
-    console.log(FoundUser)
-    console.log(passwordhash)
-    console.log(compare)*/
-    //const correctPW = "123"
-
     async function pageload(user,secret) {
         const FoundUser = await findUser(user)
         const tablename = await findUserType(user)
