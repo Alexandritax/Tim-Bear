@@ -568,8 +568,8 @@ app.get("/cliente/admin", async (req, res) => {
     const aClienteRegistradas = []
     if (cliente.length > 0) {
         for (let te of cliente) {
-            const cliente = await te.get()
-            aClienteRegistradas.push(cliente)
+            const user = await te.get()
+            aClienteRegistradas.push(user)
         }
     }
 
@@ -600,11 +600,11 @@ app.get('/cliente/admin/filtrar', async (req, res) => {
     const filtro = req.query.filtros;
     console.log(filtro)
     
-    const cliente = await db.Cliente.findAll();
+    const clientes = await db.Cliente.findAll();
 
     const aClienteRegistradas = []
 
-    cliente.forEach( (cliente)=> {
+    clientes.forEach( (cliente)=> {
         if( cliente.DNI.includes(filtro) || cliente.nombre.includes(filtro) || cliente.apellido.includes(filtro)
         || cliente.correo.includes(filtro))
         {
