@@ -25,6 +25,9 @@ app.use(session({
 
 app.get('/', async (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
     const banners = await db.Banner.findAll({
+        where: {
+            estado:"activo"
+        },
         order : [
             ['id', 'ASC']
         ]
@@ -177,10 +180,13 @@ app.get('/admin', async (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
     const banners = await db.Banner.findAll({
-            order : [
-                ['id', 'ASC']
-            ]
-        })
+        where: {
+            estado:"activo"
+        },
+        order : [
+            ['id', 'ASC']
+        ]
+    })
     if (req.session.rol != undefined) {
         if (dif >= 3 * 60 * 60 * 1000) {
             req.session.destroy() // Destruyes la sesion
@@ -743,6 +749,7 @@ app.get("/banner/admin",async (req,res)=>{
         } else {
             //Obtener categorias de la base de datos
             const banners = await db.Banner.findAll({
+                
                 order : [
                     ['id', 'ASC']
                 ]
@@ -755,6 +762,48 @@ app.get("/banner/admin",async (req,res)=>{
         res.redirect('/')
     }
 })
+
+
+app.get("/banner/admin/modificar/:codigo",async(req,res)=>{
+
+    const idBanner = req.params.codigo
+    const banner = await db.Banner.findOne({
+        where: {
+            id : idBanner
+        }
+    })
+    res.render('Banners_update',{
+        banner : banner
+    })
+
+})
+
+
+
+app.post("/banner/admin/modificar",async(req,res)=>{
+    const idBanner = req.body.banner_id
+    const nombre = req.body.banner_nombre
+    const imagen = req.body.banner_imagen 
+    const url = req.body.banner_url
+    const estado = req.body.banner_estado
+
+    const banner = await db.Banner.findOne({
+        where : {
+            id : idBanner
+        }
+    })
+    banner.nombre = nombre
+    banner.imagen = imagen
+    banner.URL = url
+    banner.estado = estado
+
+    await banner.save()
+    res.redirect('/banner/admin')
+
+})
+
+
+
 
 // CATEGORIAS
 app.get("/categoria/admin",async (req, res) => {
