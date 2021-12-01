@@ -702,7 +702,11 @@ app.get("/juego/admin", async (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
 
-    const juegos = await db.Juego.findAll()
+    const juegos = await db.Juego.findAll({
+        order : [
+            ['id', 'ASC']
+        ]
+    })
     const NewJuego = []
     if (juegos.length > 0) {
         for (let te of juegos) {
@@ -796,7 +800,7 @@ app.get("/juego/update/:id", async (req, res) => {
     
 })
 app.post("/juego/update/", async (req, res) => {
-    const juegoId = req.body.juegocategoria_id
+    const juegoId = req.body.juego_id
     const juegoNombre = req.body.juego_nombre
     const juegoCategoria = req.body.juegocategoria_id
 
