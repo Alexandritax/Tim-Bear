@@ -19,6 +19,7 @@
                     <table class="table table-hover mt-2">
                         <thead>
                             <tr>
+                                <th>Id</th>
                                 <th>Juego</th>
                                 <th>Fecha</th>
                                 <th>Hora de inicio</th>
@@ -50,6 +51,7 @@
                         <tbody>
                             <% partidaLista.forEach((partida)=> {%>
                                 <tr>
+                                    <td><%= partida.id%></td>
                                     <td><%= partida.juegoNombre %></td>
                                     <td><%= partida.fecha.toISOString().substring(0,10) %></td>
                                     <td><%= partida.hora%></td>
