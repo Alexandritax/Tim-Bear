@@ -186,9 +186,8 @@ app.get('/admin', async (req, res) => {
             req.session.destroy() // Destruyes la sesion
             res.redirect('/')
         } else {
-            let admin = req.session.username
             res.render('Admin_page',{
-                user:admin,
+                user:req.session.username,
                 banners: banners
             })
         }
@@ -322,6 +321,7 @@ app.get("/partida/admin", async (req, res) => {
             res.redirect('/')
         } else {
             res.render('Admin_partida', {
+                user:req.session.username,
                 partidaLista: NewPartida,
                 estados: estados
             })
@@ -330,6 +330,8 @@ app.get("/partida/admin", async (req, res) => {
         res.redirect('/')
     }
 })
+
+//Filtro
 
 app.get("/partida/search", async (req, res)=> {
     const timestampActual = new Date().getTime();
@@ -366,6 +368,7 @@ app.get("/partida/search", async (req, res)=> {
             res.redirect('/')
         } else {
             res.render('Admin_partida', {
+                user:req.session.username,
                 partidaLista: NewPartida,
                 estados: estados
             })
@@ -502,14 +505,19 @@ app.get("/partida/delete/:id", async (req, res) => {
 
 // PARTIDAS GENERAL PARA TODOS
 app.get("/partida", async (req, res) => {
-
     const partida = await db.Partida.findAll()
     const juegos = await db.Juego.findAll()
+    const banners = await db.Banner.findAll({
+        order : [
+            ['id', 'ASC']
+        ]
+    })
     const estados = ["Pendiente","Iniciado","Finalizado"]
     res.render('Client_partidas', {
         partidaLista: partida,
         estados: estados,
-        juegos: juegos
+        juegos: juegos,
+        banners: banners
     })
     
 })
@@ -563,6 +571,7 @@ app.get("/admin/cliente", async (req, res) => {
             res.redirect('/')
         } else {
             res.render('Admin_cliente', {
+                user:req.session.username,
                 clienteLista: aClienteRegistradas
             })
         }
@@ -599,6 +608,7 @@ app.get('/admin/cliente/filtrar', async (req, res) => {
             res.redirect('/')
         } else {
             res.render('Admin_cliente_filtrado',{
+                user:req.session.username,
                 clienteLista : aClienteRegistradas,
                 filtros : Filtro,})
             }}
@@ -640,6 +650,7 @@ app.get("/juego/admin", async (req, res) => {
             res.redirect('/')
         } else {
             res.render('Admin_juego',{
+                user:req.session.username,
                 juegos: NewJuego
             })
         }
@@ -748,6 +759,7 @@ app.get("/banner/admin",async (req,res)=>{
                 ]
             })
             res.render('Admin_banner',{
+                user:req.session.username,
                 banners :banners
             })
         }
@@ -773,6 +785,7 @@ app.get("/categoria/admin",async (req, res) => {
                 ]
             });
             res.render('Admin_categoria',{
+                user:req.session.username,
                 categorias :categorias
             })
         }
@@ -791,7 +804,9 @@ app.get("/categoria/admin/new",(req,res) =>{
             req.session.destroy() // Destruyes la sesion
             res.redirect('/')
         } else {
-            res.render('Categoria_new')
+            res.render('Categoria_new',{
+                user:req.session.username
+            })
         }
     } else {
         res.redirect('/')
@@ -811,6 +826,7 @@ app.get("/categoria/admin/modificar/:codigo",async (req,res)=>{
     const idCategoria = req.params.codigo
     const categoria = await db.Categoria.findOne({
         where: {
+            user:req.session.username,
             id : idCategoria
         }
     })
@@ -854,7 +870,9 @@ app.get("/banner/admin", (req, res) => {
         req.session.destroy() // Destruyes la sesion
         res.redirect('/')
     }else{
-        res.render('Admin_banner')
+        res.render('Admin_banner',{
+            user:req.session.username
+        })
     }}else{
         res.redirect('/')
     }
