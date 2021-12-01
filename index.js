@@ -593,6 +593,7 @@ app.get('/admin/cliente/filtrar', async (req, res) => {
 
 
 
+
 //Juegos
 
 app.get("/juego/admin", async (req, res) => {
