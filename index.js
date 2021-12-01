@@ -268,42 +268,6 @@ app.post("/", async (req, res) => { //contraseña en el primer correo es 123
 
     pageload(username,password)
 
-
-
-    // if(username==FoundUser.correo) {
-    //     let compare = bcrypt.compareSync(password, FoundUser.contrasenia)
-    //     if (compare) {
-    //     // Login correcto
-        
-    //     //console.log(0)
-    //     if(tablename == "Admin"){
-    //         req.session.username = username // guardando variable en sesion
-    //         req.session.rol = tablename
-    //         res.redirect('/admin')
-    //         //console.log(1)
-    //     }else if(tablename == "Cliente"){
-    //         req.session.username = username // guardando variable en sesion
-    //         req.session.rol = tablename
-    //         res.redirect('/cliente')
-    //         //console.log(2)
-    //     }else{
-    //         res.render('Default',{
-    //             LogFlag: 2
-    //         })
-    //     }
-        
-    // }else{
-    //     console.log("contraseña incorrecta")
-    //     res.render('Default',{
-    //         LogFlag: 1
-    //     })
-    // } 
-    // }else{
-    //     console.log('Usuario no existente')
-    //     res.render('Default',{
-    //         LogFlag: 3
-    //     })
-    // }
 })
 
 // PARTIDAS

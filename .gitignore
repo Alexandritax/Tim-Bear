@@ -1,5 +1,4 @@
 node_modules
 Proyecto-Tim-Bear.code-workspace
 dao/config/config.json
-
-dao/config/config.json
+out/*
