@@ -202,70 +202,69 @@ app.post("/", async (req, res) => { //contraseña en el primer correo es 123
 
     async function findUserType(correo) {
         const administrator = await db.Administrador.findOne({where:{
-        correo: correo
-    }})
+            correo: correo
+        }})
         const cliente = await db.Cliente.findOne({where:{
-        correo: correo
-    }})
-    if(administrator == null && cliente != null){
-        return "Cliente"
+            correo: correo
+        }})
+        if(administrator == null && cliente != null){
+            return "Cliente"
+        }
+        else if(cliente == null && administrator != null){
+            return "Admin"
+        }
+        else if(cliente != null && administrator != null){
+            return "Admin"
+        }
+        else{
+            return "NonUser"
+        }
     }
-    else if(cliente == null && administrator != null){
-        return "Admin"
+
+    async function pageload(user,secret) {
+        const FoundUser = await findUser(user)
+        const tablename = await findUserType(user)
+        if(user==FoundUser.correo) {
+            let compare = bcrypt.compareSync(secret, FoundUser.contrasenia)
+            if (compare) {
+            // Login correcto
+            
+            //console.log(0)
+            if(tablename == "Admin"){
+                req.session.username = user // guardando variable en sesion
+                req.session.rol = tablename
+                res.redirect('/admin')
+                //console.log(1)
+            }else if(tablename == "Cliente"){
+                req.session.username = user // guardando variable en sesion
+                req.session.rol = tablename
+                res.redirect('/cliente')
+                //console.log(2)
+            }else{
+                res.render('Default',{
+                    LogFlag: 2
+                })
+            }
+            
+        }else{
+            console.log("contraseña incorrecta")
+            res.render('Default',{
+                LogFlag: 1
+            })
+        } 
+        }else{
+            console.log('Usuario no existente')
+            res.render('Default',{
+                LogFlag: 3
+            })
+        }
     }
-    else if(cliente != null && administrator != null){
-        return "Admin"
-    }
-    else{
-        return "NonUser"
-    }
-}
 
     const username = req.body.username
     const password = req.body.password
-    const FoundUser = await findUser(username)
-    const tablename = await findUserType(username) // Admin || Cliente
-    //let passwordhash = bcrypt.hashSync("123", saltRounds)
-    /*console.log(username)
-    console.log(FoundUser)
-    console.log(passwordhash)
-    console.log(compare)*/
-    //const correctPW = "123"
 
-    if(username==FoundUser.correo) {
-        let compare = bcrypt.compareSync(password, FoundUser.contrasenia)
-        if (compare) {
-        // Login correcto
-        
-        //console.log(0)
-        if(tablename == "Admin"){
-            req.session.username = username // guardando variable en sesion
-            req.session.rol = tablename
-            res.redirect('/admin')
-            //console.log(1)
-        }else if(tablename == "Cliente"){
-            req.session.username = username // guardando variable en sesion
-            req.session.rol = tablename
-            res.redirect('/cliente')
-            //console.log(2)
-        }else{
-            res.render('Default',{
-                LogFlag: 2
-            })
-        }
-        
-    } else{
-        console.log("contraseña incorrecta")
-        res.render('Default',{
-            LogFlag: 1
-        })
-    } 
-    }else{
-        console.log('Usuario no existente')
-        res.render('Default',{
-            LogFlag: 3
-        })
-    }
+    pageload(username,password)
+
 })
 
 // PARTIDAS
@@ -532,8 +531,8 @@ app.get("/admin/cliente", async (req, res) => {
     const aClienteRegistradas = []
     if (cliente.length > 0) {
         for (let te of cliente) {
-            const cliente = await te.get()
-            aClienteRegistradas.push(cliente)
+            const user = await te.get()
+            aClienteRegistradas.push(user)
         }
     }
 
