@@ -23,7 +23,13 @@ app.use(session({
     saveUninitialized: false
 }))
 
-app.get('/', (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
+app.get('/', async (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
+    const banners = await db.Banner.findAll({
+        order : [
+            ['id', 'ASC']
+        ]
+    })
+
     if (req.session.username != undefined) {
         req.session.lastLogin = new Date().getTime()
         if (req.session.rol == "Admin") {
@@ -33,12 +39,14 @@ app.get('/', (req, res) => { //Usuario: "Admin" || "Usuario" || "Default"
             res.redirect('/cliente')
         } else{
             res.render('Default',{
-                LogFlag: 0
+                LogFlag: 0,
+                banners: banners
             })
         }
     } else {
         res.render('Default',{
-            LogFlag: 0
+            LogFlag: 0,
+            banners: banners
         })
     }
 
@@ -164,10 +172,15 @@ app.post('/cliente/modificar', async (req, res) => {
 
 })
 
-app.get('/admin', (req, res) => {
+app.get('/admin', async (req, res) => {
+    
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
-
+    const banners = await db.Banner.findAll({
+            order : [
+                ['id', 'ASC']
+            ]
+        })
     if (req.session.rol != undefined) {
         if (dif >= 3 * 60 * 60 * 1000) {
             req.session.destroy() // Destruyes la sesion
@@ -175,7 +188,8 @@ app.get('/admin', (req, res) => {
         } else {
             let admin = req.session.username
             res.render('Admin_page',{
-                user:admin
+                user:admin,
+                banners: banners
             })
         }
     } else {
@@ -245,20 +259,23 @@ app.post("/", async (req, res) => { //contraseña en el primer correo es 123
                 //console.log(2)
             }else{
                 res.render('Default',{
-                    LogFlag: 2
+                    LogFlag: 2,
+                    banners: banners
                 })
             }
             
         }else{
             console.log("contraseña incorrecta")
             res.render('Default',{
-                LogFlag: 1
+                LogFlag: 1,
+                banners: banners
             })
         } 
         }else{
             console.log('Usuario no existente')
             res.render('Default',{
-                LogFlag: 3
+                LogFlag: 3,
+                banners: banners
             })
         }
     }
@@ -306,8 +323,7 @@ app.get("/partida/admin", async (req, res) => {
         } else {
             res.render('Admin_partida', {
                 partidaLista: NewPartida,
-                estados: estados,
-                user: req.session.username
+                estados: estados
             })
         }
     } else {
@@ -351,8 +367,7 @@ app.get("/partida/search", async (req, res)=> {
         } else {
             res.render('Admin_partida', {
                 partidaLista: NewPartida,
-                estados: estados,
-                user: req.session.username
+                estados: estados
             })
         }
     } else {
@@ -376,8 +391,7 @@ app.get("/partida/new", async (req, res) => {
             res.render('partida_new',{
                 juegos: juegos,
                 estados: estados,
-                resultados: resultados,
-                user: req.session.username
+                resultados: resultados
             })
         }
     } else {
@@ -436,8 +450,7 @@ app.get("/partida/update/:id", async (req, res) => {
         partida: partida,
         juegos: juegos,
         estados: estados,
-        resultados: resultados,
-        user: req.session.username
+        resultados: resultados
     })
 })
 
@@ -498,10 +511,12 @@ app.get("/partida", async (req, res) => {
         estados: estados,
         juegos: juegos
     })
-
-
     
 })
+
+// PARTIDA FILTRO 
+
+
 
 // ESTO CREO QUE LO HIZO RODRIGO NO FUNCIONA PERO NO LO BORRO
 app.get("/partidasss", async (req, res) => {
@@ -522,12 +537,16 @@ app.get("/partidasss", async (req, res) => {
 
 //HASTA ACÁ CHECA BIEN ESO SI NO SIRVE LO ELIMINAS
 
-// CLIENTES
-app.get("/cliente/admin", async (req, res) => {
+// CLIENTES ADMIN
+app.get("/admin/cliente", async (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
 
-    const cliente = await db.Cliente.findAll()
+    const cliente = await db.Cliente.findAll({
+        order : [ 
+            ['id','ASC'] 
+        ]
+    });
 
     const aClienteRegistradas = []
     if (cliente.length > 0) {
@@ -544,8 +563,7 @@ app.get("/cliente/admin", async (req, res) => {
             res.redirect('/')
         } else {
             res.render('Admin_cliente', {
-                clienteLista: aClienteRegistradas,
-                user: req.session.username
+                clienteLista: aClienteRegistradas
             })
         }
     } else {
@@ -555,45 +573,40 @@ app.get("/cliente/admin", async (req, res) => {
 
 })
 
-//PORFA REVISEN PQ NO AGARRA ESTE GET CON ADMI_CLIENTE
+//CLIENTES ADMIN FILTRAR
+app.get('/admin/cliente/filtrar', async (req, res) => { 
 
-app.get('/cliente/admin/filtrar', async (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
 
-    const filtro = req.query.filtros;
-    console.log(filtro)
-    
+    const Filtro = req.query.filtros;
     const clientes = await db.Cliente.findAll();
 
-    const aClienteRegistradas = []
+    const aClienteRegistradas = [];
 
     clientes.forEach( (cliente)=> {
-        if( cliente.DNI.includes(filtro) || cliente.nombre.includes(filtro) || cliente.apellido.includes(filtro)
-        || cliente.correo.includes(filtro))
+        if( cliente.dni.includes(Filtro) || cliente.nombre.includes(Filtro) ||
+        cliente.apellidos.includes(Filtro) || 
+        cliente.correo.includes(Filtro))
         {
-        aClienteRegistradas.push(cliente)
-    }
+            aClienteRegistradas.push(cliente);
+        }
     })
-
 
     if (req.session.rol != undefined) {
         if (dif >= 3 * 60 * 60 * 1000) {
             req.session.destroy() // Destruyes la sesion
             res.redirect('/')
         } else {
-            res.render('Admin_cliente_filtrado', {
+            res.render('Admin_cliente_filtrado',{
                 clienteLista : aClienteRegistradas,
-                filtros : filtro,
-                user: req.session.username
-            })
-        }
-    } else {
+                filtros : Filtro,})
+            }}
+    else {
         res.redirect('/')
     }
-
-
 })
+
 
 
 
@@ -627,8 +640,7 @@ app.get("/juego/admin", async (req, res) => {
             res.redirect('/')
         } else {
             res.render('Admin_juego',{
-                juegos: NewJuego,
-                user: req.session.username
+                juegos: NewJuego
             })
         }
     } else {
@@ -650,8 +662,7 @@ app.get("/juego/new", async (req, res) => {
         } else {
             res.render('Juegos_new',{
                 juegos: juegos,
-                categorias: categorias,
-                user: req.session.username
+                categorias: categorias
             })
         }
     } else {
@@ -686,8 +697,7 @@ app.get("/juego/update/:id", async (req, res) => {
         } else {
             res.render('Juegos_update',{
                 juego: juego,
-                categorias: categorias,
-                user: req.session.username
+                categorias: categorias
             })
         }
     } else {
@@ -737,10 +747,8 @@ app.get("/banner/admin",async (req,res)=>{
                     ['id', 'ASC']
                 ]
             })
-            console.log(banners)
             res.render('Admin_banner',{
-                banners :banners,
-                user: req.session.username
+                banners :banners
             })
         }
     } else {
@@ -765,8 +773,7 @@ app.get("/categoria/admin",async (req, res) => {
                 ]
             });
             res.render('Admin_categoria',{
-                categorias :categorias,
-                user: req.session.username
+                categorias :categorias
             })
         }
     } else {
@@ -784,9 +791,7 @@ app.get("/categoria/admin/new",(req,res) =>{
             req.session.destroy() // Destruyes la sesion
             res.redirect('/')
         } else {
-            res.render('Categoria_new',{
-                user: req.session.username
-            })
+            res.render('Categoria_new')
         }
     } else {
         res.redirect('/')
@@ -810,8 +815,7 @@ app.get("/categoria/admin/modificar/:codigo",async (req,res)=>{
         }
     })
     res.render('Categoria_update',{
-        categoria : categoria,
-        user: req.session.username
+        categoria : categoria
     })
 
 })
@@ -850,8 +854,7 @@ app.get("/banner/admin", (req, res) => {
         req.session.destroy() // Destruyes la sesion
         res.redirect('/')
     }else{
-        res.render('Admin_banner',{
-        user: req.session.username})
+        res.render('Admin_banner')
     }}else{
         res.redirect('/')
     }
