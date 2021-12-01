@@ -14,16 +14,13 @@
                     <div class="d-flex">
                         <h2 class="mb-5">Space</h2>
                     </div>
-                    <h2 class="mt-5">Mantenimiento de partidas</h2>
+                    <% if(partidaLista.length>0){ %>
+
+                    <h2 class="mt-5 ">Partidas Filtradas </h2>
+
                     <!--Campo para filtrar-->
-                    <form method="get" action="/admin/partida/filtrar" >
-                        <div class="form-group mb-3 mt-2">
-                            <h6>Filtrar Clientes</h6>
-                            <input class="form-control me-2" type="text" name="filtros" placeholder="NOMBRE DEL JUEGO">
-                            <button class="btn btn-success my-4"  type="submit">Filtrar</button>
-                        </div>  
-                   </form>
-                    <a class="btn btn-success my-4" href="/partida/new">Nuevo</a>
+                    <h6>POSIBLES COICIDENCIAS</h6>
+
                     <table class="table table-hover mt-2">
                         <thead>
                             <tr>
@@ -81,9 +78,13 @@
                             <% }) %>
                         </tbody>
                     </table>
+                    <% } else{%>
+                        <p>No existen coincidencias.</p>
+                    <% } %>
                 </div>
             </div>
         </main>
         <%- include('Footer') %>
     </body>
 </html>
+

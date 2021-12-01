@@ -59,11 +59,11 @@
             </div>
             <div>
                 <label class="form-label">estado:</label>
-                <select id="selectEstado" name="partida_resultado" class="form-select">
+                <select id="selectEstado" name="partida_estado" class="form-select">
                     <option value="-1">------ Seleccione una opcion ------</option>
                     <% estados.forEach((estado)=>{%>
                         <%if (estado == partida.estado) {%>
-                            <option selected value="<%=estado%>"><%= estado %></option>
+                            <option selected value="<%=estado%>"><%=estado %></option>
                         <%} else {%>
                             <option value="<%=estado%>"><%=estado%></option>
                         <%}%>        
@@ -74,7 +74,7 @@
                 <label class="form-label">Resultado:</label>
                 <select id="selectResultado" name="partida_resultado" class="form-select">
                     <option value="-1">------ Seleccione una opcion ------</option>
-                        <% resultados.forEach((resultado) => { console.log(partida.resultado)%>
+                        <% resultados.forEach((resultado) => {%>
                             <%if(resultado == partida.resultado){%>
                                 <%if(resultado!="empate" && resultado!="pendiente"){%>
                                     <option selected value="<%=resultado%>">Gano <%=resultado%></option>

@@ -489,6 +489,7 @@ app.post('/partida/update', async (req, res) =>{
     const partidaFactor2 = req.body.partida_factor2
     const partidaEstado = req.body.partida_estado
     const partidaResultado = req.body.partida_resultado
+    console.log(partidaResultado)
 
     const partida = await db.Partida.findOne({
         where : {
@@ -689,6 +690,66 @@ app.get('/admin/cliente/filtrar', async (req, res) => {
         res.redirect('/')
     }
 })
+
+//PARTIDA ADMIN FILTRAR
+
+
+//PARTIDAS ADMIN FILTRAR
+
+app.get('/admin/partida/filtrar', async (req, res) => { 
+
+    const timestampActual = new Date().getTime();
+    const dif = timestampActual - req.session.lastLogin
+
+   
+
+    
+
+    const Filtro = req.query.filtros;
+    const partida = await db.Partida.findAll();
+    
+
+    const estados = ["Pendiente","Iniciado","Finalizado"]
+    const banners = await db.Banner.findAll({
+        where: {
+            estado:"activo"
+        },
+        order : [
+            ['id', 'ASC']
+        ]
+    })
+
+
+    const aPartidaRegistradas = [];
+
+    partida.forEach( (partida)=> {
+        if( partida.equipo1.includes(Filtro) ||partida.equipo2.includes(Filtro) )
+        {
+            aPartidaRegistradas.push(partida);
+        }
+    })
+
+    if (req.session.rol != undefined) {
+        if (dif >= 3 * 60 * 60 * 1000) {
+            req.session.destroy() // Destruyes la sesion
+            res.redirect('/')
+        } else {
+            res.render('Admin_partida_filtrada',{
+                user:req.session.username,
+                partidaLista : aPartidaRegistradas,
+                filtros : Filtro,
+                estados : estados,
+                banners:banners
+            })
+            }}
+    else {
+        res.redirect('/')
+    }
+})
+
+
+
+
 
 
 
