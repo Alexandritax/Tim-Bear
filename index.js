@@ -67,16 +67,27 @@ app.get('/nosotros', (req, res) => {
     res.render('nosotros')
 })
 
-app.get('/cliente', (req, res) => {
+app.get('/cliente', async (req, res) => {
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
+    const banners = await db.Banner.findAll({
+        where: {
+            estado:"activo"
+        },
+        order : [
+            ['id', 'ASC']
+        ]
+    })
 
     if (req.session.rol != undefined) {
         if (dif >= 3 * 60 * 60 * 1000) {
             req.session.destroy() // Destruyes la sesion
             res.redirect('/')
         } else {
-            res.render('Client_page')
+            res.render('Client_page',{
+                banners : banners
+
+            })
         }
     } else {
         res.redirect('/')
