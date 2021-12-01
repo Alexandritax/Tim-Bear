@@ -744,7 +744,8 @@ app.get("/juego/new", async (req, res) => {
         } else {
             res.render('Juegos_new',{
                 juegos: juegos,
-                categorias: categorias
+                categorias: categorias,
+                user:req.session.username
             })
         }
     } else {
