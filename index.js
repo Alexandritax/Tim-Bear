@@ -737,7 +737,8 @@ app.get("/banner/admin",async (req,res)=>{
                 order : [
                     ['id', 'ASC']
                 ]
-            });
+            })
+            console.log(banners)
             res.render('Admin_banner',{
                 banners :banners,
                 user: req.session.username
