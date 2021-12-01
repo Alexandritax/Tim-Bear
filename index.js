@@ -489,6 +489,7 @@ app.post('/partida/update', async (req, res) =>{
     const partidaFactor2 = req.body.partida_factor2
     const partidaEstado = req.body.partida_estado
     const partidaResultado = req.body.partida_resultado
+    console.log(partidaResultado)
 
     const partida = await db.Partida.findOne({
         where : {
