@@ -860,9 +860,6 @@ app.get("/banner/admin", (req, res) => {
     }
 })
 
-
-
-
 app.get('/logout', async (req, res) => {
     req.session.destroy();
     res.redirect('/')
