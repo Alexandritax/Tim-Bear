@@ -739,7 +739,8 @@ app.get("/banner/admin",async (req,res)=>{
                 ]
             });
             res.render('Admin_banner',{
-                banners :banners
+                banners :banners,
+                user: req.session.username
             })
         }
     } else {
