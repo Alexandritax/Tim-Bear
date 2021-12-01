@@ -124,31 +124,31 @@ module.exports = {
     //Cliente
     await queryInterface.bulkInsert('Cliente', [
       { 
-        nombre:'Jhan carlos',apellidos:'Mendoza Aylas',dni:'77798438',correo:'20181173@aloe.ulima.edu.pe',
+        nombre:'Jhan Carlos', apellidos:'Mendoza Aylas', dni:'77798438', correo:'20181173@aloe.ulima.edu.pe',
         contrasenia: '$2b$10$jAsJfo1RxWfRXTv2q0xxhu0nEE9/mKFgZcE.6XDxd0n0BvydcEuBi', // 123
-        telefono :'987654321' ,direccion:'dasdlsbdkaskdb',departamentoId:'1',provinciaId:'1',
-        distritoId:1,pep:'0',estado:'validado',
+        telefono :'987654321', direccion:'dasdlsbdkaskdb', departamentoId:'1', provinciaId:'1',
+        distritoId:1,pep:false,estado:'validado',
         createdAt: new Date(), updatedAt: new Date()
       },
       { 
-        nombre:'Luis',apellidos:'Quispe Quispe',dni:'777815438',correo:'luis_quispe@gmail.com',
+        nombre:'Luis', apellidos:'Quispe Quispe', dni:'777815438', correo:'luis_quispe@gmail.com',
         contrasenia: '$2b$10$jAsJfo1RxWfRXTv2q0xxhu0nEE9/mKFgZcE.6XDxd0n0BvydcEuBi', // 123
-        telefono :'945678249' ,direccion:'dasdlsbdkaskdb',departamentoId:'1',provinciaId:'1',
-        distritoId:1,pep:'0',estado:'pendiente de validación,',
+        telefono :'945678249', direccion:'dasdlsbdkaskdb', departamentoId:'1', provinciaId:'1',
+        distritoId:1, pep:false, estado:'pendiente de validación',
         createdAt: new Date(), updatedAt: new Date()
       },
       { 
-        nombre:'Miguel',apellidos:'Lopez Ferran',dni:'78434687',correo:'miguelito@gmail.com',
+        nombre:'Miguel', apellidos:'Lopez Ferran', dni:'78434687', correo:'miguelito@gmail.com',
         contrasenia: '$2b$10$jAsJfo1RxWfRXTv2q0xxhu0nEE9/mKFgZcE.6XDxd0n0BvydcEuBi', // 123
-        telefono :'975167843' ,direccion:'dasdlsbdkaskdb',departamentoId:'1',provinciaId:'1',
-        distritoId:1,pep:'1',estado:'dado de baja',
+        telefono :'975167843', direccion:'dasdlsbdkaskdb', departamentoId:'1', provinciaId:'1',
+        distritoId:1, pep:true, estado:'dado de baja',
         createdAt: new Date(), updatedAt: new Date()
       },
       { 
-        nombre:'Maria',apellidos:'Ortega Paz',dni:'78134597',correo:'maria@gmail.com',
+        nombre:'Maria', apellidos:'Ortega Paz', dni:'78134597', correo:'maria@gmail.com',
         contrasenia: '$2b$10$jAsJfo1RxWfRXTv2q0xxhu0nEE9/mKFgZcE.6XDxd0n0BvydcEuBi', // 123
-        telefono :'979513498' ,direccion:'dasdlsbdkaskdb',departamentoId:'1',provinciaId:'2',
-        distritoId:1,pep:'1',estado:'validado',
+        telefono :'979513498', direccion:'dasdlsbdkaskdb', departamentoId:'1', provinciaId:'2',
+        distritoId:1, pep:true, estado:'validado',
         createdAt: new Date(), updatedAt: new Date()
       }
       
