@@ -44,6 +44,7 @@
                                 <th>DNI</th>
                                 <th>Correo electronico</th>
                                 <th>Número telefónico</th>
+                                <th>Dirección</th>
                                 <th>estado
                                     <span class="btn-group dropup">
                                         <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -72,6 +73,7 @@
                                     <td><%= cliente.dni%></td>
                                     <td><%= cliente.correo %></td>
                                     <td><%= cliente.telefono %></td>
+                                    <td><%= cliente.direccion %></td>
                                     <td><%= cliente.estado %></td>
                                     <td>
                                         <a  href="/cliente/modificar/<%= cliente.id %>"  >Editar</a>
