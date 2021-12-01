@@ -19,7 +19,6 @@
                 <h2 class="mb-1">Space</h2>
                 <div class="mb-5"></div>
                 <div>
-
                     <div class="row mt-10 mb-5">
                         <h2 class="col-3">Partidas</h2>
                         <div class="form-floating col-3">
@@ -34,41 +33,31 @@
                         <div class="col-2">
                             <input type="text" class="form-control" id="query" placeholder="Buscar">
                         </div>
-                        
-                        <div class="mt-3">
-                            <form action="/partidas" method="GET">
-                                <div class="container">
-                                    <div class="row row-cols-md-6 g-1 d-flex justify-content-evenly">
+
+                        <!--APARTADO PARA JUEGOS -->
+                        <div class="mt-5">
+                            <form method="get" action="/partida/juego">
+
+                                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                                    <a class="navbar-brand" href="/partida">TODOS</a>
+                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+                                    </button>
+                                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                                      <div class="navbar-nav">
                                         <%juegos.forEach((juego) => {%>
-                                        <div class="col-1">
-                                            <button type="submit" class="d-flex justify-content-center btn btn-primary mx-auto" name="juegoId" value="<%juego.id%>"><%=juego.nombre%></button>
-                                        </div>
+        
+                                        <a class="nav-item nav-link" href="/partida/juego/<%=juego.id%>"><%=juego.nombre%></a>
                                         <%})%>
-                                        <!-- <div class="col">
-                                            <button type="submit" class="d-flex justify-content-evenly btn btn-primary mx-auto" name="juegoId" value="2">Baloncesto</button>
-                                        </div>
-                                        <div class="col">
-                                            <button type="submit" class="d-flex justify-content-evenly btn btn-primary mx-auto">Voleibol</button>
-                                        </div>
-                                        <div class="col">
-                                            <button type="submit" class="d-flex justify-content-evenly btn btn-primary mx-auto">Tenis</button>
-                                        </div>
-                                        <div class="col">
-                                            <button type="submit" class="d-flex justify-content-evenly btn btn-primary mx-auto">Béisbol</button>
-                                        </div>
-                                        <div class="col">
-                                            <button type="submit" class="d-flex justify-content-evenly btn btn-primary mx-auto">Hockey</button>
-                                        </div>
-                                        <div class="col">
-                                            <button type="submit" class="d-flex justify-content-evenly btn btn-primary mx-auto">E-Sport</button>
-                                        </div>
-                                        <div class="col">
-                                            <button type="submit" class="d-flex justify-content-evenly btn btn-primary mx-auto">Ping-pong</button>
-                                        </div> -->
+        
+                                         </div>
                                     </div>
-                                </div>
+                                </nav>
+
                             </form>
-                        </div>
+                    
+                    </div>
+                        
+                        
                     </div>
                        
                 </div>
@@ -78,7 +67,9 @@
                     <div class="row">
                         <!--Banner -->
                         <div class="col-3">
+
                             <%- include('Banners_default') %>
+                            
                         </div>
                         <!-- Lista de partidas -->
                         <div class="col-6">
