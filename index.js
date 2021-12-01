@@ -746,7 +746,8 @@ app.get("/juego/new", async (req, res) => {
             res.render('Juegos_new',{
                 user:req.session.username,
                 juegos: juegos,
-                categorias: categorias
+                categorias: categorias,
+                user:req.session.username
             })
         }
     } else {
@@ -766,9 +767,11 @@ app.post("/juego/new", async (req, res) => {
 })
 
 app.get("/juego/update/:id", async (req, res) => {
+
+    
     const timestampActual = new Date().getTime();
     const dif = timestampActual - req.session.lastLogin
-
+    
     const idJuego = req.params.id
 
     const juego = await db.Juego.findOne({where:{id:idJuego}})
@@ -782,14 +785,17 @@ app.get("/juego/update/:id", async (req, res) => {
             res.render('Juegos_update',{
                 user:req.session.username,
                 juego: juego,
-                categorias: categorias
+                categorias: categorias,
+                user:req.session.username,
+               
             })
         }
     } else {
         res.redirect('/')
     }
-})
 
+    
+})
 app.post("/juego/update/", async (req, res) => {
     const juegoId = req.body.juegocategoria_id
     const juegoNombre = req.body.juego_nombre
