@@ -9,13 +9,21 @@
     <body class="container">
         <main>
             <%- include('header_admin') %>
-
+            <!--Esto pueden utilizarlo para el que le toque esta parte sino la eliminan-->
             <div class="mt-5">
                 <div class="container">
-                    <h2 class="mb-5"></h2>
+                    <h2 class="mb-5">SPACE</h2>
+                    
+                    <h2 class="mb-5">SPACE</h2>
 
-                    <h2 class="mt-5 ">Lista de Clientes Filtrada</h2>
-                    <h6>Posibles Coincidencia</h6>
+                    <% if(clienteLista.length>0){ %>
+
+                    <h2 class="mt-5 ">Clientes Filtrados </h2>
+                    
+                    <!--Campo para filtrar-->
+                    <h6>POSIBLES COICIDENCIAS</h6>
+
+
                     <table class="table table-hover mt-2">
                         <thead>
                             <tr>
@@ -57,11 +65,13 @@
                                         <a  href="/cliente/modificar/<%= cliente.id %>"  >Editar</a>
                                     </td>
                                 </tr>
-                            <% }) %>else{%>
-                                <p>LOS CAMPOS INGRESADOS NO COINCIDEN.</p>
-                                <% } %>
+                            <% }) %>
                         </tbody>
                     </table>
+                    <% } else{%>
+                        <p>No existen coincidencias.</p>
+                    <% } %>
+
                 </div>
             </div>
             
