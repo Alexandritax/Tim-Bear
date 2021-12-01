@@ -79,8 +79,14 @@ app.get('/cliente', async (req, res) => {
         ]
     })
 
+    /*const estado = await db.Cliente.findAll({
+        where: {
+            estado:"dado de baja"
+        }
+    })*/
+
     if (req.session.rol != undefined) {
-        if (dif >= 3 * 60 * 60 * 1000) {
+        if (dif >= 3 * 60 * 60 * 1000 /*|| estado=="dado de baja"*/) {
             req.session.destroy() // Destruyes la sesion
             res.redirect('/')
         } else {
