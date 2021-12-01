@@ -173,7 +173,10 @@ app.get('/admin', (req, res) => {
             req.session.destroy() // Destruyes la sesion
             res.redirect('/')
         } else {
-            res.render('Admin_page')
+            let admin = req.session.username
+            res.render('Admin_page',{
+                user:admin
+            })
         }
     } else {
         res.redirect('/')
@@ -304,7 +307,8 @@ app.get("/partida/admin", async (req, res) => {
         } else {
             res.render('Admin_partida', {
                 partidaLista: NewPartida,
-                estados: estados
+                estados: estados,
+                user: req.session.username
             })
         }
     } else {
@@ -348,7 +352,8 @@ app.get("/partida/search", async (req, res)=> {
         } else {
             res.render('Admin_partida', {
                 partidaLista: NewPartida,
-                estados: estados
+                estados: estados,
+                user: req.session.username
             })
         }
     } else {
@@ -372,7 +377,8 @@ app.get("/partida/new", async (req, res) => {
             res.render('partida_new',{
                 juegos: juegos,
                 estados: estados,
-                resultados: resultados
+                resultados: resultados,
+                user: req.session.username
             })
         }
     } else {
@@ -431,7 +437,8 @@ app.get("/partida/update/:id", async (req, res) => {
         partida: partida,
         juegos: juegos,
         estados: estados,
-        resultados: resultados
+        resultados: resultados,
+        user: req.session.username
     })
 })
 
@@ -538,7 +545,8 @@ app.get("/cliente/admin", async (req, res) => {
             res.redirect('/')
         } else {
             res.render('Admin_cliente', {
-                clienteLista: aClienteRegistradas
+                clienteLista: aClienteRegistradas,
+                user: req.session.username
             })
         }
     } else {
@@ -555,6 +563,7 @@ app.get('/cliente/admin/filtrar', async (req, res) => {
     const dif = timestampActual - req.session.lastLogin
 
     const filtro = req.query.filtros;
+    console.log(filtro)
     
     const cliente = await db.Cliente.findAll();
 
@@ -577,7 +586,7 @@ app.get('/cliente/admin/filtrar', async (req, res) => {
             res.render('Admin_cliente_filtrado', {
                 clienteLista : aClienteRegistradas,
                 filtros : filtro,
-               
+                user: req.session.username
             })
         }
     } else {
@@ -619,7 +628,8 @@ app.get("/juego/admin", async (req, res) => {
             res.redirect('/')
         } else {
             res.render('Admin_juego',{
-                juegos: NewJuego
+                juegos: NewJuego,
+                user: req.session.username
             })
         }
     } else {
@@ -641,7 +651,8 @@ app.get("/juego/new", async (req, res) => {
         } else {
             res.render('Juegos_new',{
                 juegos: juegos,
-                categorias: categorias
+                categorias: categorias,
+                user: req.session.username
             })
         }
     } else {
@@ -676,7 +687,8 @@ app.get("/juego/update/:id", async (req, res) => {
         } else {
             res.render('Juegos_update',{
                 juego: juego,
-                categorias: categorias
+                categorias: categorias,
+                user: req.session.username
             })
         }
     } else {
@@ -752,7 +764,8 @@ app.get("/categoria/admin",async (req, res) => {
                 ]
             });
             res.render('Admin_categoria',{
-                categorias :categorias
+                categorias :categorias,
+                user: req.session.username
             })
         }
     } else {
@@ -770,7 +783,9 @@ app.get("/categoria/admin/new",(req,res) =>{
             req.session.destroy() // Destruyes la sesion
             res.redirect('/')
         } else {
-            res.render('Categoria_new')
+            res.render('Categoria_new',{
+                user: req.session.username
+            })
         }
     } else {
         res.redirect('/')
@@ -794,7 +809,8 @@ app.get("/categoria/admin/modificar/:codigo",async (req,res)=>{
         }
     })
     res.render('Categoria_update',{
-        categoria : categoria
+        categoria : categoria,
+        user: req.session.username
     })
 
 })
@@ -833,7 +849,8 @@ app.get("/banner/admin", (req, res) => {
         req.session.destroy() // Destruyes la sesion
         res.redirect('/')
     }else{
-        res.render('Admin_banner')
+        res.render('Admin_banner',{
+        user: req.session.username})
     }}else{
         res.redirect('/')
     }
