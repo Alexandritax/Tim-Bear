@@ -409,6 +409,7 @@ app.get("/partida/new", async (req, res) => {
             res.redirect('/')
         } else {
             res.render('partida_new',{
+                user:req.session.username,
                 juegos: juegos,
                 estados: estados,
                 resultados: resultados
@@ -746,8 +747,7 @@ app.get("/juego/new", async (req, res) => {
             res.render('Juegos_new',{
                 user:req.session.username,
                 juegos: juegos,
-                categorias: categorias,
-                user:req.session.username
+                categorias: categorias
             })
         }
     } else {
@@ -786,7 +786,6 @@ app.get("/juego/update/:id", async (req, res) => {
                 user:req.session.username,
                 juego: juego,
                 categorias: categorias,
-                user:req.session.username,
                
             })
         }
